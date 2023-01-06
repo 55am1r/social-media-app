@@ -1,0 +1,116 @@
+.login {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .login-card {
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column wrap;
+        gap: 20px;
+        border-radius: 15px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 40px 0;
+
+        h1 {
+            font-size: 4rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        form {
+            width: 50%;
+            display: flex;
+            flex-flow: column wrap;
+            align-items: center;
+            gap: 20px;
+
+            .email,
+            .password {
+                display: flex;
+                flex-flow: column wrap;
+                position: relative;
+                width: 100%;
+
+                label {
+                    position: absolute;
+                    margin-left: 10px;
+                    top: 0px;
+                    height: 100%;
+                    font-size: 1.8rem;
+                    font-weight: 480;
+                    transition: .25s linear;
+                }
+
+                input {
+                    height: 30px;
+                    width: 100%;
+                    padding: 5px 0;
+                    padding-left: 10px;
+                    font-size: 1.6rem;
+                    transition: .25s linear;
+                    border: none;
+                    border-radius: 5px;
+                    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+                }
+
+                input:focus {
+                    height: 60px;
+                    font-size: 2.2rem;
+                    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                    outline: none;
+                    border: none;
+                }
+
+                .label-change {
+                    margin-left: 7px;
+                    top: -10px;
+                    font-size: 1.4rem;
+                    background-color: white;
+                    font-weight: 480;
+                    height: max-content;
+                }
+            }
+
+            .password {
+                input {
+                    padding-right: 45px;
+                }
+
+                i {
+                    position: absolute;
+                    right: 20px;
+                    top: 30%;
+                    font-size: 1.5rem;
+                    transition: .25s linear;
+                }
+
+                input:focus~.icon i {
+                    font-size: 2rem;
+                }
+            }
+
+            .submit-ent {
+                width: max-content;
+                padding: 1px 16px;
+                padding-bottom: 5px;
+                font-size: 2rem;
+                border: none;
+                background-color: black;
+                color: white;
+                border-radius: 20px;
+                font-weight: 500;
+                box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+            }
+
+            .submit-ent:active {
+                transform: translateY(2px);
+            }
+        }
+
+    }
+
+}
