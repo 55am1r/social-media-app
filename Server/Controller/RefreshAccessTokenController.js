@@ -13,21 +13,8 @@ const refreshAccessToken = async (req, res) => {
     function (err, decoded) {
       if (err) {
         if (err.name === "TokenExpiredError")
-          return res.status(409).json({
-            status: "Failure",
-            msg: "TOKEN_EXPIRED",
-            details: {
-              error: "signin token expired",
-            },
-          });
-        else
-          return res.status(409).json({
-            status: "Failure",
-            msg: "TOKEN_ERROR",
-            details: {
-              error: "unable to parse token",
-            },
-          });
+          return res.send(error(401, "Refresh Token Expired"));
+        else return res.send(error(401, "Unable to Parse Refresh Token"));
       } else {
         const JWT_ACCESS_TOKEN = i_generateAccessToken.generateAccessToken({
           _id: decoded._id,

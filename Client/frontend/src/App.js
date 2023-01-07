@@ -5,15 +5,12 @@ import { useEffect } from "react";
 function App() {
   const navigate = useNavigate();
   useEffect(() => {
-    navigate("/home");
+    navigate("/login");
     // eslint-disable-next-line
   }, []);
   return (
     <div className="App">
       <div className="links">
-        <Link to={"home"}>
-          <button> Home</button>
-        </Link>
         <Link to={"signup"}>
           <button>Sign Up</button>
         </Link>

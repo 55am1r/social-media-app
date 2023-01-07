@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AxiosClient from "../../Utilities/AxiosClient";
+import {AxiosClient} from "../../Utilities/AxiosClient";
 import "./SignUp.scss";
 function SignUp() {
   const emailLabelRef = useRef();
@@ -27,13 +27,13 @@ function SignUp() {
       lblRef.current.classList.add("label-change");
     }
   }
+
   function onFocusHandle(lblRef) {
     lblRef.current.classList.add("label-change");
   }
   function onClickHandle() {
     displayPassword ? setDisplayPassword(false) : setDisplayPassword(true);
     const end = passwordRef.current.value.length;
-    console.log(end);
     passwordRef.current.focus();
     setTimeout(() => {
       passwordRef.current.setSelectionRange(end, end);

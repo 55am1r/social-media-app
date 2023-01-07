@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AxiosClient from "../../Utilities/AxiosClient";
+import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
-
+import { setKey } from "../../Utilities/LocalStorageManager";
+import { checkNavigate } from "../LandingPage/RequireAccess";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const formRef = useRef();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayPassword, setDisplayPassword] = useState(false);
@@ -34,12 +36,12 @@ function Login() {
   function onClickHandle() {
     displayPassword ? setDisplayPassword(false) : setDisplayPassword(true);
     const end = passwordRef.current.value.length;
-    console.log(end);
     passwordRef.current.focus();
     setTimeout(() => {
       passwordRef.current.setSelectionRange(end, end);
     }, 0);
   }
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -48,10 +50,18 @@ function Login() {
         password,
       });
       console.log(result);
+      if (result.statusCode === 201) {
+        setKey(result.result.JWT_ACCESS_KEY);
+        checkNavigate(true);
+        navigate("/home");
+      } else {
+        console.log(result);
+        checkNavigate(false);
+        navigate("/home");
+      }
     } catch (error) {
       console.log(error.message);
     }
-    
   }
 
   useEffect(() => {
