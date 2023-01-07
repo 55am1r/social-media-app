@@ -1,11 +1,11 @@
-export function getItemKey() {
+export function getAccessKey() {
   return localStorage.getItem("JWT_ACCESS_KEY");
 }
 
-export function setKey(value) {
+export function setAccessKey(value) {
   return localStorage.setItem("JWT_ACCESS_KEY", value);
 }
 
-export function deleteKey() {
+export function deleteAccessKey() {
   localStorage.removeItem("JWT_ACCESS_KEY");
 }

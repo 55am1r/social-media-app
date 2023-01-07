@@ -3,6 +3,7 @@ import "./LandingPage.scss";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import { checkNavigate } from "./RequireAccess";
 import { useNavigate } from "react-router-dom";
+import { deleteAccessKey } from "../../Utilities/LocalStorageManager";
 function LandingPage() {
   const navigate = useNavigate();
   const fetchData = useCallback(async () => {
@@ -18,6 +19,7 @@ function LandingPage() {
       Home
       <button
         onClick={(e) => {
+          deleteAccessKey();
           checkNavigate(false);
           navigate("/login");
         }}

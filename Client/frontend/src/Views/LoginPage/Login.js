@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
-import { setKey } from "../../Utilities/LocalStorageManager";
+import { setAccessKey } from "../../Utilities/LocalStorageManager";
 import { checkNavigate } from "../LandingPage/RequireAccess";
 function Login() {
   const emailLabelRef = useRef();
@@ -51,7 +51,7 @@ function Login() {
       });
       console.log(result);
       if (result.statusCode === 201) {
-        setKey(result.result.JWT_ACCESS_KEY);
+        setAccessKey(result.result.JWT_ACCESS_KEY);
         checkNavigate(true);
         navigate("/home");
       } else {

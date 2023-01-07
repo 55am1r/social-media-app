@@ -43,8 +43,9 @@ function SignUp() {
   async function handleSubmit(e) {
     e.preventDefault();
     const result = await AxiosClient.post("/user/sign-up", { email, password });
+    result.result = undefined;
     console.log(result);
-    if (result.data.statusCode === 201) {
+    if (result.statusCode === 201) {
       navigate("/login");
     }
   }

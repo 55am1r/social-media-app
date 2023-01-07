@@ -5,7 +5,8 @@ import { useEffect } from "react";
 function App() {
   const navigate = useNavigate();
   useEffect(() => {
-    navigate("/login");
+    navigate("/signup");
+    
     // eslint-disable-next-line
   }, []);
   return (

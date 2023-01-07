@@ -1,13 +1,17 @@
 import axios from "axios";
 import { checkNavigate } from "../Views/LandingPage/RequireAccess";
-import { getItemKey, deleteKey, setKey } from "./LocalStorageManager";
+import {
+  getAccessKey,
+  deleteAccessKey,
+  setAccessKey,
+} from "./LocalStorageManager";
 
 export const AxiosClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER_BASE_URL,
   withCredentials: true,
 });
 AxiosClient.interceptors.request.use((request) => {
-  const accessKey = getItemKey();
+  const accessKey = getAccessKey();
   request.headers["Authorization"] = `Bearer ${accessKey}`;
   return request;
 });
@@ -24,7 +28,7 @@ AxiosClient.interceptors.response.use(async (response) => {
     data.statusCode === 401 &&
     requestedFrom.url === "/user/refresh-access-token"
   ) {
-    deleteKey();
+    deleteAccessKey();
     window.location.replace("/login");
     checkNavigate(false);
     return Promise.reject(data);
@@ -33,7 +37,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   else if (data.statusCode === 401 && requestedFrom.url === "/posts/all") {
     const result = await AxiosClient.get("/user/refresh-access-token");
     if (result.status === "OK") {
-      setKey(result.result.New_Access_Token);
+      setAccessKey(result.result.New_Access_Token);
       const finalResult = await AxiosClient.get(requestedFrom.url);
       return finalResult;
     }
