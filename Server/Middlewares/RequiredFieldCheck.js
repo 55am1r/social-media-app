@@ -1,6 +1,6 @@
 const { error } = require("../Utilities/StatusMessages");
 
-const requiredFieldsCheck = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.send(error(406, "All fields are Required"));
@@ -9,4 +9,3 @@ const requiredFieldsCheck = async (req, res, next) => {
     next();
   }
 };
-module.exports = { requiredFieldsCheck };

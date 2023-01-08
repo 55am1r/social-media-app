@@ -13,4 +13,5 @@ router.get("/", (req, res) => {
 router.get("/get-user-followers", checkJWTKey, GetUserFollowers);
 router.get("/get-user-followings", checkJWTKey, GetUserFollowings);
 router.post("/follow-user", checkJWTKey, FollowersController);
+
 module.exports = router;

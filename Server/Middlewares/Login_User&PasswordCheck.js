@@ -2,7 +2,7 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { error } = require("../Utilities/StatusMessages");
 
-const passwordCheck = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -24,5 +24,3 @@ const passwordCheck = async (req, res, next) => {
     process.exit(1);
   }
 };
-
-module.exports = { passwordCheck };

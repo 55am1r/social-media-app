@@ -1,7 +1,7 @@
 const Posts = require("../../Models/Posts");
 const { success, error } = require("../../Utilities/StatusMessages");
 
-const likesController = async (req, res) => {
+module.exports = async (req, res) => {
   try {
     const { postId } = req.body;
     if (!postId) {
@@ -24,4 +24,3 @@ const likesController = async (req, res) => {
     process.exit(1);
   }
 };
-module.exports = { likesController };

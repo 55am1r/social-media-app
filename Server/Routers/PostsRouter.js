@@ -1,10 +1,9 @@
 const router = require("express").Router();
-const { getAllPosts } = require("../Controller/PostController/GetAllFeeds");
+const GetAllFeeds = require("../Controller/PostController/GetAllFeeds");
 const GetFollowingUserPosts = require("../Controller/PostController/GetFollowingUserPosts");
-const {
-  likesController,
-} = require("../Controller/PostController/LikesController");
-const { postFeed } = require("../Controller/PostController/PostFeed");
+const LikesController = require("../Controller/PostController/LikesController");
+const PostFeed = require("../Controller/PostController/PostFeed");
+const PostUpdate = require("../Controller/PostController/PostUpdate");
 const checkJWTKwy = require("../Middlewares/checkJWTKey");
 
 router.get("/", (req, res) => {
@@ -14,8 +13,10 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/all", checkJWTKwy, getAllPosts);
-router.post("/feed", checkJWTKwy, postFeed);
-router.post("/like-feed", checkJWTKwy, likesController);
+router.get("/all", checkJWTKwy, GetAllFeeds);
+router.post("/feed", checkJWTKwy, PostFeed);
+router.post("/like-feed", checkJWTKwy, LikesController);
 router.get("/get-following-user-posts", checkJWTKwy, GetFollowingUserPosts);
+router.put("/update-post", checkJWTKwy, PostUpdate);
+
 module.exports = router;

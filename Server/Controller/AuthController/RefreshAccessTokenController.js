@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { success, error } = require("../../Utilities/StatusMessages");
 const { generateAccessToken } = require("./LoginController");
 
-const refreshAccessToken = async (req, res) => {
+module.exports = async (req, res) => {
   const cookieData = req.cookies;
   if (!cookieData.JWT_REFRESH_TOKEN) {
     return res.send(error(404, "Refresh Token is Required"));
@@ -25,7 +25,4 @@ const refreshAccessToken = async (req, res) => {
       }
     }
   );
-};
-module.exports = {
-  refreshAccessToken,
 };

@@ -1,16 +1,12 @@
 const router = require("express").Router();
 const {
-  refreshAccessToken,
-} = require("../Controller/AuthController/RefreshAccessTokenController");
-const {
   loginController,
 } = require("../Controller/AuthController/LoginController");
-const { passwordCheck } = require("../Middlewares/Login_User&PasswordCheck");
-const { requiredFieldsCheck } = require("../Middlewares/RequiredFieldCheck");
-const { hashPassword } = require("../Middlewares/PasswordHashing");
-const {
-  signUpController,
-} = require("../Controller/AuthController/SignupController");
+const RequiredFieldCheck = require("../Middlewares/RequiredFieldCheck");
+const PasswordHashing = require("../Middlewares/PasswordHashing");
+const SignupController = require("../Controller/AuthController/SignupController");
+const Login_UserPasswordCheck = require("../Middlewares/Login_User&PasswordCheck");
+const RefreshAccessTokenController = require("../Controller/AuthController/RefreshAccessTokenController");
 
 router.get("/", (req, res) => {
   res.status(200).json({
@@ -19,8 +15,13 @@ router.get("/", (req, res) => {
   });
 });
 
-router.use("/sign-up", requiredFieldsCheck, hashPassword, signUpController);
-router.use("/log-in", requiredFieldsCheck, passwordCheck, loginController);
-router.get("/refresh-access-token", refreshAccessToken);
+router.use("/sign-up", RequiredFieldCheck, PasswordHashing, SignupController);
+router.use(
+  "/log-in",
+  RequiredFieldCheck,
+  Login_UserPasswordCheck,
+  loginController
+);
+router.get("/refresh-access-token", RefreshAccessTokenController);
 
 module.exports = router;

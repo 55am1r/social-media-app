@@ -17,24 +17,6 @@ module.exports = (req, res, next) => {
       } else {
         req.body["_id"] = decoded._id;
         req.body["email"] = decoded.email;
-        // if (req.body.caption) {
-        //   req.body = {
-        //     _id: decoded._id,
-        //     email: decoded.email,
-        //     caption: req.body.caption,
-        //   };
-        // } else if (req.body.followUserId) {
-        //   req.body = {
-        //     _id: decoded._id,
-        //     email: decoded.email,
-        //     followUserId: req.body.follo,
-        //   };
-        // } else {
-        //   req.body = {
-        //     _id: decoded._id,
-        //     email: decoded.email,
-        //   };
-        // }
         console.log("TOKEN VERIFIED");
         next();
       }

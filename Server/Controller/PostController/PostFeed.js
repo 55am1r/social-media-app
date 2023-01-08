@@ -2,7 +2,7 @@ const Posts = require("../../Models/Posts");
 const User = require("../../Models/User");
 const { success, error } = require("../../Utilities/StatusMessages");
 
-const postFeed = async (req, res) => {
+module.exports = async (req, res) => {
   try {
     const { caption } = req.body;
     if (!caption) {
@@ -26,4 +26,3 @@ const postFeed = async (req, res) => {
     process.exit(1);
   }
 };
-module.exports = { postFeed };
