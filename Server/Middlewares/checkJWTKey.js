@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { error } = require("../Utilities/StatusMessages");
+
 module.exports = (req, res, next) => {
   if (!req.headers?.authorization?.startsWith("Bearer")) {
     return res.send(error(409, "Authorization Header is Required"));
@@ -14,7 +15,18 @@ module.exports = (req, res, next) => {
           return res.send(error(401, "Access Token Expired"));
         else return res.send(error(401, "Unable to Parse Access Token"));
       } else {
-        req.body = { _id: decoded._id, email: decoded.email };
+        if (req.body.caption) {
+          req.body = {
+            _id: decoded._id,
+            email: decoded.email,
+            caption: req.body.caption,
+          };
+        } else {
+          req.body = {
+            _id: decoded._id,
+            email: decoded.email,
+          };
+        }
         console.log("TOKEN VERIFIED");
         next();
       }

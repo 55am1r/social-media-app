@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { success, error } = require("../Utilities/StatusMessages");
+const { success, error } = require("../../Utilities/StatusMessages");
 
 const loginController = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ const loginController = async (req, res) => {
 const generateAccessToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.JWT_ACCESS_TOKEN, {
-      expiresIn: "10min",
+      expiresIn: "30min",
       algorithm: "HS512",
     });
     return token;

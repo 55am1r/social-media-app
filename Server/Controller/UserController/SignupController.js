@@ -1,5 +1,5 @@
-const User = require("../Models/User");
-const { error, success } = require("../Utilities/StatusMessages");
+const User = require("../../Models/User");
+const { error, success } = require("../../Utilities/StatusMessages");
 
 const signUp = async (req, res) => {
   try {

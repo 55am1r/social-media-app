@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const MW_signUpRequiredField = require("../Middlewares/RequiredFieldCheck");
 const MW_hashPassword = require("../Middlewares/PasswordHashing");
-const signUp_Controller = require("../Controller/SignupController");
+const signUp_Controller = require("../Controller/UserController/SignupController");
 
 router.get("/", (req, res) => {
   res.send("Use POST Method to Sign-Up");

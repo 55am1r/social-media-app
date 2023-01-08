@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const signupRouter = require("./SignupRoute");
 const loginRouter = require("./LoginRouter");
-const refreshTokenController = require("../Controller/RefreshAccessTokenController");
+const {
+  refreshAccessToken,
+} = require("../Controller/UserController/RefreshAccessTokenController");
 
 router.get("/", (req, res) => {
   res.status(200).json({
@@ -12,6 +14,6 @@ router.get("/", (req, res) => {
 
 router.use("/sign-up", signupRouter);
 router.use("/log-in", loginRouter);
-router.get("/refresh-access-token", refreshTokenController.refreshAccessToken);
+router.get("/refresh-access-token", refreshAccessToken);
 
 module.exports = router;

@@ -1,0 +1,24 @@
+const Posts = require("../../Models/Posts");
+const { success } = require("../../Utilities/StatusMessages");
+
+const likesController = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    const userId = req.body._id;
+    const post = await Posts.findOne({ postId });
+    if (post.likes.includes(userId)) {
+      const userIdIndex = post.likes.indexOf(userId);
+      post.likes.splice(userIdIndex, 1);
+      await post.save();
+      return res.send(success(200, "Post Disliked"));
+    }
+    post.likes.push(userId);
+    await post.save();
+    return res.send(success(200, "Post Liked"));
+  } catch (error) {
+    console.log(e.message);
+    res.send(error(500, e.message));
+    process.exit(1);
+  }
+};
+module.exports = { likesController };

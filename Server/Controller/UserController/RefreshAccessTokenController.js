@@ -1,6 +1,6 @@
-const i_generateAccessToken = require("./LoginController");
 const jwt = require("jsonwebtoken");
-const { success, error } = require("../Utilities/StatusMessages");
+const { success, error } = require("../../Utilities/StatusMessages");
+const { generateAccessToken } = require("./LoginController");
 
 const refreshAccessToken = async (req, res) => {
   const cookieData = req.cookies;
@@ -16,7 +16,7 @@ const refreshAccessToken = async (req, res) => {
           return res.send(error(401, "Refresh Token Expired"));
         else return res.send(error(401, "Unable to Parse Refresh Token"));
       } else {
-        const JWT_ACCESS_TOKEN = i_generateAccessToken.generateAccessToken({
+        const JWT_ACCESS_TOKEN = generateAccessToken({
           _id: decoded._id,
           email: decoded.email,
         });
