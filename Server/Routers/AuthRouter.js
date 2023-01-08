@@ -1,9 +1,16 @@
 const router = require("express").Router();
-const signupRouter = require("./SignupRoute");
-const loginRouter = require("./LoginRouter");
 const {
   refreshAccessToken,
-} = require("../Controller/UserController/RefreshAccessTokenController");
+} = require("../Controller/AuthController/RefreshAccessTokenController");
+const {
+  loginController,
+} = require("../Controller/AuthController/LoginController");
+const { passwordCheck } = require("../Middlewares/Login_User&PasswordCheck");
+const { requiredFieldsCheck } = require("../Middlewares/RequiredFieldCheck");
+const { hashPassword } = require("../Middlewares/PasswordHashing");
+const {
+  signUpController,
+} = require("../Controller/AuthController/SignupController");
 
 router.get("/", (req, res) => {
   res.status(200).json({
@@ -12,8 +19,8 @@ router.get("/", (req, res) => {
   });
 });
 
-router.use("/sign-up", signupRouter);
-router.use("/log-in", loginRouter);
+router.use("/sign-up", requiredFieldsCheck, hashPassword, signUpController);
+router.use("/log-in", requiredFieldsCheck, passwordCheck, loginController);
 router.get("/refresh-access-token", refreshAccessToken);
 
 module.exports = router;

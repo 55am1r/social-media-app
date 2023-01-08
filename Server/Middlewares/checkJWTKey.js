@@ -15,18 +15,26 @@ module.exports = (req, res, next) => {
           return res.send(error(401, "Access Token Expired"));
         else return res.send(error(401, "Unable to Parse Access Token"));
       } else {
-        if (req.body.caption) {
-          req.body = {
-            _id: decoded._id,
-            email: decoded.email,
-            caption: req.body.caption,
-          };
-        } else {
-          req.body = {
-            _id: decoded._id,
-            email: decoded.email,
-          };
-        }
+        req.body["_id"] = decoded._id;
+        req.body["email"] = decoded.email;
+        // if (req.body.caption) {
+        //   req.body = {
+        //     _id: decoded._id,
+        //     email: decoded.email,
+        //     caption: req.body.caption,
+        //   };
+        // } else if (req.body.followUserId) {
+        //   req.body = {
+        //     _id: decoded._id,
+        //     email: decoded.email,
+        //     followUserId: req.body.follo,
+        //   };
+        // } else {
+        //   req.body = {
+        //     _id: decoded._id,
+        //     email: decoded.email,
+        //   };
+        // }
         console.log("TOKEN VERIFIED");
         next();
       }

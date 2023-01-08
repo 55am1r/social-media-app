@@ -5,6 +5,9 @@ const { success, error } = require("../../Utilities/StatusMessages");
 const postFeed = async (req, res) => {
   try {
     const { caption } = req.body;
+    if (!caption) {
+      return res.send(error(404, "Required Caption"));
+    }
     const owner = req.body._id;
     const user = await User.findById(owner);
     const post = await Posts.create({

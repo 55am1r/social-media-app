@@ -1,7 +1,7 @@
 const User = require("../../Models/User");
 const { error, success } = require("../../Utilities/StatusMessages");
 
-const signUp = async (req, res) => {
+const signUpController = async (req, res) => {
   try {
     const { email, password } = req.body;
     const existUser = await User.findOne({ email });
@@ -19,4 +19,4 @@ const signUp = async (req, res) => {
   }
 };
 
-module.exports = { signUp };
+module.exports = { signUpController };
