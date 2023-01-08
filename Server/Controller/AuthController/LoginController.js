@@ -16,7 +16,6 @@ const loginController = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.send(error(500, error.message));
-    process.exit(1);
   }
 };
 
@@ -30,7 +29,6 @@ const generateAccessToken = (data) => {
   } catch (err) {
     console.log(err.message);
     res.send(error(500, error.message));
-    process.exit(1);
   }
 };
 
@@ -44,7 +42,6 @@ const generateRefreshToken = (data) => {
   } catch (err) {
     console.log(err.message);
     res.send(error(500, error.message));
-    process.exit(1);
   }
 };
 

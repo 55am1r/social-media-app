@@ -11,6 +11,5 @@ module.exports = async (req, res, next) => {
   } catch (e) {
     console.log(e.message);
     res.send(error(500, error.message));
-    process.exit(1);
   }
 };
