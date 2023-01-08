@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const User = require("../Models/User");
 const { error } = require("../Utilities/StatusMessages");
 
 module.exports = (req, res, next) => {
@@ -9,7 +10,7 @@ module.exports = (req, res, next) => {
   jwt.verify(
     receivedToken,
     process.env.JWT_ACCESS_TOKEN,
-    function (err, decoded) {
+    async function (err, decoded) {
       if (err) {
         if (err.name === "TokenExpiredError")
           return res.send(error(401, "Access Token Expired"));
@@ -17,6 +18,10 @@ module.exports = (req, res, next) => {
       } else {
         req.body["_id"] = decoded._id;
         req.body["email"] = decoded.email;
+        const user = await User.findById(decoded._id);
+        if (!user) {
+          return res.send(error(404, "User Not Found"));
+        }
         console.log("TOKEN VERIFIED");
         next();
       }

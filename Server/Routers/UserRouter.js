@@ -2,6 +2,7 @@ const DeleteProfile = require("../Controller/UserController/DeleteProfile");
 const FollowersController = require("../Controller/UserController/FollowersController");
 const GetUserFollowers = require("../Controller/UserController/GetUserFollowers");
 const GetUserFollowings = require("../Controller/UserController/GetUserFollowings");
+const LogOUtController = require("../Controller/AuthController/LogOutController");
 const checkJWTKey = require("../Middlewares/checkJWTKey");
 const { success } = require("../Utilities/StatusMessages");
 
@@ -14,5 +15,5 @@ router.get("/", (req, res) => {
 router.get("/get-user-followers", checkJWTKey, GetUserFollowers);
 router.get("/get-user-followings", checkJWTKey, GetUserFollowings);
 router.post("/follow-user", checkJWTKey, FollowersController);
-router.delete("/delete-profile", checkJWTKey, DeleteProfile);
+router.delete("/delete-profile", checkJWTKey, DeleteProfile, LogOUtController);
 module.exports = router;
