@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { error } = require("../Utilities/StatusMessages");
 
 module.exports = async (req, res, next) => {
   try {
@@ -7,8 +8,8 @@ module.exports = async (req, res, next) => {
     req.body.password = hashedPassword;
     console.log("Password Hashed");
     next();
-  } catch (error) {
-    console.log(error.message);
+  } catch (e) {
+    console.log(e.message);
     res.send(error(500, error.message));
     process.exit(1);
   }

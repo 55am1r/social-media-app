@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const { _id } = req.body;
     const user = await User.findOne({ _id });
     return res.send(success(200, user.following));
-  } catch (error) {
+  } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));
     process.exit(1);

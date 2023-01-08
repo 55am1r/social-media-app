@@ -7,6 +7,7 @@ const PasswordHashing = require("../Middlewares/PasswordHashing");
 const SignupController = require("../Controller/AuthController/SignupController");
 const Login_UserPasswordCheck = require("../Middlewares/Login_User&PasswordCheck");
 const RefreshAccessTokenController = require("../Controller/AuthController/RefreshAccessTokenController");
+const LogOutController = require("../Controller/AuthController/LogOutController");
 
 router.get("/", (req, res) => {
   res.status(200).json({
@@ -23,5 +24,5 @@ router.use(
   loginController
 );
 router.get("/refresh-access-token", RefreshAccessTokenController);
-
+router.post("/log-out", LogOutController);
 module.exports = router;
