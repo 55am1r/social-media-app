@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
         req.body["email"] = decoded.email;
         const user = await User.findById(decoded._id);
         if (!user) {
-          return res.send(error(404, "User Not Found"));
+          return res.send(error(404, `User:'${decoded.email}' Not Found`));
         }
         console.log("TOKEN VERIFIED");
         next();

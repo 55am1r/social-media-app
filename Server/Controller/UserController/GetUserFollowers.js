@@ -5,7 +5,9 @@ module.exports = async (req, res) => {
   try {
     const { _id } = req.body;
     const user = await User.findOne({ _id });
-    return res.send(success(200, user.followers));
+    return res.send(
+      success(200, user.followers.length > 0 ? user.followers : "No Followers")
+    );
   } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));

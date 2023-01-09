@@ -43,8 +43,10 @@ module.exports = async (req, res, next) => {
 
       //DELETING USER POSTS
       await Post.deleteMany({ owner: _id });
-      next();
+
+      return next();
     }
+    return res.send(error(409, `User Response ${user_conformation}`));
   } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));
