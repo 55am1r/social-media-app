@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
-import { setAccessKey } from "../../Utilities/LocalStorageManager";
-import { checkNavigate } from "../LandingPage/RequireAccess";
+import { ACCESS_KEY, setAccessKey } from "../../Utilities/LocalStorageManager";
+import { checkNavigate } from "../RequireAccess";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -45,13 +45,13 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const result = await AxiosClient.post("user/log-in", {
+      const result = await AxiosClient.post("auth/log-in", {
         email,
         password,
       });
       console.log(result);
       if (result.statusCode === 201) {
-        setAccessKey(result.result.JWT_ACCESS_KEY);
+        setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
         checkNavigate(true);
         navigate("/home");
       } else {

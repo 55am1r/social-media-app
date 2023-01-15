@@ -1,4 +1,13 @@
-.home{
-    font-size: 8rem;
-    font-weight: 450;
+.landing-page {
+    text-align: center;
+    font-size: 6rem;
+
+    .links {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 40px;
+        padding: 40px 20px;
+        justify-content: center;
+        align-items: center;
+    }
 }

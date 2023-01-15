@@ -1,9 +1,10 @@
 import axios from "axios";
-import { checkNavigate } from "../Views/LandingPage/RequireAccess";
+import { checkNavigate } from "../Views/RequireAccess";
 import {
   getAccessKey,
   deleteAccessKey,
   setAccessKey,
+  ACCESS_KEY,
 } from "./LocalStorageManager";
 
 export const AxiosClient = axios.create({
@@ -11,7 +12,7 @@ export const AxiosClient = axios.create({
   withCredentials: true,
 });
 AxiosClient.interceptors.request.use((request) => {
-  const accessKey = getAccessKey();
+  const accessKey = getAccessKey(ACCESS_KEY);
   request.headers["Authorization"] = `Bearer ${accessKey}`;
   return request;
 });
@@ -25,10 +26,11 @@ AxiosClient.interceptors.response.use(async (response) => {
   }
   //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
   else if (
-    data.statusCode === 401 &&
-    requestedFrom.url === "/user/refresh-access-token"
+    (data.statusCode === 401 &&
+      requestedFrom.url === "/user/refresh-access-token") ||
+    (data.status === "ERROR" && requestedFrom.url === "/posts/all")
   ) {
-    deleteAccessKey();
+    deleteAccessKey(ACCESS_KEY);
     window.location.replace("/login");
     checkNavigate(false);
     return Promise.reject(data);
@@ -37,7 +39,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   else if (data.statusCode === 401 && requestedFrom.url === "/posts/all") {
     const result = await AxiosClient.get("/user/refresh-access-token");
     if (result.status === "OK") {
-      setAccessKey(result.result.New_Access_Token);
+      setAccessKey(ACCESS_KEY, result.result.New_Access_Token);
       const finalResult = await AxiosClient.get(requestedFrom.url);
       return finalResult;
     }

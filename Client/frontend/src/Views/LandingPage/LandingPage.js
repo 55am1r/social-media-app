@@ -1,31 +1,47 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
+import { setLoading } from "../../Redux/Slices/appConfigSlice";
 import "./LandingPage.scss";
-import { AxiosClient } from "../../Utilities/AxiosClient";
-import { checkNavigate } from "./RequireAccess";
-import { useNavigate } from "react-router-dom";
-import { deleteAccessKey } from "../../Utilities/LocalStorageManager";
 function LandingPage() {
-  const navigate = useNavigate();
-  const fetchData = useCallback(async () => {
-    const result = await AxiosClient.get("/posts/all");
-    console.log(result);
-  }, []);
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const loadingRef = useRef();
+  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const dispatch = useDispatch();
 
+  const toggleLoadingBar = () => {
+    if (isLoading) {
+      dispatch(setLoading(false));
+    } else {
+      dispatch(setLoading(true));
+    }
+  };
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoading) {
+      loadingRef.current.continuousStart();
+    } else {
+      loadingRef.current.complete();
+    }
+    navigate("/login");
+  }, [isLoading]);
   return (
-    <div className="home">
-      Home
-      <button
-        onClick={(e) => {
-          deleteAccessKey();
-          checkNavigate(false);
-          navigate("/login");
-        }}
-      >
-        Log out
-      </button>
+    <div className="landing-page">
+      <LoadingBar
+        height={4}
+        color="#68AE46"
+        transitionTime={1000}
+        ref={loadingRef}
+      />
+      <div className="links">
+        <Link to={"signup"}>
+          <button onClick={toggleLoadingBar}>Sign Up</button>
+        </Link>
+        <Link to={"login"}>
+          <button onClick={toggleLoadingBar}>Login</button>
+        </Link>
+      </div>
+      <Outlet />
     </div>
   );
 }

@@ -1,11 +1,12 @@
-export function getAccessKey() {
-  return localStorage.getItem("JWT_ACCESS_KEY");
+export const ACCESS_KEY = "JWT_ACCESS_KEY";
+export function getAccessKey(key) {
+  return localStorage.getItem(key);
 }
 
-export function setAccessKey(value) {
-  return localStorage.setItem("JWT_ACCESS_KEY", value);
+export function setAccessKey(key, value) {
+  return localStorage.setItem(key, value);
 }
 
-export function deleteAccessKey() {
-  localStorage.removeItem("JWT_ACCESS_KEY");
+export function deleteAccessKey(key) {
+  localStorage.removeItem(key);
 }

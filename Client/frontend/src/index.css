@@ -10,3 +10,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+:root {
+  --dark-color: #7D80C7;
+  --light-dark-color: #BED1FC;
+  --light-color: #F1F8FF;
+  --thin-light-color: #FAFAFA;
+  --dark-black: #252525;
+  --success-color: #68AE46;
+  --red-color: #B72D00;
+}
