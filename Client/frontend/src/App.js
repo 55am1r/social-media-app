@@ -13,11 +13,10 @@ function App() {
         <Route path="/" element=<LandingPage />>
           <Route index path="login" element=<Login /> />
           <Route path="signup" element=<SignUp /> />
-          <Route path="/" element=<RequireAccess />>
-            <Route path="home" element=<HomePage /> />
-          </Route>
         </Route>
-
+        <Route path="/" element=<RequireAccess />>
+          <Route path="home" element=<HomePage /> />
+        </Route>
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </div>
