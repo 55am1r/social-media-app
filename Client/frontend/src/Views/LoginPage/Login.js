@@ -66,7 +66,7 @@ function Login() {
   return (
     <div className="login">
       <div className="login-card">
-        <h1>Login</h1>
+        <h1>Ditto-Gram</h1>
         <form
           onSubmit={(e) => {
             handleSubmit(e);

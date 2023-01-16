@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element=<LandingPage />>
-          <Route index path="login" element=<Login /> />
+          <Route index path="/" element=<Login /> />
           <Route path="signup" element=<SignUp /> />
         </Route>
         <Route path="/" element=<RequireAccess />>

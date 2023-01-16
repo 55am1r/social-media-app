@@ -7,6 +7,7 @@ const mainRouter = require("./Routers/index");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const cloudinary = require("cloudinary").v2;
 const port = process.env.PORT || 5000;
 
 //MIDDLEWARES
@@ -20,6 +21,11 @@ app.use(
 app.use(morgan("common"));
 app.use(cookieParser());
 app.use("/", mainRouter);
+cloudinary.config({
+  cloud_name: process.env.CLOUDNAME,
+  api_key: process.env.CLOUDAPIKEY,
+  api_secret: process.env.CLOUDINARYSECRET,
+});
 
 //CODE TO START SERVER
 app.listen(port, () => {

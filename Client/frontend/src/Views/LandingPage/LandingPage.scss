@@ -1,10 +1,15 @@
 .landing-page {
     text-align: center;
     font-size: 6rem;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    width: 100%;
     .links {
         display: flex;
         flex-flow: row wrap;
+        width: 100%;
         gap: 40px;
         padding: 40px 20px;
         justify-content: center;

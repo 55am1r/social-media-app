@@ -20,3 +20,6 @@
   --success-color: #68AE46;
   --red-color: #B72D00;
 }
+body{
+  background-color: var(--light-color);
+}

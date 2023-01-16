@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.use("/sign-up", RequiredFieldCheck, PasswordHashing, SignupController);
+router.post("/sign-up", RequiredFieldCheck, PasswordHashing, SignupController);
 router.use(
   "/log-in",
   RequiredFieldCheck,
