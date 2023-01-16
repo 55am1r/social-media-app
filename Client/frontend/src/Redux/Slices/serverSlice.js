@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import { setLoading } from "./appConfigSlice";
+
+
 export const getUserInfo = createAsyncThunk(
   "getUserData",
   async (body, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      const result = await AxiosClient.get("user/get-my-profile");
-      console.log(result);
+      const response = await AxiosClient.get("user/get-my-profile");
+      // return result;
+      console.log(response.result);
     } catch (e) {
       console.log(e.message);
     } finally {

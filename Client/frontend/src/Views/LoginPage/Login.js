@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
 import { ACCESS_KEY, setAccessKey } from "../../Utilities/LocalStorageManager";
-import { checkNavigate } from "../RequireAccess";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -52,12 +51,9 @@ function Login() {
       console.log(result);
       if (result.statusCode === 201) {
         setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
-        checkNavigate(true);
         navigate("/home");
       } else {
         console.log(result);
-        checkNavigate(false);
-        navigate("/home");
       }
     } catch (error) {
       console.log(error.message);
@@ -75,6 +71,8 @@ function Login() {
           onSubmit={(e) => {
             handleSubmit(e);
             e.target.reset();
+            emailLabelRef.current.classList.remove("label-change");
+            passwordLabelRef.current.classList.remove("label-change");
           }}
           ref={formRef}
         >
@@ -94,7 +92,7 @@ function Login() {
               onCopy={restrictCopyPaste}
               onPaste={restrictCopyPaste}
               required
-              autoComplete="new-email"
+              autoComplete="off"
             />
             <label htmlFor="email" id="lbl-email" ref={emailLabelRef}>
               Email

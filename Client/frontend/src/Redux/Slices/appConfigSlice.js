@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserInfo } from "./serverSlice";
 const initialState = {
   isLoading: false,
+  profile: {},
 };
 const appConfigSlicer = createSlice({
   name: "appConfigSlice",
@@ -9,6 +11,9 @@ const appConfigSlicer = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {});
   },
 });
 

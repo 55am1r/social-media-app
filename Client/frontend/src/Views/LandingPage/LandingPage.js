@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import { setLoading } from "../../Redux/Slices/appConfigSlice";
 import "./LandingPage.scss";
@@ -16,15 +16,14 @@ function LandingPage() {
       dispatch(setLoading(true));
     }
   };
-  const navigate = useNavigate();
   useEffect(() => {
     if (isLoading) {
       loadingRef.current.continuousStart();
     } else {
       loadingRef.current.complete();
     }
-    navigate("/login");
   }, [isLoading]);
+
   return (
     <div className="landing-page">
       <LoadingBar

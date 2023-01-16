@@ -31,6 +31,7 @@ function SignUp() {
   function onFocusHandle(lblRef) {
     lblRef.current.classList.add("label-change");
   }
+
   function onClickHandle() {
     displayPassword ? setDisplayPassword(false) : setDisplayPassword(true);
     const end = passwordRef.current.value.length;
@@ -42,7 +43,7 @@ function SignUp() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const result = await AxiosClient.post("/user/sign-up", { email, password });
+    const result = await AxiosClient.post("/auth/sign-up", { email, password });
     result.result = undefined;
     console.log(result);
     if (result.statusCode === 201) {

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { checkNavigate } from "../Views/RequireAccess";
 import {
   getAccessKey,
   deleteAccessKey,
@@ -23,16 +22,13 @@ AxiosClient.interceptors.response.use(async (response) => {
   //IMPLIES FOR ALL CALLS
   if (data.status === "OK") {
     return data;
-  }
-  //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
-  else if (
+  } else if (
     (data.statusCode === 401 &&
       requestedFrom.url === "/user/refresh-access-token") ||
     (data.status === "ERROR" && requestedFrom.url === "/posts/all")
   ) {
     deleteAccessKey(ACCESS_KEY);
     window.location.replace("/login");
-    checkNavigate(false);
     return Promise.reject(data);
   }
   //IMPLIES FOR ONLY ACCESS-TOKEN-EXPIRY

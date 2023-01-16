@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.scss";
-import { checkNavigate } from "../RequireAccess";
-import { useNavigate } from "react-router-dom";
-import { deleteAccessKey } from "../../Utilities/LocalStorageManager";
 import { getUserInfo } from "../../Redux/Slices/serverSlice";
 import LoadingBar from "react-top-loading-bar";
 import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../Components/Navbar/Navbar";
 function HomePage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const loaderRef = useRef();
   const [progress_V, setLoaderProgress] = useState(0);
 
   const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
-
   useEffect(() => {
     dispatch(getUserInfo());
   }, [dispatch]);
@@ -39,18 +34,8 @@ function HomePage() {
         color="#68AE46"
         transitionTime={1000}
         progress={progress_V}
-        // ref={loaderRef}
       />
-      Home
-      <button
-        onClick={() => {
-          deleteAccessKey();
-          checkNavigate(false);
-          navigate("/login");
-        }}
-      >
-        Log out
-      </button>
+      <Navbar />
     </div>
   );
 }

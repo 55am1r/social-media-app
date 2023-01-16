@@ -51,6 +51,7 @@
                     padding: 5px 0;
                     padding-left: 10px;
                     font-size: 1.6rem;
+                    font-weight: 500;
                     transition: .25s linear;
                     border: none;
                     border-radius: 5px;
@@ -60,6 +61,7 @@
                 input:focus {
                     height: 60px;
                     font-size: 2.2rem;
+                    font-weight: 500;
                     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                     outline: none;
                     border: none;

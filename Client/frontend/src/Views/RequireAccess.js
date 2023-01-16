@@ -1,10 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-let accessThisSite = false;
+import { ACCESS_KEY, getAccessKey } from "../Utilities/LocalStorageManager";
+
 function RequireAccess() {
-  return accessThisSite ? <Outlet /> : <Navigate to={'/login'}/>;
+  const accessPage = getAccessKey(ACCESS_KEY) ? true : false;
+  return accessPage ? <Outlet /> : <Navigate to={"/login"} />;
 }
 
 export default RequireAccess;
-export const checkNavigate = (state) => {
-  accessThisSite = state;
-};
