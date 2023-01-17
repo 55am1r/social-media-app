@@ -23,7 +23,11 @@ const userSchema = mongoose.Schema(
       type: String,
     },
     phoneno: {
-      type: String,
+      countrycode: {
+        code: String,
+        country: String,
+      },
+      number: String,
       required: true,
     },
     avatar: {

@@ -12,17 +12,30 @@ function SignUp() {
   const cfmPasswordRef = useRef();
   const iconClass = useRef();
   const navigate = useNavigate();
+  const dobLabelRef = useRef();
 
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    (new Date().getMonth() < 10
+      ? "0" + (new Date().getMonth() + 1)
+      : new Date().getMonth() + 1) +
+    "-" +
+    (new Date().getDate() < 10
+      ? "0" + new Date().getDate()
+      : new Date().getDate());
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
-  const [dob, setDOB] = useState("");
+  const [dob, setDOB] = useState(currentDate);
   const [phoneno, setPhoneNo] = useState("");
   const [gender, setGender] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [countryCode, setCountryCode] = useState({ country: "", code: "" });
   const [displayPassword, setDisplayPassword] = useState(false);
   const [activeCfmPassCode, setActiveCfmPassword] = useState(true);
   const [checkPasswordMatch, setPasswordMatch] = useState(false);
+  const [countryCodes, setCountryCodes] = useState([""]);
 
   function restrictCopyPaste(e) {
     e.preventDefault();
@@ -33,16 +46,14 @@ function SignUp() {
     const regexComp = new RegExp(/(\s)/);
     if (regexComp.test(inpt_Value) || inpt_Value === "") {
       e.target.value = "";
-      lblRef.current.classList.remove("label-change");
+      lblRef?.current.classList.remove("label-change");
     } else {
-      lblRef.current.classList.add("label-change");
+      lblRef?.current.classList.add("label-change");
     }
   }
-
   function onFocusHandle(lblRef) {
-    lblRef.current.classList.add("label-change");
+    lblRef.current?.classList.add("label-change");
   }
-
   function onClickHandle() {
     displayPassword ? setDisplayPassword(false) : setDisplayPassword(true);
     const end = passwordRef.current.value.length;
@@ -51,15 +62,24 @@ function SignUp() {
       passwordRef.current.setSelectionRange(end, end);
     }, 0);
   }
-
   async function handleSubmit(e) {
     e.preventDefault();
-    const result = await AxiosClient.post("/auth/sign-up", { email, password });
-    result.result = undefined;
-    console.log(result);
-    if (result.statusCode === 201) {
-      navigate("/login");
-    }
+    console.log({
+      avatar,
+      username,
+      dob,
+      gender,
+      countryCode,
+      phoneno,
+      email,
+      password,
+    });
+    // const result = await AxiosClient.post("/auth/sign-up", { email, password });
+    // result.result = undefined;
+    // console.log(result);
+    // if (result.statusCode === 201) {
+    //   navigate("/login");
+    // }
   }
   function matchPassword(e) {
     e.target.value === password
@@ -79,13 +99,35 @@ function SignUp() {
       }
     };
   }
-  //DISABLE PASSWORD MATCHING ICON
+  async function fetchCountryCodes() {
+    try {
+      const jsonData = await (
+        await fetch("https://restcountries.com/v2/all/")
+      ).json();
+      setCountryCodes(jsonData);
+      setCountryCode({
+        country: "IND" || jsonData[0].alpha3Code,
+        code: "91" || jsonData[0].callingCodes[0],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     iconClass.current.classList.add("toggle-display");
+    fetchCountryCodes();
   }, [iconClass]);
   //TO BE FOLLOW UP THE VALUES INSTANTLY ON CHANGE
-  useEffect(() => {}, [password, email, username, dob, phoneno, gender]);
-
+  useEffect(() => {}, [
+    password,
+    email,
+    username,
+    dob,
+    phoneno,
+    gender,
+    countryCode,
+    countryCodes,
+  ]);
   return (
     <div className="signup">
       <div className="signup-card">
@@ -96,11 +138,20 @@ function SignUp() {
           />
           <h1>Ditto-Gram</h1>
         </div>
-
         <form
           onSubmit={(e) => {
-            handleSubmit(e);
-            e.target.reset();
+            if (checkPasswordMatch) {
+              handleSubmit(e);
+              setAvatar("");
+              setActiveCfmPassword(true);
+              setDisplayPassword(false);
+              setPasswordMatch(false);
+              iconClass.current.classList.add("toggle-display");
+              e.target.reset();
+            } else {
+              e.preventDefault();
+              alert("Missing mandatory Values");
+            }
           }}
         >
           <div className="avatar">
@@ -126,7 +177,7 @@ function SignUp() {
           <div className="username">
             <input
               type="text"
-              id="username-ent"
+              id="username"
               onChange={(e) => {
                 setUserName(e.target.value);
               }}
@@ -145,40 +196,137 @@ function SignUp() {
               User Name
             </label>
           </div>
-          <div className="dob">
-            <input
-              type="date"
-              name="dob"
-              id="dob"
-              onChange={(e) => {
-                setDOB(e.target.value);
-              }}
-            />
-            <label htmlFor="dob"><div>hai</div></label>
+          <div className="dob-gender">
+            <div className="date-picker">
+              <label htmlFor="dob" ref={dobLabelRef}>
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                name="dob"
+                id="dob"
+                value={dob}
+                max={currentDate}
+                onChange={(date) => {
+                  setDOB(date.target.value);
+                }}
+                onFocus={() => [
+                  dobLabelRef.current.classList.add("dob-lbl-change"),
+                ]}
+                onBlur={() => {
+                  dobLabelRef.current.classList.remove("dob-lbl-change");
+                }}
+              />
+            </div>
+            <div className="gender">
+              <label htmlFor="gender" className="header-lbl">
+                Gender
+              </label>
+              <div className="radio-btn-class">
+                <div className="int-male">
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="male"
+                    value="M"
+                    className="radio-btn"
+                    onClick={(e) => {
+                      setGender(e.target.value);
+                    }}
+                  />
+                  <label htmlFor="male">Male</label>
+                </div>
+                <div className="int-female">
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="female"
+                    value="F"
+                    className="radio-btn"
+                    onClick={(e) => {
+                      setGender(e.target.value);
+                    }}
+                  />
+                  <label htmlFor="female">Female</label>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="phoneno">
-            <input
-              type="number"
-              id="phoneno-ent"
-              max={10}
-              min={10}
-              onChange={(e) => {
-                setPhoneNo(e.target.value);
-              }}
-              onBlur={(e) => {
-                onBlurHandle(e, phonenoLabelRef);
-              }}
-              onFocus={() => {
-                onFocusHandle(phonenoLabelRef);
-              }}
-              onCopy={restrictCopyPaste}
-              onPaste={restrictCopyPaste}
-              required
-              autoComplete="off"
-            />
             <label htmlFor="phoneno" id="lbl-phone" ref={phonenoLabelRef}>
               Phone no
             </label>
+            <div className="input-class">
+              <div className="country-codes">
+                <div className="cnt-image">
+                  {countryCodes.length > 1
+                    ? countryCodes.map((item) => {
+                        if (item.alpha3Code === countryCode.country) {
+                          return (
+                            <img
+                              src={item.flags.png}
+                              alt={item.alpha3Code}
+                              key={item.alpha3Code}
+                            />
+                          );
+                        }
+                        return " ";
+                      })
+                    : ""}
+                </div>
+                <select
+                  name="countryCode"
+                  onChange={(e) => {
+                    const CountryCode = e.target.value.split("-");
+                    setCountryCode({
+                      country: CountryCode[0],
+                      code: CountryCode[1],
+                    });
+                  }}
+                >
+                  {countryCodes.length > 1
+                    ? countryCodes.map((data) => {
+                        return (
+                          <option
+                            value={data.alpha3Code + "-" + data.callingCodes[0]}
+                            key={data.alpha3Code}
+                            selected={
+                              data.alpha3Code === countryCode.country &&
+                              data.callingCodes[0] === countryCode.code
+                                ? true
+                                : false
+                            }
+                          >
+                            {data.alpha3Code}&nbsp;&nbsp;
+                            {data.callingCodes[0]}
+                          </option>
+                        );
+                      })
+                    : ""}
+                </select>
+              </div>
+              <input
+                type="tel"
+                id="phoneno"
+                maxLength={15}
+                minLength={8}
+                pattern="(\d{8,15})"
+                onChange={(e) => {
+                  setPhoneNo(e.target.value);
+                }}
+                onFocus={() => {
+                  phonenoLabelRef.current.classList.add("focus-label");
+                }}
+                onBlur={(e) => {
+                  phonenoLabelRef.current.classList.remove("focus-label");
+                  onBlurHandle(e);
+                }}
+                onCopy={restrictCopyPaste}
+                onPaste={restrictCopyPaste}
+                required
+                autoComplete="off"
+              />
+            </div>
           </div>
           <div className="email">
             <input
@@ -288,7 +436,11 @@ function SignUp() {
               ></i>
             </div>
           </div>
-          <input type="submit" value="Submit" className="submit-ent" />
+          <input
+            type="submit"
+            value="Create New Account"
+            className="submit-ent"
+          />
         </form>
         <p>
           Have an Account ?

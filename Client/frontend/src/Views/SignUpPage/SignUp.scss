@@ -1,3 +1,5 @@
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
 .signup {
     display: flex;
     justify-content: center;
@@ -69,6 +71,101 @@
                 }
             }
 
+            .dob-gender {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: flex-start;
+                align-items: flex-start;
+                width: 100%;
+                gap: 20px;
+
+                .date-picker {
+                    position: relative;
+                    display: flex;
+                    flex-flow: column wrap;
+                    justify-content: center;
+                    align-items: flex-start;
+                    gap: 8px;
+
+                    input {
+                        height: 35px;
+                        font-size: 1.6rem;
+                        padding: 5px 15px;
+                        transition: .2s ease-in-out;
+                        border: none;
+                        border-radius: 5px;
+                        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+                    }
+
+                    label {
+                        font-size: 1.6rem;
+                        font-weight: 250;
+                        padding-left: 10px;
+                    }
+
+                    input:focus {
+                        box-shadow: rgba(0, 0, 0, 0.2) -2px 12px 18px;
+                        outline: none;
+                        border: none;
+                    }
+
+                    .dob-lbl-change {
+                        font-weight: 450;
+                    }
+                }
+
+                .gender {
+                    display: flex;
+                    flex-flow: column wrap;
+                    gap: 8px;
+                    width: 50%;
+
+                    .header-lbl {
+                        text-align: left;
+                        font-size: 1.6rem;
+                        font-weight: 250;
+                        padding-left: 10px;
+                    }
+
+                    .radio-btn-class {
+                        display: flex;
+                        flex-flow: row wrap;
+                        gap: 20px;
+                        padding-left: 20px;
+
+                        .int-male,
+                        .int-female {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 4px;
+
+                            input {
+                                appearance: none;
+                                border-radius: 20%;
+                                width: 18px;
+                                height: 18px;
+                                border: 2px solid #999;
+                                transition: 0.2s all linear;
+                                margin-right: 5px;
+                                cursor: pointer;
+                            }
+
+                            input:checked {
+                                border-radius: 50%;
+                                border: 5px solid var(--dark-color);
+                            }
+
+                            label {
+                                cursor: pointer;
+                                font-size: 1.6rem;
+                            }
+                        }
+                    }
+                }
+
+            }
+
             .email,
             .password,
             .cfm-password,
@@ -104,6 +201,7 @@
                 input:focus {
                     height: 60px;
                     font-size: 2.2rem;
+                    letter-spacing: 0px;
                     box-shadow: rgba(0, 0, 0, 0.2) -2px 12px 18px;
                     outline: none;
                     border: none;
@@ -111,11 +209,84 @@
 
                 .label-change {
                     margin-left: 7px;
-                    top: -10px;
-                    font-size: 1.5rem;
+                    top: -8px;
+                    font-size: 1.2rem;
                     background-color: transparent;
-                    font-weight: 480;
+                    font-weight: 450;
                     height: max-content;
+                }
+            }
+
+            .phoneno {
+                width: 100%;
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+
+                .input-class {
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    justify-content: center;
+                    align-items: center;
+                    gap: 15px;
+
+                    input {
+                        padding: auto 20px;
+                        letter-spacing: 2px;
+                    }
+
+                    input:focus {
+                        font-size: 1.8rem;
+                    }
+                }
+
+                label {
+                    position: relative;
+                    font-weight: 250;
+                }
+
+                .focus-label {
+                    font-weight: 450;
+                }
+
+                .country-codes {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+
+                    select {
+                        height: 35px;
+                        padding: 5px 5px;
+                        font-size: 1.6rem;
+                        border: none;
+                        outline: none;
+                        border-radius: 5px;
+                        background-color: white;
+                        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+
+                        option {
+                            font-size: 1.6rem;
+                            font-weight: 300;
+                            background-color: var(--thin-light-color);
+                        }
+                    }
+
+                    .cnt-image {
+                        align-self: flex-end;
+
+                        img {
+                            border: 3px solid rgb(211, 211, 211);
+                            border-radius: 5px;
+                            object-fit: cover;
+                            height: 35px;
+                        }
+                    }
                 }
             }
 
@@ -140,14 +311,16 @@
 
             .submit-ent {
                 width: max-content;
-                padding: 1px 16px;
-                padding-bottom: 5px;
+                padding: 4px 16px;
+                padding-bottom: 8px;
+                margin-top: 10px;
                 font-size: 2rem;
                 border: none;
                 background-color: var(--dark-color);
                 color: var(--light-color);
                 border-radius: 20px;
                 font-weight: 500;
+                cursor: pointer;
                 box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
             }
 
@@ -156,6 +329,25 @@
             }
         }
 
+        p {
+            font-size: 1.5rem;
+            display: flex;
+            gap: 10px;
+
+            button {
+                text-decoration: none;
+                border: none;
+                background-color: var(--thin-light-color);
+                color: rgb(84, 84, 84);
+                font-size: 1.4rem;
+                text-decoration: underline 1px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                color: black;
+            }
+        }
     }
 
 }
