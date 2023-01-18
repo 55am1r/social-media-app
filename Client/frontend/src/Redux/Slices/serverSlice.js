@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import { setLoading } from "./appConfigSlice";
-
 
 export const getUserInfo = createAsyncThunk(
   "getUserData",

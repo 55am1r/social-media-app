@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const { email, password } = req.body;
     const existUser = await User.findOne({ email });
     if (existUser) {
-      return res.send(error(409, "User Already Exist"));
+      return res.send(error(409, "User Already Exists"));
     } else {
       if (req.body.avatar) {
         try {

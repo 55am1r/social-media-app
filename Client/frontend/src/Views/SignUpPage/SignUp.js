@@ -1,7 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
+import { MutatingDots } from "react-loader-spinner";
 import "./SignUp.scss";
+import {
+  setLandingPageError,
+  setLandingPageSuccess,
+  setLoading,
+} from "../../Redux/Slices/appConfigSlice";
 function SignUp() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -38,6 +45,8 @@ function SignUp() {
   const [checkPasswordMatch, setPasswordMatch] = useState(false);
   const [countryCodes, setCountryCodes] = useState([""]);
 
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
   function restrictCopyPaste(e) {
     e.preventDefault();
     alert("This action is not allowed");
@@ -75,11 +84,25 @@ function SignUp() {
       password,
     };
     const result = await AxiosClient.post("/auth/sign-up", user);
-    // result.result = undefined;
-    console.log(result);
-    // if (result.statusCode === 201) {
-    //   navigate("/login");
-    // }
+    result.result = undefined;
+    if (result) {
+      dispatch(setLoading(false));
+    }
+    if (result.status === "ERROR") {
+      dispatch(setLandingPageError(result.errordetails));
+      return false;
+    }
+    if (
+      result.status === "OK" ||
+      (result.status === "ERROR" && !result.result && !result.errordetails)
+    ) {
+      dispatch(
+        setLandingPageSuccess(
+          "Yeah, We have added successfully added you to our server. Now try to Log In your account."
+        )
+      );
+      return true;
+    }
     return false;
   }
   function matchPassword(e) {
@@ -132,6 +155,20 @@ function SignUp() {
   return (
     <div className="signup">
       <div className="signup-card">
+        {isLoading ? (
+          <div className="loader">
+            <MutatingDots
+              height="100"
+              width="100"
+              color="#8387f7"
+              secondaryColor="#8387f7"
+              radius="12.5"
+            />
+            <p>We are Verifying you...</p>
+          </div>
+        ) : (
+          ""
+        )}
         <div className="header">
           <img
             src="https://static.vecteezy.com/system/resources/previews/010/063/436/original/instagram-app-icon-3d-render-free-png.png"
@@ -142,8 +179,10 @@ function SignUp() {
         <form
           onSubmit={async (e) => {
             if (checkPasswordMatch) {
+              dispatch(setLoading(true));
               const response = await handleSubmit(e);
               if (response) {
+                navigate("/");
                 setAvatar("");
                 setActiveCfmPassword(true);
                 setDisplayPassword(false);
@@ -152,10 +191,9 @@ function SignUp() {
                 e.target.reset();
               }
               e.preventDefault();
-              alert("Missing mandatory Values");
             } else {
               e.preventDefault();
-              alert("Missing mandatory Values");
+              dispatch(setLandingPageError("Password Doesn't Match"));
             }
           }}
         >

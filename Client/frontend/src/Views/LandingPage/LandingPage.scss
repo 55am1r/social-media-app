@@ -5,14 +5,39 @@
     justify-content: center;
     align-items: center;
     flex-flow: column wrap;
+    position: relative;
     width: 100%;
-    .links {
+
+    .error-msg,
+    .success-msg {
+        position: absolute;
+        top: -100px;
+        width: 40%;
+        height: 70px;
+        background-color: rgb(253, 216, 216);
+        border-left: 6px solid red;
+        z-index: 2;
         display: flex;
-        flex-flow: row wrap;
-        width: 100%;
-        gap: 40px;
-        padding: 40px 20px;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        padding: 0 20px;
+        transition: .5s ease-in-out;
+
+        p {
+            font-size: 2rem;
+            font-weight: 550;
+        }
+        i{
+            font-size: 2.5rem;
+        }
+    }
+
+    .success-msg {
+        background-color: rgb(229, 250, 199);
+        border-left: 6px solid greenyellow;
+    }
+
+    .change-on {
+        top: 30px;
     }
 }

@@ -11,7 +11,7 @@ const cloudinary = require("cloudinary").v2;
 const port = process.env.PORT || 5000;
 
 //MIDDLEWARES
-app.use(exp.json({limit:'20mb'}));
+app.use(exp.json({limit:'15mb'}));
 app.use(
   cors({
     credentials: true,

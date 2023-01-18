@@ -14,10 +14,33 @@
         align-items: center;
         justify-content: center;
         flex-flow: column wrap;
+        position: relative;
         gap: 40px;
         border-radius: 15px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         padding: 40px 0;
+
+        .loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(201, 200, 200, 0.242);
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column wrap;
+            gap: 20px;
+            border-radius: 15px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+            p {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+        }
 
         .header {
             display: flex;
@@ -200,7 +223,7 @@
 
                 input:focus {
                     height: 60px;
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     letter-spacing: 0px;
                     box-shadow: rgba(0, 0, 0, 0.2) -2px 12px 18px;
                     outline: none;
@@ -234,12 +257,13 @@
                     gap: 15px;
 
                     input {
-                        padding: auto 20px;
+                        padding: 0 20px;
                         letter-spacing: 2px;
                     }
 
                     input:focus {
                         font-size: 1.8rem;
+                        padding: 0 12px;
                     }
                 }
 
@@ -278,6 +302,7 @@
                     }
 
                     .cnt-image {
+                        
                         align-self: flex-end;
 
                         img {

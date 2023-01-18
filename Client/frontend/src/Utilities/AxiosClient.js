@@ -14,7 +14,6 @@ export const AxiosClient = axios.create({
   },
 });
 AxiosClient.interceptors.request.use((request) => {
-  console.log(request);
   if (request.url !== "/auth/sign-up") {
     const accessKey = getAccessKey(ACCESS_KEY);
     request.headers["Authorization"] = `Bearer ${accessKey}`;
@@ -45,6 +44,9 @@ AxiosClient.interceptors.response.use(async (response) => {
       const finalResult = await AxiosClient.get(requestedFrom.url);
       return finalResult;
     }
+  }
+  else if (requestedFrom.url.includes('/auth')) {
+    
   }
   //FOR ANY NON-TOKEN-ERRORS PASS DATA TO HANDLE ON THE PARTICULAR PAGE
   return data;
