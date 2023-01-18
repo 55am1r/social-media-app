@@ -10,7 +10,7 @@ function Navbar() {
       <button
         onClick={() => {
           deleteAccessKey(ACCESS_KEY);
-          navigate("/login");
+          navigate("/");
         }}
       >
         Log out

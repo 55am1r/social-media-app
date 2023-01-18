@@ -20,6 +20,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 20px;
         padding: 0 20px;
         transition: .5s ease-in-out;
 
@@ -27,7 +28,8 @@
             font-size: 2rem;
             font-weight: 550;
         }
-        i{
+
+        i {
             font-size: 2.5rem;
         }
     }
@@ -35,9 +37,42 @@
     .success-msg {
         background-color: rgb(229, 250, 199);
         border-left: 6px solid greenyellow;
+
+        p {
+            font-size: 1.5rem;
+        }
     }
 
     .change-on {
         top: 30px;
+    }
+
+    .info {
+        width: 30%;
+        display: flex;
+        flex-flow: column wrap;
+        gap: 10px;
+        padding: 40px 0;
+
+        ul {
+            width: 100%;
+            list-style: none;
+            display: flex;
+            flex-flow: row wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+
+            a {
+                text-decoration: none;
+                color: rgb(107, 107, 107);
+                font-size: 1.1rem;
+            }
+
+            a:hover {
+                color: black;
+                text-decoration: underline;
+            }
+        }
     }
 }

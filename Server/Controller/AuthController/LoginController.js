@@ -9,7 +9,7 @@ const loginController = async (req, res) => {
       secure: true,
     });
     return res.send(
-      success(201, {
+      success(200, {
         JWT_ACCESS_KEY: generateAccessToken({ _id, email }),
       })
     );

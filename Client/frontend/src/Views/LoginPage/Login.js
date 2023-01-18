@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
 import { ACCESS_KEY, setAccessKey } from "../../Utilities/LocalStorageManager";
+import SLHeader from "../../Components/SLHeader/SLHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { MutatingDots } from "react-loader-spinner";
+import {
+  setLandingPageError,
+  setLoading,
+} from "../../Redux/Slices/appConfigSlice";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -10,9 +17,11 @@ function Login() {
   const navigate = useNavigate();
   const formRef = useRef();
 
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [displayPassword, setDisplayPassword] = useState(false);
+  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const dispatch = useDispatch();
 
   function restrictCopyPaste(e) {
     e.preventDefault();
@@ -45,43 +54,64 @@ function Login() {
     e.preventDefault();
     try {
       const result = await AxiosClient.post("auth/log-in", {
-        email,
+        userId,
         password,
       });
-      console.log(result);
-      if (result.statusCode === 201) {
+      dispatch(setLoading(false));
+      if (result.statusCode === 200) {
         setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
-        navigate("/home");
+        return true;
       } else {
-        console.log(result);
+        dispatch(setLandingPageError(result.errordetails));
+        return false;
       }
     } catch (error) {
       console.log(error.message);
+      return false;
     }
   }
-
+  useEffect(() => {}, [isLoading]);
   useEffect(() => {
     formRef.current.reset();
   }, []);
   return (
     <div className="login">
       <div className="login-card">
-        <h1>Ditto-Gram</h1>
+        {isLoading ? (
+          <div className="loader">
+            <MutatingDots
+              height="100"
+              width="100"
+              color="#8387f7"
+              secondaryColor="#8387f7"
+              radius="12.5"
+            />
+            <p>We are Logging you in...</p>
+          </div>
+        ) : (
+          ""
+        )}
+        <SLHeader />
         <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-            e.target.reset();
-            emailLabelRef.current.classList.remove("label-change");
-            passwordLabelRef.current.classList.remove("label-change");
+          onSubmit={async (e) => {
+            dispatch(setLoading(true));
+            const response = await handleSubmit(e);
+            if (response) {
+              e.target.reset();
+              emailLabelRef.current.classList.remove("label-change");
+              passwordLabelRef.current.classList.remove("label-change");
+              navigate("/home");
+            }
+            e.preventDefault();
           }}
           ref={formRef}
         >
           <div className="email">
             <input
-              type="email"
-              id="email-ent"
+              type="text"
+              id="email"
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUserId(e.target.value);
               }}
               onBlur={(e) => {
                 onBlurHandle(e, emailLabelRef);
@@ -95,13 +125,13 @@ function Login() {
               autoComplete="off"
             />
             <label htmlFor="email" id="lbl-email" ref={emailLabelRef}>
-              Email
+              UserName/Email
             </label>
           </div>
           <div className="password">
             <input
               type={displayPassword ? "text" : "password"}
-              id="passcode-ent"
+              id="passcode"
               required
               autoComplete="nope"
               onChange={(e) => {
@@ -123,17 +153,21 @@ function Login() {
             <div className="icon" onClick={onClickHandle}>
               <i
                 className={
-                  !displayPassword ? "fa-regular fa-lock-keyhole" : " "
+                  !displayPassword
+                    ? "fa-regular fa-lock-keyhole color-green"
+                    : " "
                 }
               ></i>
               <i
                 className={
-                  displayPassword ? "fa-regular fa-lock-keyhole-open" : " "
+                  displayPassword
+                    ? "fa-regular fa-lock-keyhole-open color-red"
+                    : " "
                 }
               ></i>
             </div>
           </div>
-          <input type="submit" value="Submit" className="submit-ent" />
+          <input type="submit" value="Login" className="submit-ent" />
         </form>
         <p>
           Don't have an Account ?

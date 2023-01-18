@@ -4,8 +4,10 @@ const { error } = require("../Utilities/StatusMessages");
 
 module.exports = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { userId, password } = req.body;
+    const user = await User.findOne(
+      userId.includes("@") ? { email: userId } : { username: userId }
+    );
     if (user) {
       const passMatch = await bcrypt.compare(password, user.password);
       if (passMatch) {

@@ -9,6 +9,7 @@ import {
   setLandingPageSuccess,
   setLoading,
 } from "../../Redux/Slices/appConfigSlice";
+import SLHeader from "../../Components/SLHeader/SLHeader";
 function SignUp() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -114,12 +115,14 @@ function SignUp() {
       : iconClass.current.classList.add("toggle-display");
   }
   function handleImageChange(e) {
+    dispatch(setLoading(true));
     const file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = () => {
       if (fileReader.readyState === fileReader.DONE) {
         setAvatar(fileReader.result);
+        dispatch(setLoading(false));
       }
     };
   }
@@ -169,13 +172,7 @@ function SignUp() {
         ) : (
           ""
         )}
-        <div className="header">
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/010/063/436/original/instagram-app-icon-3d-render-free-png.png"
-            alt="logo.img"
-          />
-          <h1>Ditto-Gram</h1>
-        </div>
+        <SLHeader />
         <form
           onSubmit={async (e) => {
             if (checkPasswordMatch) {
@@ -208,6 +205,7 @@ function SignUp() {
             />
             <label htmlFor="avatar" className="avatar-label">
               <img
+                draggable={false}
                 src={
                   avatar
                     ? avatar
@@ -307,6 +305,7 @@ function SignUp() {
                         if (item.alpha3Code === countrycode.country) {
                           return (
                             <img
+                              draggable={false}
                               src={item.flags.png}
                               alt={item.alpha3Code}
                               key={item.alpha3Code}
@@ -475,6 +474,7 @@ function SignUp() {
               ></i>
             </div>
           </div>
+
           <input
             type="submit"
             value="Create New Account"

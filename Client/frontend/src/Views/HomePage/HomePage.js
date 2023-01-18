@@ -13,7 +13,6 @@ function HomePage() {
 
   return (
     <div className="home">
-     
       <Navbar />
     </div>
   );
