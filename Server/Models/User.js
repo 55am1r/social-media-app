@@ -27,9 +27,9 @@ const userSchema = mongoose.Schema(
         code: String,
         country: String,
       },
-      number: String,
-      required: true,
+      phone: String,
     },
+
     avatar: {
       publicId: String,
       url: String,

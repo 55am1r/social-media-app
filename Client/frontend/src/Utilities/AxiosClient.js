@@ -9,10 +9,16 @@ import {
 export const AxiosClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER_BASE_URL,
   withCredentials: true,
+  headers: {
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+  },
 });
 AxiosClient.interceptors.request.use((request) => {
-  const accessKey = getAccessKey(ACCESS_KEY);
-  request.headers["Authorization"] = `Bearer ${accessKey}`;
+  console.log(request);
+  if (request.url !== "/auth/sign-up") {
+    const accessKey = getAccessKey(ACCESS_KEY);
+    request.headers["Authorization"] = `Bearer ${accessKey}`;
+  }
   return request;
 });
 

@@ -11,11 +11,12 @@ const cloudinary = require("cloudinary").v2;
 const port = process.env.PORT || 5000;
 
 //MIDDLEWARES
-app.use(exp.json());
+app.use(exp.json({limit:'20mb'}));
 app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
+    methods: "GET,PUT,POST,DELETE",
   })
 );
 app.use(morgan("common"));

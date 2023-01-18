@@ -5,8 +5,8 @@ module.exports = async (req, res, next) => {
   if (!email || !password) {
     return res.send(error(406, "All fields are Required"));
   } else if (req.originalUrl === "/auth/sign-up") {
-    const { name, phoneno } = req.body;
-    if (!name || !phoneno) {
+    const { username, phoneno } = req.body;
+    if (!username || !phoneno.countrycode || !phoneno.phone) {
       return res.send(error(406, "All fields are Required"));
     }
   }

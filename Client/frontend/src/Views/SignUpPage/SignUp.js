@@ -15,7 +15,8 @@ function SignUp() {
   const dobLabelRef = useRef();
 
   const currentDate =
-    new Date().getFullYear() +
+    new Date().getFullYear() -
+    19 +
     "-" +
     (new Date().getMonth() < 10
       ? "0" + (new Date().getMonth() + 1)
@@ -28,10 +29,10 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
   const [dob, setDOB] = useState(currentDate);
-  const [phoneno, setPhoneNo] = useState("");
+  const [phone, setPhoneNo] = useState("");
   const [gender, setGender] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [countryCode, setCountryCode] = useState({ country: "", code: "" });
+  const [countrycode, setCountryCode] = useState({ country: "", code: "" });
   const [displayPassword, setDisplayPassword] = useState(false);
   const [activeCfmPassCode, setActiveCfmPassword] = useState(true);
   const [checkPasswordMatch, setPasswordMatch] = useState(false);
@@ -64,22 +65,22 @@ function SignUp() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log({
+    const user = {
       avatar,
       username,
       dob,
       gender,
-      countryCode,
-      phoneno,
+      phoneno: { countrycode, phone },
       email,
       password,
-    });
-    // const result = await AxiosClient.post("/auth/sign-up", { email, password });
+    };
+    const result = await AxiosClient.post("/auth/sign-up", user);
     // result.result = undefined;
-    // console.log(result);
+    console.log(result);
     // if (result.statusCode === 201) {
     //   navigate("/login");
     // }
+    return false;
   }
   function matchPassword(e) {
     e.target.value === password
@@ -123,9 +124,9 @@ function SignUp() {
     email,
     username,
     dob,
-    phoneno,
+    phone,
     gender,
-    countryCode,
+    countrycode,
     countryCodes,
   ]);
   return (
@@ -139,15 +140,19 @@ function SignUp() {
           <h1>Ditto-Gram</h1>
         </div>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             if (checkPasswordMatch) {
-              handleSubmit(e);
-              setAvatar("");
-              setActiveCfmPassword(true);
-              setDisplayPassword(false);
-              setPasswordMatch(false);
-              iconClass.current.classList.add("toggle-display");
-              e.target.reset();
+              const response = await handleSubmit(e);
+              if (response) {
+                setAvatar("");
+                setActiveCfmPassword(true);
+                setDisplayPassword(false);
+                setPasswordMatch(false);
+                iconClass.current.classList.add("toggle-display");
+                e.target.reset();
+              }
+              e.preventDefault();
+              alert("Missing mandatory Values");
             } else {
               e.preventDefault();
               alert("Missing mandatory Values");
@@ -261,7 +266,7 @@ function SignUp() {
                 <div className="cnt-image">
                   {countryCodes.length > 1
                     ? countryCodes.map((item) => {
-                        if (item.alpha3Code === countryCode.country) {
+                        if (item.alpha3Code === countrycode.country) {
                           return (
                             <img
                               src={item.flags.png}
@@ -276,6 +281,7 @@ function SignUp() {
                 </div>
                 <select
                   name="countryCode"
+                  value={countrycode.country + "-" + countrycode.code}
                   onChange={(e) => {
                     const CountryCode = e.target.value.split("-");
                     setCountryCode({
@@ -290,12 +296,6 @@ function SignUp() {
                           <option
                             value={data.alpha3Code + "-" + data.callingCodes[0]}
                             key={data.alpha3Code}
-                            selected={
-                              data.alpha3Code === countryCode.country &&
-                              data.callingCodes[0] === countryCode.code
-                                ? true
-                                : false
-                            }
                           >
                             {data.alpha3Code}&nbsp;&nbsp;
                             {data.callingCodes[0]}
@@ -355,7 +355,8 @@ function SignUp() {
               type={displayPassword ? "text" : "password"}
               id="password-ent"
               required
-              autoComplete="nope"
+              pattern="([\d\w]{4,10}[\d\w]{4,10})"
+              autoComplete="off"
               onChange={(e) => {
                 setPassword(e.target.value);
                 e.target.value !== ""
