@@ -58,15 +58,13 @@ function Login() {
         password,
       });
       dispatch(setLoading(false));
-      console.log(result);
-      return false;
-      // if (result.statusCode === 200) {
-      //   setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
-      //   return true;
-      // } else {
-      //   dispatch(setLandingPageError(result.errordetails));
-      //   return false;
-      // }
+      if (result.statusCode === 200) {
+        setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
+        return true;
+      } else {
+        dispatch(setLandingPageError(result.errordetails));
+        return false;
+      }
     } catch (error) {
       console.log(error.message);
       return false;
@@ -85,16 +83,13 @@ function Login() {
           onSubmit={async (e) => {
             dispatch(setLoading(true));
             const response = await handleSubmit(e);
-            console.log(response);
+            if (response) {
+              e.target.reset();
+              emailLabelRef.current.classList.remove("label-change");
+              passwordLabelRef.current.classList.remove("label-change");
+              navigate("/home");
+            }
             e.preventDefault();
-            //   if (response) {
-            //     e.target.reset();
-            //     emailLabelRef.current.classList.remove("label-change");
-            //     passwordLabelRef.current.classList.remove("label-change");
-            //     navigate("/home");
-            //   }
-            //   e.preventDefault();
-            //
           }}
           ref={formRef}
         >

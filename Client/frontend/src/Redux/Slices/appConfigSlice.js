@@ -25,7 +25,6 @@ const appConfigSlicer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
       state.profile = action.payload;
-      console.log(state.profile);
     });
   },
 });

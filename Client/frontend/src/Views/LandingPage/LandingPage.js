@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import InfoTab from "../../Components/InfoTab/InfoTab";
 import {
   setLandingPageError,
   setLandingPageSuccess,
@@ -30,9 +31,8 @@ function LandingPage() {
       setTimeout(() => {
         successDivRef.current.classList.remove("change-on");
         dispatch(setLandingPageSuccess(""));
-      }, 5000);
+      }, 8000);
     }
-    console.log(errorMsg);
     // eslint-disable-next-line
   }, [errorMsg, succesMsg]);
 
@@ -41,7 +41,7 @@ function LandingPage() {
       <div className="error-msg" ref={errorDivRef}>
         <p className="msg">{errorMsg}</p>
         <i
-          className="fa-regular fa-circle-xmark"
+          className="fa-regular fa-octagon-xmark"
           onClick={() => {
             errorDivRef.current.classList.remove("change-on");
           }}
@@ -52,45 +52,12 @@ function LandingPage() {
         <i
           className="fa-regular fa-octagon-xmark"
           onClick={() => {
-            successDivRef.current.classList.add("change-on");
+            successDivRef.current.classList.remove("change-on");
           }}
         ></i>
       </div>
       <Outlet />
-      <div className="info">
-        <div className="links">
-          <ul>
-            <li>
-              <a
-                href="https://help.instagram.com/581066165581870/?locale=en_US"
-                target={"_blank"}
-                rel="noreferrer"
-              >
-                Terms
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.facebook.com/privacy/policy"
-                target={"_blank"}
-                rel="noreferrer"
-              >
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://help.instagram.com/1896641480634370/"
-                target={"_blank"}
-                rel="noreferrer"
-              >
-                Cookies Policy
-              </a>
-            </li>
-          </ul>
-        </div>
-        <p className="agreement">© 2023 Ditto-Gram By Shaik Sameer</p>
-      </div>
+      <InfoTab />
     </div>
   );
 }

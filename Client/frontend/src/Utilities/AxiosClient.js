@@ -22,15 +22,16 @@ AxiosClient.interceptors.request.use((request) => {
 AxiosClient.interceptors.response.use(async (response) => {
   const requestedFrom = response.config;
   const data = response.data;
-  console.log(response);
   //IMPLIES FOR ALL CALLS
   if (data.status === "OK") {
     return data;
-  } else if (
-    (data.statusCode === 401 &&
-      requestedFrom.url === "/user/refresh-access-token") ||
-    (data.status === "ERROR" &&
-      requestedFrom.url === ("/posts/all" || "user/get-my-profile"))
+  }
+  //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
+  else if (
+    data.statusCode === 401 &&
+    ["/user/refresh-access-token"].filter((item) => {
+      return item === requestedFrom.url;
+    })
   ) {
     deleteAccessKey(ACCESS_KEY);
     window.location.replace("/");
@@ -40,7 +41,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   else if (
     data.statusCode === 401 &&
     ["/posts/all", "user/get-my-profile"].filter((item) => {
-      returmitem === requestedFrom.url;
+      return item === requestedFrom.url;
     })
   ) {
     const result = await AxiosClient.get("/user/refresh-access-token");
@@ -49,7 +50,6 @@ AxiosClient.interceptors.response.use(async (response) => {
       const finalResult = await AxiosClient.get(requestedFrom.url);
       return finalResult;
     }
-  } else if (requestedFrom.url.includes("/auth")) {
   }
   //FOR ANY NON-TOKEN-ERRORS PASS DATA TO HANDLE ON THE PARTICULAR PAGE
   return data;
