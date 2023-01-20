@@ -7,11 +7,12 @@
     flex-flow: column wrap;
     position: relative;
     width: 100%;
+    height: 100vh;
 
     .error-msg,
     .success-msg {
         position: absolute;
-        top: -100px;
+        top: 30px;
         width: 40%;
         height: 70px;
         background-color: rgb(253, 216, 216);
@@ -44,7 +45,7 @@
     }
 
     .change-on {
-        top: 30px;
+        top: -30px;
     }
 
     .info {

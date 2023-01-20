@@ -5,11 +5,11 @@ import "./Login.scss";
 import { ACCESS_KEY, setAccessKey } from "../../Utilities/LocalStorageManager";
 import SLHeader from "../../Components/SLHeader/SLHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { MutatingDots } from "react-loader-spinner";
 import {
   setLandingPageError,
   setLoading,
 } from "../../Redux/Slices/appConfigSlice";
+import MDLoader from "../../Components/MutatingDots/MDLoader";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -58,13 +58,15 @@ function Login() {
         password,
       });
       dispatch(setLoading(false));
-      if (result.statusCode === 200) {
-        setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
-        return true;
-      } else {
-        dispatch(setLandingPageError(result.errordetails));
-        return false;
-      }
+      console.log(result);
+      return false;
+      // if (result.statusCode === 200) {
+      //   setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
+      //   return true;
+      // } else {
+      //   dispatch(setLandingPageError(result.errordetails));
+      //   return false;
+      // }
     } catch (error) {
       console.log(error.message);
       return false;
@@ -77,32 +79,22 @@ function Login() {
   return (
     <div className="login">
       <div className="login-card">
-        {isLoading ? (
-          <div className="loader">
-            <MutatingDots
-              height="100"
-              width="100"
-              color="#8387f7"
-              secondaryColor="#8387f7"
-              radius="12.5"
-            />
-            <p>We are Logging you in...</p>
-          </div>
-        ) : (
-          ""
-        )}
+        {isLoading ? <MDLoader message="We are Logging you in..." /> : ""}
         <SLHeader />
         <form
           onSubmit={async (e) => {
             dispatch(setLoading(true));
             const response = await handleSubmit(e);
-            if (response) {
-              e.target.reset();
-              emailLabelRef.current.classList.remove("label-change");
-              passwordLabelRef.current.classList.remove("label-change");
-              navigate("/home");
-            }
+            console.log(response);
             e.preventDefault();
+            //   if (response) {
+            //     e.target.reset();
+            //     emailLabelRef.current.classList.remove("label-change");
+            //     passwordLabelRef.current.classList.remove("label-change");
+            //     navigate("/home");
+            //   }
+            //   e.preventDefault();
+            //
           }}
           ref={formRef}
         >

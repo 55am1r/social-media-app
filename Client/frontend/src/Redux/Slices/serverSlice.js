@@ -8,8 +8,7 @@ export const getUserInfo = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoading(true));
       const response = await AxiosClient.get("user/get-my-profile");
-      // return result;
-      console.log(response.result);
+      return response.result;
     } catch (e) {
       console.log(e.message);
     } finally {

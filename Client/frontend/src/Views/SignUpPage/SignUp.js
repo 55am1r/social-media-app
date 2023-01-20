@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AxiosClient } from "../../Utilities/AxiosClient";
-import { MutatingDots } from "react-loader-spinner";
 import "./SignUp.scss";
 import {
   setLandingPageError,
@@ -10,6 +9,7 @@ import {
   setLoading,
 } from "../../Redux/Slices/appConfigSlice";
 import SLHeader from "../../Components/SLHeader/SLHeader";
+import MDLoader from "../../Components/MutatingDots/MDLoader";
 function SignUp() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -158,20 +158,7 @@ function SignUp() {
   return (
     <div className="signup">
       <div className="signup-card">
-        {isLoading ? (
-          <div className="loader">
-            <MutatingDots
-              height="100"
-              width="100"
-              color="#8387f7"
-              secondaryColor="#8387f7"
-              radius="12.5"
-            />
-            <p>We are Verifying you...</p>
-          </div>
-        ) : (
-          ""
-        )}
+        {isLoading ? <MDLoader message="We are Verifying you..." /> : ""}
         <SLHeader />
         <form
           onSubmit={async (e) => {

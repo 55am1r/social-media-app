@@ -14,39 +14,42 @@ export const AxiosClient = axios.create({
   },
 });
 AxiosClient.interceptors.request.use((request) => {
-  if (request.url !== "/auth/sign-up") {
-    const accessKey = getAccessKey(ACCESS_KEY);
-    request.headers["Authorization"] = `Bearer ${accessKey}`;
-  }
+  const accessKey = getAccessKey(ACCESS_KEY);
+  request.headers["Authorization"] = `Bearer ${accessKey}`;
   return request;
 });
 
 AxiosClient.interceptors.response.use(async (response) => {
   const requestedFrom = response.config;
   const data = response.data;
+  console.log(response);
   //IMPLIES FOR ALL CALLS
   if (data.status === "OK") {
     return data;
   } else if (
     (data.statusCode === 401 &&
       requestedFrom.url === "/user/refresh-access-token") ||
-    (data.status === "ERROR" && requestedFrom.url === "/posts/all")
+    (data.status === "ERROR" &&
+      requestedFrom.url === ("/posts/all" || "user/get-my-profile"))
   ) {
     deleteAccessKey(ACCESS_KEY);
-    window.location.replace("/login");
+    window.location.replace("/");
     return Promise.reject(data);
   }
   //IMPLIES FOR ONLY ACCESS-TOKEN-EXPIRY
-  else if (data.statusCode === 401 && requestedFrom.url === "/posts/all") {
+  else if (
+    data.statusCode === 401 &&
+    ["/posts/all", "user/get-my-profile"].filter((item) => {
+      returmitem === requestedFrom.url;
+    })
+  ) {
     const result = await AxiosClient.get("/user/refresh-access-token");
     if (result.status === "OK") {
       setAccessKey(ACCESS_KEY, result.result.New_Access_Token);
       const finalResult = await AxiosClient.get(requestedFrom.url);
       return finalResult;
     }
-  }
-  else if (requestedFrom.url.includes('/auth')) {
-    
+  } else if (requestedFrom.url.includes("/auth")) {
   }
   //FOR ANY NON-TOKEN-ERRORS PASS DATA TO HANDLE ON THE PARTICULAR PAGE
   return data;

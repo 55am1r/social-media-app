@@ -32,6 +32,7 @@ function LandingPage() {
         dispatch(setLandingPageSuccess(""));
       }, 5000);
     }
+    console.log(errorMsg);
     // eslint-disable-next-line
   }, [errorMsg, succesMsg]);
 
@@ -51,7 +52,7 @@ function LandingPage() {
         <i
           className="fa-regular fa-octagon-xmark"
           onClick={() => {
-            successDivRef.current.classList.remove("change-on");
+            successDivRef.current.classList.add("change-on");
           }}
         ></i>
       </div>
