@@ -17,7 +17,7 @@ function App() {
           <Route path="signup" element=<SignUp /> />
         </Route>
         <Route path="/" element=<RequireAccess />>
-          <Route path="home" element=<HomePage /> />
+          <Route index path="home" element=<HomePage /> />
           <Route path="myprofile" element=<MyProfile /> />
         </Route>
         <Route path="*" element={<h1>Not Found</h1>} />

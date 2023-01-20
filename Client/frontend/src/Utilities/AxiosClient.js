@@ -29,7 +29,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
   else if (
     data.statusCode === 401 &&
-    ["/user/refresh-access-token"].filter((item) => {
+    ["/user/refresh-access-token"].some((item) => {
       return item === requestedFrom.url;
     })
   ) {
@@ -40,7 +40,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   //IMPLIES FOR ONLY ACCESS-TOKEN-EXPIRY
   else if (
     data.statusCode === 401 &&
-    ["/posts/all", "user/get-my-profile"].filter((item) => {
+    ["/posts/all", "user/get-my-profile"].some((item) => {
       return item === requestedFrom.url;
     })
   ) {
