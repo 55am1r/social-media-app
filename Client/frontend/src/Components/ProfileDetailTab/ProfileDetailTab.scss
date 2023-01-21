@@ -1,0 +1,21 @@
+.pd-tab {
+    width: 100px;
+    user-select: none;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+
+    .value {
+        font-size: 4rem;
+        font-weight: bold;
+        color: var(--light-dark-color);
+    }
+
+    .name {
+        font-size: 2rem;
+        font-weight: 400;
+        font-weight: 500;
+    }
+}

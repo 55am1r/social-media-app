@@ -4,9 +4,14 @@ const { error, success } = require("../../Utilities/StatusMessages");
 module.exports = async (req, res) => {
   try {
     const { _id } = req.body;
-    const user = await User.findOne({ _id });
+    const currUser = await User.findOne({ _id });
+    const followers = await User.find({ _id: { $in: currUser.followers } });
+    console.log(followers.length);
     return res.send(
-      success(200, user.followers.length > 0 ? user.followers : "No Followers")
+      success(
+        200,
+        followers.length > 0 ? followers : "No Followers Found - Add Friends"
+      )
     );
   } catch (e) {
     console.log(e.message);

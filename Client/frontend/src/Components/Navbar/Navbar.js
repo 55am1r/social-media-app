@@ -7,7 +7,7 @@ import {
 } from "../../Utilities/LocalStorageManager";
 import "./Navbar.scss";
 import { useDispatch } from "react-redux";
-import { setProfile } from "../../Redux/Slices/appConfigSlice";
+import { setLoginState, setProfile } from "../../Redux/Slices/appConfigSlice";
 import UserImage from "../UserImage/UserImage";
 function Navbar() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Navbar() {
             <button
               className="btn-btm-padding"
               onClick={() => {
-                navigate("/myprofile");
+                navigate(`myprofile`);
               }}
             >
               My Account
@@ -43,6 +43,7 @@ function Navbar() {
               className="btn-btm-padding"
               onClick={() => {
                 dispatch(setProfile({}));
+                dispatch(setLoginState(false));
                 deleteAccessKey(ACCESS_KEY);
                 navigate("/");
               }}

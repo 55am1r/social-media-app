@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const GetAllFeeds = require("../Controller/PostController/GetAllFeeds");
 const GetFollowingUserPosts = require("../Controller/PostController/GetFollowingUserPosts");
+const GetLikedPosts = require("../Controller/PostController/GetLikedPosts");
 const GetOwnPosts = require("../Controller/PostController/GetOwnPosts");
 const GetUserPostsById = require("../Controller/PostController/GetUserPostsById");
 const LikesController = require("../Controller/PostController/LikesController");
@@ -24,4 +25,5 @@ router.post("/post-feed", checkJWTKwy, PostFeed);
 router.post("/like-feed", checkJWTKwy, LikesController);
 router.put("/update-post", checkJWTKwy, PostUpdate);
 router.delete("/delete-post", checkJWTKwy, PostDelete);
+router.get("/get-liked-posts", checkJWTKwy, GetLikedPosts);
 module.exports = router;

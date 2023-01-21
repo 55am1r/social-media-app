@@ -35,7 +35,6 @@ function LandingPage() {
     }
     // eslint-disable-next-line
   }, [errorMsg, succesMsg]);
-
   return (
     <div className="landing-page">
       <div className="error-msg" ref={errorDivRef}>

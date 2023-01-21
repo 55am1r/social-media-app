@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./Login.scss";
-import { ACCESS_KEY, setAccessKey } from "../../Utilities/LocalStorageManager";
 import SLHeader from "../../Components/SLHeader/SLHeader";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setLandingPageError,
-  setLoading,
-} from "../../Redux/Slices/appConfigSlice";
 import MDLoader from "../../Components/MutatingDots/MDLoader";
+import { loginApi } from "../../Redux/Slices/serverSlice";
 function Login() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -21,13 +16,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [displayPassword, setDisplayPassword] = useState(false);
   const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const loginstatus = useSelector(
+    (state) => state.appConfigReducer.loginstatus
+  );
   const dispatch = useDispatch();
 
   function restrictCopyPaste(e) {
     e.preventDefault();
     alert("This action is not allowed");
   }
-
   function onBlurHandle(e, lblRef) {
     let inpt_Value = e.target.value;
     const regexComp = new RegExp(/(\s)/);
@@ -49,47 +46,25 @@ function Login() {
       passwordRef.current.setSelectionRange(end, end);
     }, 0);
   }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      const result = await AxiosClient.post("auth/log-in", {
-        userId,
-        password,
-      });
-      dispatch(setLoading(false));
-      if (result.statusCode === 200) {
-        setAccessKey(ACCESS_KEY, result.result.JWT_ACCESS_KEY);
-        return true;
-      } else {
-        dispatch(setLandingPageError(result.errordetails));
-        return false;
-      }
-    } catch (error) {
-      console.log(error.message);
-      return false;
-    }
-  }
-  useEffect(() => {}, [isLoading]);
   useEffect(() => {
-    formRef.current.reset();
-  }, []);
+    loginstatus ? navigate("home") : formRef.current.reset();
+    // eslint-disable-next-line
+  }, [loginstatus]);
+  useEffect(() => {}, [isLoading]);
+
   return (
     <div className="login">
       <div className="login-card">
         {isLoading ? <MDLoader message="We are Logging you in..." /> : ""}
         <SLHeader />
         <form
-          onSubmit={async (e) => {
-            dispatch(setLoading(true));
-            const response = await handleSubmit(e);
-            if (response) {
-              e.target.reset();
+          onSubmit={(e) => {
+            e.preventDefault();
+            dispatch(loginApi({ userId, password }));
+            if (loginstatus) {
               emailLabelRef.current.classList.remove("label-change");
               passwordLabelRef.current.classList.remove("label-change");
-              navigate("/home");
             }
-            e.preventDefault();
           }}
           ref={formRef}
         >

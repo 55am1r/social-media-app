@@ -1,11 +1,13 @@
 const Posts = require("../../Models/Posts");
+const User = require("../../Models/User");
 const { success, error } = require("../../Utilities/StatusMessages");
 module.exports = async (req, res) => {
   try {
     const { _id } = req.body;
-    const post = await Posts.find({ owner: _id });
+    const currUser = await User.findOne({ _id });
+    const posts = await Posts.find({ _id: { $in: currUser.likedposts } });
     return res.send(
-      success(200, post.length > 0 ? post : "No Post Available - Add Some")
+      success(200, posts.length > 0 ? posts : "No Posts Available")
     );
   } catch (e) {
     console.log(e.message);

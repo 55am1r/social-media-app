@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AxiosClient } from "../../Utilities/AxiosClient";
 import "./SignUp.scss";
 import {
   setLandingPageError,
-  setLandingPageSuccess,
   setLoading,
+  setSignUpState,
 } from "../../Redux/Slices/appConfigSlice";
 import SLHeader from "../../Components/SLHeader/SLHeader";
 import MDLoader from "../../Components/MutatingDots/MDLoader";
+import { signUpApi } from "../../Redux/Slices/serverSlice";
 function SignUp() {
   const emailLabelRef = useRef();
   const passwordLabelRef = useRef();
@@ -21,6 +21,7 @@ function SignUp() {
   const iconClass = useRef();
   const navigate = useNavigate();
   const dobLabelRef = useRef();
+  const dispatch = useDispatch();
 
   const currentDate =
     new Date().getFullYear() -
@@ -46,8 +47,10 @@ function SignUp() {
   const [checkPasswordMatch, setPasswordMatch] = useState(false);
   const [countryCodes, setCountryCodes] = useState([""]);
 
-  const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const signupstate = useSelector(
+    (state) => state.appConfigReducer.signupstate
+  );
   function restrictCopyPaste(e) {
     e.preventDefault();
     alert("This action is not allowed");
@@ -72,39 +75,6 @@ function SignUp() {
     setTimeout(() => {
       passwordRef.current.setSelectionRange(end, end);
     }, 0);
-  }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const user = {
-      avatar,
-      username,
-      dob,
-      gender,
-      phoneno: { countrycode, phone },
-      email,
-      password,
-    };
-    const result = await AxiosClient.post("/auth/sign-up", user);
-    result.result = undefined;
-    if (result) {
-      dispatch(setLoading(false));
-    }
-    if (result.status === "ERROR") {
-      dispatch(setLandingPageError(result.errordetails));
-      return false;
-    }
-    if (
-      result.status === "OK" ||
-      (result.status === "ERROR" && !result.result && !result.errordetails)
-    ) {
-      dispatch(
-        setLandingPageSuccess(
-          "Yeah, We have added successfully added you to our server. Now try to Log In your account."
-        )
-      );
-      return true;
-    }
-    return false;
   }
   function matchPassword(e) {
     e.target.value === password
@@ -140,6 +110,7 @@ function SignUp() {
       console.log(error);
     }
   }
+
   useEffect(() => {
     iconClass.current.classList.add("toggle-display");
     fetchCountryCodes();
@@ -154,7 +125,20 @@ function SignUp() {
     gender,
     countrycode,
     countryCodes,
+    isLoading,
   ]);
+  useEffect(() => {
+    if (signupstate) {
+      setAvatar("");
+      setActiveCfmPassword(true);
+      setDisplayPassword(false);
+      setPasswordMatch(false);
+      iconClass.current.classList.add("toggle-display");
+      navigate("/");
+      dispatch(setSignUpState(false));
+    }
+    // eslint-disable-next-line
+  }, [signupstate]);
   return (
     <div className="signup">
       <div className="signup-card">
@@ -163,18 +147,21 @@ function SignUp() {
         <form
           onSubmit={async (e) => {
             if (checkPasswordMatch) {
+              e.preventDefault();
               dispatch(setLoading(true));
-              const response = await handleSubmit(e);
-              if (response) {
-                navigate("/");
-                setAvatar("");
-                setActiveCfmPassword(true);
-                setDisplayPassword(false);
-                setPasswordMatch(false);
-                iconClass.current.classList.add("toggle-display");
+              const user = {
+                avatar,
+                username,
+                dob,
+                gender,
+                phoneno: { countrycode, phone },
+                email,
+                password,
+              };
+              dispatch(signUpApi(user));
+              if (signupstate) {
                 e.target.reset();
               }
-              e.preventDefault();
             } else {
               e.preventDefault();
               dispatch(setLandingPageError("Password Doesn't Match"));

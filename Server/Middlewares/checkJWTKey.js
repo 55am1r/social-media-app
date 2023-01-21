@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
           return res.send(error(401, "Access Token Expired"));
         else return res.send(error(401, "Unable to Parse Access Token"));
       } else {
-        req.body["_id"] = decoded._id;
+        req.body["_id"] = decoded._id; 
         req.body["email"] = decoded.email;
         const user = await User.findById(decoded._id);
         if (!user) {
