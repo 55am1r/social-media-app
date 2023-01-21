@@ -1,4 +1,5 @@
 export const ACCESS_KEY = "JWT_ACCESS_KEY";
+export const ACTIVE_BTN = "currentActivebtn";
 export function getAccessKey(key) {
   return localStorage.getItem(key);
 }

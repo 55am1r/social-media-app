@@ -6,6 +6,7 @@ import {
   deleteAccessKey,
   setAccessKey,
   ACCESS_KEY,
+  ACTIVE_BTN,
 } from "./LocalStorageManager";
 
 export const AxiosClient = axios.create({
@@ -37,6 +38,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   ) {
     const dispatch = useDispatch();
     deleteAccessKey(ACCESS_KEY);
+    deleteAccessKey(ACTIVE_BTN)
     dispatch(setProfile({}));
     dispatch(setLoginState(false));
     window.location.replace("/");

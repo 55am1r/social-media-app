@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import ProfileDetailTab from "../../Components/ProfileDetailTab/ProfileDetailTab";
 import UserImage from "../../Components/UserImage/UserImage";
 import {
+  ACTIVE_BTN,
   getAccessKey,
   setAccessKey,
 } from "../../Utilities/LocalStorageManager";
@@ -25,7 +26,7 @@ function MyProfile() {
       likedPostLabelRef,
     ].forEach((item) => {
       if (item.current === label.current) {
-        setAccessKey("currentActivebtn", label.current.id);
+        setAccessKey(ACTIVE_BTN, label.current.id);
         label.current.classList.add("button-active");
       } else {
         item.current.classList.remove("button-active");
@@ -36,16 +37,16 @@ function MyProfile() {
   useEffect(() => {}, [profileData]);
 
   useEffect(() => {
-    if (getAccessKey("currentActivebtn")) {
+    if (getAccessKey(ACTIVE_BTN)) {
       const activeButton = document.getElementById(
         getAccessKey("currentActivebtn")
       );
       activeButton.classList.add("button-active");
-      navigate(getAccessKey("currentActivebtn"));
+      navigate(getAccessKey(ACTIVE_BTN));
     } else {
-      setAccessKey("currentActivebtn", postLabelRef.current.id);
+      setAccessKey(ACTIVE_BTN, postLabelRef.current.id);
       postLabelRef.current.classList.add("button-active");
-      navigate(getAccessKey("currentActivebtn"));
+      navigate(getAccessKey(ACTIVE_BTN));
     }
     // eslint-disable-next-line
   }, []);

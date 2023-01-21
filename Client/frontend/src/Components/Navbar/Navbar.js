@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SLHeader from "../SLHeader/SLHeader";
 import {
   ACCESS_KEY,
+  ACTIVE_BTN,
   deleteAccessKey,
 } from "../../Utilities/LocalStorageManager";
 import "./Navbar.scss";
@@ -45,6 +46,7 @@ function Navbar() {
                 dispatch(setProfile({}));
                 dispatch(setLoginState(false));
                 deleteAccessKey(ACCESS_KEY);
+                deleteAccessKey(ACTIVE_BTN);
                 navigate("/");
               }}
             >
