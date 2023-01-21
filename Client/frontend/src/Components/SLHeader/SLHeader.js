@@ -7,7 +7,7 @@ function SLHeader() {
         {" "}
         <img
           draggable={false}
-          src="https://static.vecteezy.com/system/resources/previews/010/063/436/original/instagram-app-icon-3d-render-free-png.png"
+          src="https://res.cloudinary.com/dazh2iyef/image/upload/v1674278701/social-media-app/sampleimages/grid_landscape_pswbhf.png"
           alt="logo.img"
         />
         Ditto-Gram

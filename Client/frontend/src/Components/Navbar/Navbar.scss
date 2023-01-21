@@ -7,11 +7,15 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 5px 0 10px 0;
-    height: 8vh;
+    padding: 10px 0 15px 0;
+    height: 80px;
     backdrop-filter: blur(8px);
     background-color: rgba($color: #F1F8FF, $alpha: .4);
-    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+
+    .logo {
+        cursor: pointer;
+    }
 
     .header {
         margin-left: 0;
@@ -41,6 +45,7 @@
             border: 3.5px solid white;
             outline: 1px dashed black;
             box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+            cursor: pointer;
         }
 
         ul {
@@ -57,8 +62,8 @@
             border-radius: 10px;
             transition: .3s ease-in-out;
             transform-origin: top;
-            transform: scaleY(0);
             overflow: hidden;
+            transform: scale(1, 0);
             box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
             li {
@@ -73,6 +78,7 @@
                     padding: 8px 0;
                     cursor: pointer;
                     transition: .3s ease-in-out;
+                    outline: none;
                 }
 
                 .btn-btm-padding {
@@ -80,10 +86,11 @@
                 }
 
                 button:active {
-                    transform: translateY(-5px);
+                    transform: translateY(-3px);
                 }
 
                 button:hover {
+                    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
                     background-color: rgba(218, 216, 216, 0.267);
                 }
             }
@@ -91,7 +98,7 @@
 
         img:hover+ul,
         ul:hover {
-            transform: scaleY(1);
+            transform: scale(1, 1);
         }
     }
 }

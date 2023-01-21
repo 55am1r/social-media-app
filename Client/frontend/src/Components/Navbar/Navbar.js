@@ -6,27 +6,34 @@ import {
   deleteAccessKey,
 } from "../../Utilities/LocalStorageManager";
 import "./Navbar.scss";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setProfile } from "../../Redux/Slices/appConfigSlice";
+import UserImage from "../UserImage/UserImage";
 function Navbar() {
   const navigate = useNavigate();
-  const profileData = useSelector((state) => state.appConfigReducer.profile);
+  const dispatch = useDispatch();
   return (
     <div className="navbar">
-      <SLHeader />
+      <div
+        className="logo"
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
+        <SLHeader />
+      </div>
       <div className="right-section">
-        <img
-          src={
-            profileData?.avatar?.url
-              ? profileData.avatar.url
-              : "https://static.vecteezy.com/system/resources/previews/007/069/364/original/3d-user-icon-in-a-minimalistic-style-user-symbol-for-your-website-design-logo-app-ui-vector.jpg"
-          }
-          alt=""
-        />
+        <UserImage />
         <ul className="ul-list">
           <li>
-            <button className="btn-btm-padding" onClick={() => {
-              navigate('/myprofile')
-            }}>My Account</button>
+            <button
+              className="btn-btm-padding"
+              onClick={() => {
+                navigate("/myprofile");
+              }}
+            >
+              My Account
+            </button>
           </li>
           <li>
             <button>Settings</button>
@@ -35,6 +42,7 @@ function Navbar() {
             <button
               className="btn-btm-padding"
               onClick={() => {
+                dispatch(setProfile({}));
                 deleteAccessKey(ACCESS_KEY);
                 navigate("/");
               }}

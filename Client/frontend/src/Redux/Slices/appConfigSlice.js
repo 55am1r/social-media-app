@@ -21,6 +21,9 @@ const appConfigSlicer = createSlice({
     setLandingPageSuccess: (state, action) => {
       state.landingPage.success = action.payload;
     },
+    setProfile: (state, action) => {
+      state.profile = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
@@ -31,5 +34,9 @@ const appConfigSlicer = createSlice({
 
 export default appConfigSlicer.reducer;
 
-export const { setLoading, setLandingPageError, setLandingPageSuccess } =
-  appConfigSlicer.actions;
+export const {
+  setLoading,
+  setLandingPageError,
+  setLandingPageSuccess,
+  setProfile,
+} = appConfigSlicer.actions;

@@ -1,5 +1,5 @@
 const User = require("../../Models/User");
-const { success } = require("../../Utilities/StatusMessages");
+const { success, error } = require("../../Utilities/StatusMessages");
 module.exports = async (req, res) => {
   try {
     const { _id } = req.body;

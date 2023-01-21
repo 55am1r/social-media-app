@@ -29,7 +29,7 @@ AxiosClient.interceptors.response.use(async (response) => {
   //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
   else if (
     data.statusCode === 401 &&
-    ["/user/refresh-access-token"].some((item) => {
+    ["/auth/refresh-access-token"].some((item) => {
       return item === requestedFrom.url;
     })
   ) {
@@ -44,7 +44,7 @@ AxiosClient.interceptors.response.use(async (response) => {
       return item === requestedFrom.url;
     })
   ) {
-    const result = await AxiosClient.get("/user/refresh-access-token");
+    const result = await AxiosClient.get("/auth/refresh-access-token");
     if (result.status === "OK") {
       setAccessKey(ACCESS_KEY, result.result.New_Access_Token);
       const finalResult = await AxiosClient.get(requestedFrom.url);

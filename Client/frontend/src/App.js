@@ -13,7 +13,6 @@ function App() {
       <Routes>
         <Route path="/" element=<LandingPage />>
           <Route index path="/" element=<Login /> />
-
           <Route path="signup" element=<SignUp /> />
         </Route>
         <Route path="/" element=<RequireAccess />>

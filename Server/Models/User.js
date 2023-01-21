@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     username: {
       type: String,
@@ -52,6 +53,19 @@ const userSchema = mongoose.Schema(
         ref: "posts",
       },
     ],
+    likedposts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts",
+      },
+    ],
+    lastlogin: {
+      time: Date,
+      message: String,
+    },
+    currentlogin: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

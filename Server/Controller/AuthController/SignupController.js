@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
       if (req.body.avatar) {
         try {
           const cloudImg = await cloudinary.uploader.upload(req.body.avatar, {
-            folder: "userimages",
+            folder: "social-media-app/userimages",
           });
           req.body.avatar = {
             publicId: cloudImg.public_id,

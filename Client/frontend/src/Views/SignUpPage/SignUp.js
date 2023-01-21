@@ -196,7 +196,7 @@ function SignUp() {
                 src={
                   avatar
                     ? avatar
-                    : "https://static.vecteezy.com/system/resources/previews/007/069/364/original/3d-user-icon-in-a-minimalistic-style-user-symbol-for-your-website-design-logo-app-ui-vector.jpg"
+                    : "https://res.cloudinary.com/dazh2iyef/image/upload/v1674278409/sampleimages/3d-user-icon-in-a-minimalistic-style-user-symbol-for-your-website-design-logo-app-ui-vector_hfvxbv.jpg"
                 }
                 alt="demo"
               />
