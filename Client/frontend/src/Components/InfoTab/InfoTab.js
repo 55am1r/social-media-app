@@ -34,7 +34,7 @@ function InfoTab() {
           </li>
         </ul>
       </div>
-      <p className="agreement">© 2023 Ditto-Gram By Shaik Sameer</p>
+      <p>© 2023 Ditto-Gram By Shaik Sameer</p>
     </div>
   );
 }

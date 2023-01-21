@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import InfoTab from "../../Components/InfoTab/InfoTab";
 import {
   setLandingPageError,
@@ -8,10 +8,11 @@ import {
 } from "../../Redux/Slices/appConfigSlice";
 import "./LandingPage.scss";
 function LandingPage() {
+  const mainTabRef = useRef();
   const errorDivRef = useRef();
   const successDivRef = useRef();
   const dispatch = useDispatch();
-
+  const location = useLocation();
   const errorMsg = useSelector(
     (state) => state.appConfigReducer.landingPage.error
   );
@@ -35,8 +36,13 @@ function LandingPage() {
     }
     // eslint-disable-next-line
   }, [errorMsg, succesMsg]);
+  useEffect(() => {
+    location.pathname === "/"
+      ? (mainTabRef.current.style.height = "100vh")
+      : (mainTabRef.current.style.height = "100%");
+  }, [location]);
   return (
-    <div className="landing-page">
+    <div className="landing-page" ref={mainTabRef}>
       <div className="error-msg" ref={errorDivRef}>
         <p className="msg">{errorMsg}</p>
         <i

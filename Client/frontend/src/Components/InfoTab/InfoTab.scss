@@ -18,11 +18,16 @@
             text-decoration: none;
             color: rgb(107, 107, 107);
             font-size: 1.1rem;
+            font-weight: 450;
         }
 
         a:hover {
             color: black;
             text-decoration: underline;
         }
+    }
+    p{
+        font-size: 1.1rem;
+        font-weight: 580;
     }
 }

@@ -6,7 +6,23 @@
     align-items: center;
     flex-flow: column wrap;
     position: relative;
-    width: 100%;
+    background: linear-gradient(-30deg, var(--light-color), var(--light-dark-color), var(--light-dark-color), #e73c7e, #e73c7e, );
+    background-size: 400% 400%;
+    animation: animate-background 10s infinite linear alternate;
+
+    @keyframes animate-background {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 
     .error-msg,
     .success-msg {
@@ -46,4 +62,6 @@
     .change-on {
         top: 30px;
     }
+
+
 }

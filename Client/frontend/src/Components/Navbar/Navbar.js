@@ -8,7 +8,7 @@ import {
 } from "../../Utilities/LocalStorageManager";
 import "./Navbar.scss";
 import { useDispatch } from "react-redux";
-import { setLoginState, setProfile } from "../../Redux/Slices/appConfigSlice";
+import { resetInitialState } from "../../Redux/Slices/appConfigSlice";
 import UserImage from "../UserImage/UserImage";
 function Navbar() {
   const navigate = useNavigate();
@@ -43,8 +43,7 @@ function Navbar() {
             <button
               className="btn-btm-padding"
               onClick={() => {
-                dispatch(setProfile({}));
-                dispatch(setLoginState(false));
+                dispatch(resetInitialState());
                 deleteAccessKey(ACCESS_KEY);
                 deleteAccessKey(ACTIVE_BTN);
                 navigate("/");

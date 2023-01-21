@@ -36,11 +36,9 @@
             display: flex;
             flex-flow: column wrap;
             justify-content: space-between;
-
             padding: 20px 0;
 
             .name {
-                user-select: none;
                 display: flex;
                 flex-flow: column wrap;
                 text-align: left;
@@ -136,7 +134,7 @@
                 background-color: var(--thin-light-color);
                 color: var(--dark-color);
             }
-
         }
+
     }
 }

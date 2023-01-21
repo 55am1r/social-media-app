@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoginState, setProfile } from "../Redux/Slices/appConfigSlice";
+import { resetInitialState } from "../Redux/Slices/appConfigSlice";
 import {
   getAccessKey,
   deleteAccessKey,
@@ -31,16 +31,17 @@ AxiosClient.interceptors.response.use(async (response) => {
   }
   //IMPLIES FOR ONLY REFRESH-TOKEN-EXPIRY
   else if (
-    data.statusCode === 404 &&
+    [404, 401].some((item) => {
+      return item === data.statusCode;
+    }) &&
     ["/auth/refresh-access-token"].some((item) => {
       return item === requestedFrom.url;
     })
   ) {
     const dispatch = useDispatch();
     deleteAccessKey(ACCESS_KEY);
-    deleteAccessKey(ACTIVE_BTN)
-    dispatch(setProfile({}));
-    dispatch(setLoginState(false));
+    deleteAccessKey(ACTIVE_BTN);
+    dispatch(resetInitialState());
     window.location.replace("/");
     return Promise.reject(data);
   }

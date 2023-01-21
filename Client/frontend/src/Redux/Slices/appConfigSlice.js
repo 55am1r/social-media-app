@@ -37,6 +37,20 @@ const appConfigSlicer = createSlice({
   name: "appConfigSlice",
   initialState,
   reducers: {
+    resetInitialState: (state, action) => {
+      state.isLoading = false;
+      state.profile = {};
+      state.landingPage.error = "";
+      state.landingPage.success = "";
+      state.requireUserPage.error = "";
+      state.requireUserPage.success = "";
+      state.userPosts = [];
+      state.userFollowers = [];
+      state.userFollowings = [];
+      state.userLikedPosts = [];
+      state.loginstatus = false;
+      state.signupstate = false;
+    },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -137,4 +151,5 @@ export const {
   setProfile,
   setLoginState,
   setSignUpState,
+  resetInitialState,
 } = appConfigSlicer.actions;
