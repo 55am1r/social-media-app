@@ -83,6 +83,11 @@ const appConfigSlicer = createSlice({
         state.landingPage.error = action.payload.errordetails;
       }
     });
+    builder.addCase(signUpApi.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
+    });
     builder.addCase(loginApi.pending, (state, action) => {
       state.isLoading = true;
     });
@@ -100,11 +105,37 @@ const appConfigSlicer = createSlice({
       state.landingPage.error = action.payload;
       console.log(action.payload);
     });
+    builder.addCase(getUserInfo.pending, (state, action) => {
+      state.isLoading = true;
+    });
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
-      state.profile = action.payload;
+      state.isLoading = false;
+      if (action.payload.errordetails) {
+        state.landingPage.error = action.payload.errordetails;
+      } else {
+        state.profile = action.payload.result;
+      }
+    });
+    builder.addCase(getUserInfo.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
+    });
+    builder.addCase(getOwnPosts.pending, (state, action) => {
+      state.isLoading = true;
     });
     builder.addCase(getOwnPosts.fulfilled, (state, action) => {
-      state.userPosts = action.payload;
+      state.isLoading = false;
+      if (action.payload.errordetails) {
+        state.landingPage.error = action.payload.errordetails;
+      } else {
+        state.userPosts = action.payload.result;
+      }
+    });
+    builder.addCase(getOwnPosts.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
     });
     builder.addCase(getUserFollowers.pending, (state, action) => {
       state.isLoading = true;
@@ -117,6 +148,11 @@ const appConfigSlicer = createSlice({
         state.requireUserPage.error = action.payload.errordetails;
       }
     });
+    builder.addCase(getUserFollowers.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
+    });
     builder.addCase(getUserFollowings.pending, (state, action) => {
       state.isLoading = true;
     });
@@ -128,6 +164,11 @@ const appConfigSlicer = createSlice({
         state.requireUserPage.error = action.payload.errordetails;
       }
     });
+    builder.addCase(getUserFollowings.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
+    });
     builder.addCase(getLikedPosts.pending, (state, action) => {
       state.isLoading = true;
     });
@@ -138,6 +179,11 @@ const appConfigSlicer = createSlice({
       } else {
         state.requireUserPage.error = action.payload;
       }
+    });
+    builder.addCase(getLikedPosts.rejected, (state, action) => {
+      state.isLoading = false;
+      state.landingPage.error = action.payload;
+      console.log(action.payload);
     });
   },
 });

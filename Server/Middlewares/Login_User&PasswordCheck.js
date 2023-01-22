@@ -1,7 +1,7 @@
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { error } = require("../Utilities/StatusMessages");
-
+const moment = require("moment");
 module.exports = async (req, res, next) => {
   try {
     const { userId, password } = req.body;
@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
     if (user) {
       const passMatch = await bcrypt.compare(password, user.password);
       if (passMatch) {
+        console.log("Password matched");
         user.lastlogin.time = user.currentlogin
           ? user.currentlogin
           : Date.now();
@@ -28,6 +29,8 @@ module.exports = async (req, res, next) => {
         user.lastlogin.message =
           days[time.getDay()] +
           ", " +
+          moment(time).format("HH:mm") +
+          " " +
           time.getDate() +
           "-" +
           (time.getMonth() === 0 ? time.getMonth() + 1 : time.getMonth()) +
@@ -35,7 +38,7 @@ module.exports = async (req, res, next) => {
           time.getFullYear();
         await user.save();
         req.body = user;
-        console.log("Password matched");
+
         next();
       } else {
         return res.send(error(401, "Password doesn't match"));

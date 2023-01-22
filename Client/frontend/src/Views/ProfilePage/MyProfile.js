@@ -16,6 +16,7 @@ function MyProfile() {
   const likedPostLabelRef = useRef();
   const navigate = useNavigate();
 
+  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
   const profileData = useSelector((state) => state.appConfigReducer.profile);
 
   function handleOnClickLabel(label) {
@@ -34,13 +35,11 @@ function MyProfile() {
     });
   }
 
-  useEffect(() => {}, [profileData]);
+  useEffect(() => {}, [profileData, isLoading]);
 
   useEffect(() => {
     if (getAccessKey(ACTIVE_BTN)) {
-      const activeButton = document.getElementById(
-        getAccessKey("currentActivebtn")
-      );
+      const activeButton = document.getElementById(getAccessKey(ACTIVE_BTN));
       activeButton.classList.add("button-active");
       navigate(getAccessKey(ACTIVE_BTN));
     } else {
@@ -48,9 +47,9 @@ function MyProfile() {
       postLabelRef.current.classList.add("button-active");
       navigate(getAccessKey(ACTIVE_BTN));
     }
+
     // eslint-disable-next-line
   }, []);
-
   return (
     <div className="profile-page">
       <div className="upper-div">

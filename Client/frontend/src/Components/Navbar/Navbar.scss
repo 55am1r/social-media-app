@@ -34,7 +34,6 @@
 
     .right-section {
         position: relative;
-        width: 150px;
 
         img {
             --img-size: 60px;
@@ -54,11 +53,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            left: 0;
+            left: -70%;
             bottom: -220%;
             flex-flow: column wrap;
             background-color: white;
-            width: 100%;
+            width: 150px;
             border-radius: 10px;
             transition: .3s ease-in-out;
             transform-origin: top;
@@ -101,4 +100,29 @@
             transform: scale(1, 1);
         }
     }
+
+    p {
+        position: absolute;
+        right: 6%;
+        font-size: 1.4rem;
+        font-weight: 500;
+        box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        padding: 8px 20px;
+        border-radius: 8px;
+        animation: fade-in 2s ease-in-out forwards;
+        display: none;
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0.2;
+                filter: blur(20px);
+            }
+
+            100% {
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+    }
+
 }

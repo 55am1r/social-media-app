@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import SLHeader from "../SLHeader/SLHeader";
 import {
   ACCESS_KEY,
@@ -7,12 +7,23 @@ import {
   deleteAccessKey,
 } from "../../Utilities/LocalStorageManager";
 import "./Navbar.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetInitialState } from "../../Redux/Slices/appConfigSlice";
 import UserImage from "../UserImage/UserImage";
 function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const lastLoginRef = useRef();
+  const location = useLocation();
+  const profileData = useSelector((state) => state.appConfigReducer.profile);
+  useEffect(() => {}, [profileData]);
+  useEffect(() => {
+    if (location.pathname === "/home") {
+      lastLoginRef.current.style.display = "block";
+    } else {
+      lastLoginRef.current.style.display = "none";
+    }
+  }, [location]);
   return (
     <div className="navbar">
       <div
@@ -54,6 +65,9 @@ function Navbar() {
           </li>
         </ul>
       </div>
+      <p ref={lastLoginRef}>
+        Last Login {" : " + profileData?.lastlogin?.message}
+      </p>
     </div>
   );
 }
