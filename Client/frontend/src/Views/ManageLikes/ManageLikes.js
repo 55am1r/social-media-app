@@ -5,15 +5,12 @@ import { getLikedPosts } from "../../Redux/Slices/serverSlice";
 import "./ManageLikes.scss";
 function ManageLikes() {
   const dispatch = useDispatch();
-  const userLikedPosts = useSelector(
-    (state) => state.appConfigReducer.userLikedPosts
-  );
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const userLikedPosts = useSelector((state) => state.user.userLikedPosts);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
     dispatch(getLikedPosts());
-    // eslint-disable-next-line
-  }, [userLikedPosts]);
+  }, [dispatch]);
   return (
     <div className="manage-likes">
       {isLoading ? (

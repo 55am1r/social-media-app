@@ -3,20 +3,17 @@ import Navbar from "../Components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserInfo } from "../Redux/Slices/serverSlice";
-import {
-  setLandingPageError,
-  setLandingPageSuccess,
-} from "../Redux/Slices/appConfigSlice";
+import { setRequirePageError, setRequirePageSuccess } from "../Redux/Slices/userSlice";
 function RequireAccess() {
   const loginstatus = useSelector(
     (state) => state.appConfigReducer.loginstatus
   );
   const dispatch = useDispatch();
-  const userProfile = useSelector((state) => state.appConfigReducer.profile);
+  const userProfile = useSelector((state) => state.user.profile);
   useEffect(() => {
     if (loginstatus) {
-      dispatch(setLandingPageError(""));
-      dispatch(setLandingPageSuccess(""));
+      dispatch(setRequirePageError(""));
+      dispatch(setRequirePageSuccess(""));
       dispatch(getUserInfo());
     }
     // eslint-disable-next-line

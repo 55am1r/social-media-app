@@ -30,11 +30,12 @@ body {
 
 *::-webkit-scrollbar {
   width: 7px;
+  background-color: rgba(77, 77, 77, 0.1);
 }
 
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: var(--dark-color);
+  background-color: #64e9ff;
 }
 
 .submit-ent {

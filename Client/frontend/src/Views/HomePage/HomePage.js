@@ -3,18 +3,13 @@ import { useSelector } from "react-redux";
 import InfiniteSpinLoader from "../../Components/InfiniteSpinLoader/InfiniteSpinLoader";
 import "./HomePage.scss";
 function HomePage() {
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {}, [isLoading]);
   return (
-    <>
-      {isLoading ? (
-        <InfiniteSpinLoader />
-      ) : (
-        <div className="home">
-          Home
-        </div>
-      )}
-    </>
+    <div className="home">
+      {isLoading ? <InfiniteSpinLoader /> : ""}
+      <p>Home</p>
+    </div>
   );
 }
 

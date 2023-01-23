@@ -16,8 +16,8 @@ function MyProfile() {
   const likedPostLabelRef = useRef();
   const navigate = useNavigate();
 
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
-  const profileData = useSelector((state) => state.appConfigReducer.profile);
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const profileData = useSelector((state) => state.user.profile);
 
   function handleOnClickLabel(label) {
     [
@@ -47,7 +47,6 @@ function MyProfile() {
       postLabelRef.current.classList.add("button-active");
       navigate(getAccessKey(ACTIVE_BTN));
     }
-
     // eslint-disable-next-line
   }, []);
   return (

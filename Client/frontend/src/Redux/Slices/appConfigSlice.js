@@ -4,31 +4,14 @@ import {
   getAccessKey,
   setAccessKey,
 } from "../../Utilities/LocalStorageManager";
-import {
-  getLikedPosts,
-  getOwnPosts,
-  getUserFollowers,
-  getUserFollowings,
-  getUserInfo,
-  loginApi,
-  signUpApi,
-} from "./serverSlice";
+import { loginApi, signUpApi } from "./serverSlice";
 
 const initialState = {
   isLoading: false,
-  profile: {},
   landingPage: {
     error: "",
     success: "",
   },
-  requireUserPage: {
-    error: "",
-    success: "",
-  },
-  userPosts: [],
-  userFollowers: [],
-  userFollowings: [],
-  userLikedPosts: [],
   loginstatus: getAccessKey(ACCESS_KEY) ? true : false,
   signupstate: false,
 };
@@ -37,17 +20,10 @@ const appConfigSlicer = createSlice({
   name: "appConfigSlice",
   initialState,
   reducers: {
-    resetInitialState: (state, action) => {
+    resetInitialStateAppConfig: (state, action) => {
       state.isLoading = false;
-      state.profile = {};
       state.landingPage.error = "";
       state.landingPage.success = "";
-      state.requireUserPage.error = "";
-      state.requireUserPage.success = "";
-      state.userPosts = [];
-      state.userFollowers = [];
-      state.userFollowings = [];
-      state.userLikedPosts = [];
       state.loginstatus = false;
       state.signupstate = false;
     },
@@ -59,9 +35,6 @@ const appConfigSlicer = createSlice({
     },
     setLandingPageSuccess: (state, action) => {
       state.landingPage.success = action.payload;
-    },
-    setProfile: (state, action) => {
-      state.profile = action.payload;
     },
     setLoginState: (state, action) => {
       state.loginstatus = action.payload;
@@ -105,86 +78,6 @@ const appConfigSlicer = createSlice({
       state.landingPage.error = action.payload;
       console.log(action.payload);
     });
-    builder.addCase(getUserInfo.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getUserInfo.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.errordetails) {
-        state.landingPage.error = action.payload.errordetails;
-      } else {
-        state.profile = action.payload.result;
-      }
-    });
-    builder.addCase(getUserInfo.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
-    builder.addCase(getOwnPosts.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getOwnPosts.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.errordetails) {
-        state.landingPage.error = action.payload.errordetails;
-      } else {
-        state.userPosts = action.payload.result;
-      }
-    });
-    builder.addCase(getOwnPosts.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
-    builder.addCase(getUserFollowers.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getUserFollowers.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.statusCode === 200) {
-        state.userFollowers = action.payload.result;
-      } else {
-        state.requireUserPage.error = action.payload.errordetails;
-      }
-    });
-    builder.addCase(getUserFollowers.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
-    builder.addCase(getUserFollowings.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getUserFollowings.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.statusCode === 200) {
-        state.userFollowings = action.payload.result;
-      } else {
-        state.requireUserPage.error = action.payload.errordetails;
-      }
-    });
-    builder.addCase(getUserFollowings.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
-    builder.addCase(getLikedPosts.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getLikedPosts.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.statusCode === 200) {
-        state.userLikedPosts = action.payload.result;
-      } else {
-        state.requireUserPage.error = action.payload;
-      }
-    });
-    builder.addCase(getLikedPosts.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
   },
 });
 
@@ -194,8 +87,7 @@ export const {
   setLoading,
   setLandingPageError,
   setLandingPageSuccess,
-  setProfile,
   setLoginState,
   setSignUpState,
-  resetInitialState,
+  resetInitialStateAppConfig,
 } = appConfigSlicer.actions;

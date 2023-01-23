@@ -30,7 +30,6 @@ const userSchema = mongoose.Schema(
       },
       phone: String,
     },
-
     avatar: {
       publicId: String,
       url: String,

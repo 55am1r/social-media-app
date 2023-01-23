@@ -5,12 +5,11 @@ import { getOwnPosts } from "../../Redux/Slices/serverSlice";
 import "./OwnPosts.scss";
 function OwnPosts() {
   const dispatch = useDispatch();
-  const userPosts = useSelector((state) => state.appConfigReducer.userPosts);
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const userPosts = useSelector((state) => state.user.userPosts);
+  const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getOwnPosts());
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
   }, [userPosts]);
   return (

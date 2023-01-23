@@ -5,14 +5,11 @@ import { getUserFollowers } from "../../Redux/Slices/serverSlice";
 import "./OwnFollowers.scss";
 function OwnFollowers() {
   const dispatch = useDispatch();
-  const userFollowers = useSelector(
-    (state) => state.appConfigReducer.userFollowers
-  );
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const userFollowers = useSelector((state) => state.user.userFollowers);
+  const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getUserFollowers());
-    // eslint-disable-next-line
-  }, [userFollowers]);
+  }, [dispatch]);
   return (
     <div className="followers">
       {isLoading ? (

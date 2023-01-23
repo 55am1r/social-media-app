@@ -5,15 +5,12 @@ import { getUserFollowings } from "../../Redux/Slices/serverSlice";
 import "./OwnFollowing.scss";
 function OwnFollowing() {
   const dispatch = useDispatch();
-  const userFollowings = useSelector(
-    (state) => state.appConfigReducer.userFollowings
-  );
-  const isLoading = useSelector((state) => state.appConfigReducer.isLoading);
+  const userFollowings = useSelector((state) => state.user.userFollowings);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
     dispatch(getUserFollowings());
-    // eslint-disable-next-line
-  }, [userFollowings]);
+  }, [dispatch]);
   return (
     <div className="followings">
       {isLoading ? (

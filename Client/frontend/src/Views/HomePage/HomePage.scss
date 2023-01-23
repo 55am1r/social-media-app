@@ -2,4 +2,11 @@
     margin-top: 80px;
     font-size: 8rem;
     font-weight: 450;
+    z-index: 2;
+
+    .spin-loader {
+        position: absolute;
+        height: 100vh;
+    }
+
 }

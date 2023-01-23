@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./UserImage.scss";
 function UserImage() {
-  const profileData = useSelector((state) => state.appConfigReducer.profile);
+  const profileData = useSelector((state) => state.user.profile);
   useEffect(() => {}, [profileData]);
   return (
     <img
