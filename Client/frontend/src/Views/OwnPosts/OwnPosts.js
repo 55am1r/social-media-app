@@ -9,7 +9,8 @@ function OwnPosts() {
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getOwnPosts());
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
   useEffect(() => {
   }, [userPosts]);
   return (

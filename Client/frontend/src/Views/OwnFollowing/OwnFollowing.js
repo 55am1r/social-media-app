@@ -10,7 +10,8 @@ function OwnFollowing() {
 
   useEffect(() => {
     dispatch(getUserFollowings());
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="followings">
       {isLoading ? (

@@ -1,12 +1,94 @@
 .home {
-    margin-top: 80px;
+    margin-top: 100px;
     font-size: 8rem;
     font-weight: 450;
-    z-index: 2;
+    width: 55%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 60% 35%;
+    background-color: orange;
+    justify-content: space-evenly;
 
     .spin-loader {
         position: absolute;
-        height: 100vh;
+        height: 100%;
+        width: 50%;
     }
 
+    .home-left-section {
+        --img-size: 80px;
+        background-color: var(--light-color);
+
+        .home-header-section {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px 20px;
+            gap: 20px;
+            height: 100%;
+
+            img {
+                height: var(--img-size);
+                width: var(--img-size);
+                border-radius: 50%;
+            }
+
+            form {
+                height: 100%;
+                width: 80%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                position: relative;
+
+                .text-int {
+                    width: 80%;
+                    height: 50px;
+                    font-size: 1.8rem;
+                    padding: 8px 20px;
+                    border-radius: 20px;
+                    outline: none;
+                    border: none;
+                    resize: none;
+                    transition: .3s ease-in-out;
+                }
+
+                .text-int::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .int-active {
+                    height: 140px;
+                    padding-bottom: 40px;
+                    width: 100%;
+                }
+
+                .text-int:focus+label {
+                    position: absolute;
+                    transition: .4s ease-in-out;
+                }
+
+                label {
+                    transition: .4s ease-in-out;
+
+                    i {
+                        transition: .4s ease-in-out;
+                        font-size: 2rem;
+                        font-weight: 450;
+                    }
+                }
+
+                .image-int {
+                    display: none;
+                }
+            }
+        }
+
+    }
+
+    .home-right-section {
+        background-color: black;
+        position: sticky;
+    }
 }

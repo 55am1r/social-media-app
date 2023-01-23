@@ -9,7 +9,8 @@ function OwnFollowers() {
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getUserFollowers());
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="followers">
       {isLoading ? (

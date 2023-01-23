@@ -48,9 +48,10 @@ AxiosClient.interceptors.response.use(async (response) => {
   //IMPLIES FOR ONLY ACCESS-TOKEN-EXPIRY
   else if (
     data.statusCode === 401 &&
-    ["/posts/all", "user/get-my-profile"].some((item) => {
-      return item === requestedFrom.url;
-    })
+    data.errordetails === "Access Token Expired"
+    // ["/posts/all", "user/get-my-profile"].some((item) => {
+    //   return item === requestedFrom.url;
+    // })
   ) {
     const result = await AxiosClient.get("/auth/refresh-access-token");
     if (result.status === "OK") {

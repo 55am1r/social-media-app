@@ -10,7 +10,8 @@ function ManageLikes() {
 
   useEffect(() => {
     dispatch(getLikedPosts());
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="manage-likes">
       {isLoading ? (

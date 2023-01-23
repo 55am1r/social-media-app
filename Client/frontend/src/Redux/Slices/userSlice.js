@@ -33,6 +33,9 @@ const userSlice = createSlice({
       state.requireUserPage.success = "";
       state.isLoading = false;
     },
+    setLoadingUser: (state, action) => {
+      state.isLoading = true;
+    },
     setProfile: (state, action) => {
       state.profile = action.payload;
     },
@@ -154,4 +157,5 @@ export const {
   setRequirePageError,
   setRequirePageSuccess,
   resetInitialStateUser,
+  setLoadingUser
 } = userSlice.actions;
