@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import store from "../Redux/store";
 import { resetInitialStateAppConfig } from "../Redux/Slices/appConfigSlice";
+import { resetInitialStateUser } from "../Redux/Slices/userSlice";
 import {
   getAccessKey,
   deleteAccessKey,
@@ -38,10 +39,11 @@ AxiosClient.interceptors.response.use(async (response) => {
       return item === requestedFrom.url;
     })
   ) {
-    const dispatch = useDispatch();
+    console.log("working");
     deleteAccessKey(ACCESS_KEY);
     deleteAccessKey(ACTIVE_BTN);
-    dispatch(resetInitialStateAppConfig());
+    store.dispatch(resetInitialStateAppConfig());
+    store.dispatch(resetInitialStateUser());
     window.location.replace("/");
     return Promise.reject(data);
   }

@@ -86,15 +86,22 @@ function SignUp() {
   }
   function handleImageChange(e) {
     dispatch(setLoading(true));
-    const file = e.target.files[0];
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      if (fileReader.readyState === fileReader.DONE) {
-        setAvatar(fileReader.result);
-        dispatch(setLoading(false));
+    try {
+      const file = e.target.files[0];
+      if (file) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          if (fileReader.readyState === fileReader.DONE) {
+            setAvatar(fileReader.result);
+          }
+        };
       }
-    };
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch(setLoading(false));
+    }
   }
   async function fetchCountryCodes() {
     try {

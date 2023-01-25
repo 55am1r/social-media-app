@@ -34,7 +34,7 @@ const userSlice = createSlice({
       state.isLoading = false;
     },
     setLoadingUser: (state, action) => {
-      state.isLoading = true;
+      state.isLoading = action.payload;
     },
     setProfile: (state, action) => {
       state.profile = action.payload;

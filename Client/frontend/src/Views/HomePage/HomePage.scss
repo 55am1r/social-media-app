@@ -6,27 +6,29 @@
     margin-inline: auto;
     display: grid;
     grid-template-columns: 60% 35%;
-    background-color: orange;
     justify-content: space-evenly;
+    position: relative;
+    z-index: 1;
 
     .spin-loader {
         position: absolute;
         height: 100%;
-        width: 50%;
+        width: 100%;
+        z-index: 3;
     }
 
     .home-left-section {
-        --img-size: 80px;
+        --img-size: 50px;
         background-color: var(--light-color);
 
         .home-header-section {
             display: flex;
             flex-flow: row wrap;
-            justify-content: flex-start;
+            justify-content: space-evenly;
             align-items: flex-start;
             padding: 20px 20px;
             gap: 20px;
-            height: 100%;
+            transition: .4s ease-in-out;
 
             img {
                 height: var(--img-size);
@@ -41,10 +43,12 @@
                 justify-content: space-around;
                 align-items: center;
                 position: relative;
+                border-radius: 20px;
+                background-color: white;
 
                 .text-int {
                     width: 80%;
-                    height: 50px;
+                    height: 40px;
                     font-size: 1.8rem;
                     padding: 8px 20px;
                     border-radius: 20px;
@@ -59,14 +63,22 @@
                 }
 
                 .int-active {
-                    height: 140px;
-                    padding-bottom: 40px;
+                    height: 120px;
+                    margin-bottom: 40px;
                     width: 100%;
+                    padding: 20px 20px;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
                 }
 
-                .text-int:focus+label {
+                .text-int-focus-label {
                     position: absolute;
-                    transition: .4s ease-in-out;
+                    bottom: 10px;
+                    left: 25px;
+                }
+
+                .margin-bottom {
+                    margin-bottom: 220px;
                 }
 
                 label {
@@ -76,10 +88,56 @@
                         transition: .4s ease-in-out;
                         font-size: 2rem;
                         font-weight: 450;
+                        cursor: pointer;
                     }
+
+                    .img-class {
+                        position: relative;
+
+                        img {
+                            --lbl-img-size: 200px;
+                            height: var(--lbl-img-size);
+                            width: var(--lbl-img-size);
+                            border-radius: 10px;
+                        }
+
+                        i {
+                            position: absolute;
+                            right: 0px;
+                            top: 0;
+                            font-weight: 200;
+                            background-color: rgba(139, 139, 139, 0.361);
+                            font-size: 3rem;
+                            color: rgba(0, 0, 0, 0.42);
+                            display: none;
+                            cursor: pointer;
+                        }
+
+                        img:hover+i,
+                        i:hover {
+                            display: block;
+                        }
+                    }
+
                 }
 
                 .image-int {
+                    display: none;
+                }
+
+                .post-btn {
+                    position: absolute;
+                    right: 25px;
+                    bottom: 5px;
+                    font-size: 1.6rem;
+                    font-weight: 500;
+                    padding: 2px 10px;
+                    border: none;
+                    outline: none;
+                    border-radius: 12px;
+                    padding-bottom: 5px;
+                    background-color: var(--dark-color);
+                    color: white;
                     display: none;
                 }
             }
@@ -90,5 +148,6 @@
     .home-right-section {
         background-color: black;
         position: sticky;
+        z-index: -1;
     }
 }

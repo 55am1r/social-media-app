@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosClient } from "../../Utilities/AxiosClient";
 
-export const signUpApi = createAsyncThunk("SignUp", async (body, thunkAPI) => {
-  const result = await AxiosClient.post("/auth/sign-up", body);
-  return result;
-});
+export const signUpApi = createAsyncThunk(
+  "auth/sign-up",
+  async (body, thunkAPI) => {
+    const result = await AxiosClient.post("/auth/sign-up", body);
+    return result;
+  }
+);
 export const loginApi = createAsyncThunk(
   "loginCall",
   async (body, thunkAPI) => {

@@ -44,40 +44,42 @@ const appConfigSlicer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signUpApi.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(signUpApi.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.statusCode === 201) {
-        state.signupstate = true;
-        state.landingPage.success = action.payload.result;
-      } else {
-        state.landingPage.error = action.payload.errordetails;
-      }
-    });
-    builder.addCase(signUpApi.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
-    builder.addCase(loginApi.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(loginApi.fulfilled, (state, action) => {
-      state.isLoading = false;
-      if (action.payload.errordetails) {
-        state.landingPage.error = action.payload.errordetails;
-      } else {
-        state.loginstatus = true;
-        setAccessKey(ACCESS_KEY, action.payload.result.JWT_ACCESS_KEY);
-      }
-    });
-    builder.addCase(loginApi.rejected, (state, action) => {
-      state.isLoading = false;
-      state.landingPage.error = action.payload;
-      console.log(action.payload);
-    });
+    builder
+      .addCase(signUpApi.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(signUpApi.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload.statusCode === 201) {
+          state.signupstate = true;
+          state.landingPage.success = action.payload.result;
+        } else {
+          state.landingPage.error = action.payload.errordetails;
+        }
+      })
+      .addCase(signUpApi.rejected, (state, action) => {
+        state.isLoading = false;
+        state.landingPage.error = action.payload;
+        console.log(action.payload);
+      });
+    builder
+      .addCase(loginApi.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(loginApi.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload.errordetails) {
+          state.landingPage.error = action.payload.errordetails;
+        } else {
+          state.loginstatus = true;
+          setAccessKey(ACCESS_KEY, action.payload.result.JWT_ACCESS_KEY);
+        }
+      })
+      .addCase(loginApi.rejected, (state, action) => {
+        state.isLoading = false;
+        state.landingPage.error = action.payload;
+        console.log(action.payload);
+      });
   },
 });
 
