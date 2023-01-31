@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const user = await User.findById({ _id });
     res.send(success(200, user));
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     res.send(error(500, e.message));
   }
 };

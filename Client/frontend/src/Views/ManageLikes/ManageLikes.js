@@ -5,7 +5,7 @@ import { getLikedPosts } from "../../Redux/Slices/serverSlice";
 import "./ManageLikes.scss";
 function ManageLikes() {
   const dispatch = useDispatch();
-  const userLikedPosts = useSelector((state) => state.user.userLikedPosts);
+  const userLikedPosts = useSelector((state) => state.user.currUserLikedPosts);
   const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {

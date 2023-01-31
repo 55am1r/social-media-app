@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         200,
         posts.length > 0
           ? posts
-          : "You are Not Following Anyone / Following Users Not Posted Anything"
+          : "You are Not Following Anyone / Your Friends Didn't Posted Anything"
       )
     );
   } catch (e) {

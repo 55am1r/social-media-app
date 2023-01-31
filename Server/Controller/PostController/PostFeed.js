@@ -4,12 +4,27 @@ const { success, error } = require("../../Utilities/StatusMessages");
 
 module.exports = async (req, res) => {
   try {
-    const { caption } = req.body;
-    if (!caption) {
+    const { caption, image } = req.body;
+    if (!caption && !image) {
       return res.send(error(404, "Required Caption"));
     }
     const owner = req.body._id;
     const user = await User.findById(owner);
+    if (image) {
+      try {
+        const cloudImg = await cloudinary.uploader.upload(image, {
+          folder: "social-media-app/userposts",
+        });
+        image = {
+          publicId: cloudImg.public_id,
+          url: cloudImg.secure_url,
+        };
+        console.log("IMAGE UPLOADED");
+      } catch (e) {
+        console.log(e.message);
+        res.send(error(500, e.message));
+      }
+    }
     const post = await Posts.create({
       owner,
       caption,

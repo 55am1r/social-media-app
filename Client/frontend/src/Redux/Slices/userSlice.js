@@ -1,34 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getUserInfo,
   getOwnPosts,
   getUserFollowers,
   getUserFollowings,
   getLikedPosts,
+  getUserFollowingUserPosts,
+  getSuggestedUser,
 } from "./serverSlice";
 
 const initialState = {
   profile: {},
-  userPosts: [],
-  userFollowers: [],
-  userFollowings: [],
-  userLikedPosts: [],
+  currUserPosts: [],
+  currUserFollowers: [],
+  currUserFollowings: [],
+  currUserLikedPosts: [],
   requireUserPage: {
     error: "",
-    success: "",
+    success: {},
   },
+  userPosts: [],
+  suggestedUser: [],
   isLoading: false,
 };
+
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
     resetInitialStateUser: (state, action) => {
       state.profile = {};
-      state.userPosts = [];
-      state.userFollowers = [];
-      state.userFollowings = [];
-      state.userLikedPosts = [];
+      state.currUserPosts = [];
+      state.currUserFollowers = [];
+      state.currUserFollowings = [];
+      state.currUserLikedPosts = [];
       state.requireUserPage.error = "";
       state.requireUserPage.success = "";
       state.isLoading = false;
@@ -40,16 +44,16 @@ const userSlice = createSlice({
       state.profile = action.payload;
     },
     setUserPosts: (state, action) => {
-      state.userPosts = action.payload;
+      state.currUserPosts = action.payload;
     },
     setUserFollowers: (state, action) => {
-      state.userFollowers = action.payload;
+      state.currUserFollowers = action.payload;
     },
     setUserFollowings: (state, action) => {
-      state.userFollowings = action.payload;
+      state.currUserFollowings = action.payload;
     },
     setUserLikedPosts: (state, action) => {
-      state.userLikedPosts = action.payload;
+      state.currUserLikedPosts = action.payload;
     },
     setRequirePageError: (state, action) => {
       state.requireUserPage.error = action.payload;
@@ -60,23 +64,6 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserInfo.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(getUserInfo.fulfilled, (state, action) => {
-        state.isLoading = false;
-        if (action.payload.errordetails) {
-          state.requireUserPage.error = action.payload.errordetails;
-        } else {
-          state.profile = action.payload.result;
-        }
-      })
-      .addCase(getUserInfo.rejected, (state, action) => {
-        state.isLoading = false;
-        state.requireUserPage.error = action.payload;
-        console.log(action.payload);
-      });
-    builder
       .addCase(getOwnPosts.pending, (state, action) => {
         state.isLoading = true;
       })
@@ -85,7 +72,7 @@ const userSlice = createSlice({
         if (action.payload.errordetails) {
           state.requireUserPage.error = action.payload.errordetails;
         } else {
-          state.userPosts = action.payload.result;
+          state.currUserPosts = action.payload.result;
         }
       })
       .addCase(getOwnPosts.rejected, (state, action) => {
@@ -99,10 +86,10 @@ const userSlice = createSlice({
       })
       .addCase(getUserFollowers.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (action.payload.statusCode === 200) {
-          state.userFollowers = action.payload.result;
-        } else {
+        if (action.payload.errordetails) {
           state.requireUserPage.error = action.payload.errordetails;
+        } else {
+          state.currUserFollowers = action.payload.result;
         }
       })
       .addCase(getUserFollowers.rejected, (state, action) => {
@@ -116,10 +103,10 @@ const userSlice = createSlice({
       })
       .addCase(getUserFollowings.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (action.payload.statusCode === 200) {
-          state.userFollowings = action.payload.result;
-        } else {
+        if (action.payload.errordetails) {
           state.requireUserPage.error = action.payload.errordetails;
+        } else {
+          state.currUserFollowings = action.payload.result;
         }
       })
       .addCase(getUserFollowings.rejected, (state, action) => {
@@ -133,13 +120,47 @@ const userSlice = createSlice({
       })
       .addCase(getLikedPosts.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (action.payload.statusCode === 200) {
-          state.userLikedPosts = action.payload.result;
-        } else {
+        if (action.payload.errordetails) {
           state.requireUserPage.error = action.payload.errordetails;
+        } else {
+          state.currUserLikedPosts = action.payload.result;
         }
       })
       .addCase(getLikedPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.requireUserPage.error = action.payload;
+        console.log(action.payload);
+      });
+    builder
+      .addCase(getUserFollowingUserPosts.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserFollowingUserPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload.errordetails) {
+          state.requireUserPage.error = action.payload.errordetails;
+        } else {
+          state.userPosts = action.payload.result;
+        }
+      })
+      .addCase(getUserFollowingUserPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.requireUserPage.error = action.payload;
+        console.log(action.payload);
+      });
+    builder
+      .addCase(getSuggestedUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getSuggestedUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload.errordetails) {
+          state.requireUserPage.error = action.payload.errordetails;
+        } else {
+          state.suggestedUser = action.payload.result;
+        }
+      })
+      .addCase(getSuggestedUser.rejected, (state, action) => {
         state.isLoading = false;
         state.requireUserPage.error = action.payload;
         console.log(action.payload);
@@ -157,5 +178,5 @@ export const {
   setRequirePageError,
   setRequirePageSuccess,
   resetInitialStateUser,
-  setLoadingUser
+  setLoadingUser,
 } = userSlice.actions;

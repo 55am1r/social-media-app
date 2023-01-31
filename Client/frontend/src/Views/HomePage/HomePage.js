@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteSpinLoader from "../../Components/InfiniteSpinLoader/InfiniteSpinLoader";
+import SuggestedUserProfile from "../../Components/SuggestedUser/SuggestedUserProfile";
 import UserImage from "../../Components/UserImage/UserImage";
+import {
+  getSuggestedUser,
+  getUserFollowingUserPosts,
+} from "../../Redux/Slices/serverSlice";
 import {
   setLoadingUser,
   setRequirePageError,
 } from "../../Redux/Slices/userSlice";
 import "./HomePage.scss";
+
 function HomePage() {
   const dispatch = useDispatch();
   const homeHeaderRef = useRef();
@@ -19,9 +25,8 @@ function HomePage() {
   const [imageString, setImageString] = useState("");
 
   const isLoading = useSelector((state) => state.user.isLoading);
-
-  useEffect(() => {}, [isLoading]);
-  useEffect(() => {}, [caption, imageString]);
+  const userPosts = useSelector((state) => state.user.userPosts);
+  const suggestedUser = useSelector((state) => state.user.suggestedUser);
 
   function handleOnChangeImgInput(e) {
     textAreaRef.current.focus();
@@ -45,6 +50,7 @@ function HomePage() {
       dispatch(setLoadingUser(false));
     }
   }
+
   function handleEmptySpace(e) {
     e.target.value = "";
     e.target.classList.remove("int-active");
@@ -52,12 +58,28 @@ function HomePage() {
     textAreaRef.current.classList.remove("margin-bottom");
     imgLblRef.current.classList.remove("text-int-focus-label");
   }
+  function getRandomSuggestion() {
+    dispatch(getSuggestedUser());
+  }
+  useEffect(() => {}, [
+    caption,
+    imageString,
+    isLoading,
+    userPosts,
+    suggestedUser,
+  ]);
+
+  useEffect(() => {
+    dispatch(getUserFollowingUserPosts());
+    getRandomSuggestion();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <div className="home" ref={homeHeaderRef}>
-        {isLoading ? <InfiniteSpinLoader /> : ""}
         <div className="home-left-section">
-          <div className="home-header-section">
+          <div className="home-left-header">
             <UserImage />
             <form action="" ref={formRef}>
               <textarea
@@ -89,6 +111,7 @@ function HomePage() {
               <label htmlFor="image" ref={imgLblRef}>
                 {imageString ? (
                   <div className="img-class">
+                    {isLoading ? <InfiniteSpinLoader /> : ""}
                     <img src={imageString} alt="upload.img" />
                     <i
                       className="fa-light fa-xmark-to-slot"
@@ -102,6 +125,7 @@ function HomePage() {
                   <i className="fa-thin fa-cloud-plus"></i>
                 )}
               </label>
+
               <input
                 className="image-int"
                 type="file"
@@ -117,8 +141,27 @@ function HomePage() {
               />
             </form>
           </div>
+          <div className="home-left-body">
+            {isLoading ? (
+              <InfiniteSpinLoader />
+            ) : typeof userPosts === "string" ? (
+              userPosts
+            ) : (
+              "array"
+            )}
+          </div>
         </div>
-        <div className="home-right-section"></div>
+        <div className="home-right-section">
+          <h1>Suggested For You</h1>
+          <div className="profiles">
+            {suggestedUser.map((item) => {
+              return <SuggestedUserProfile key={item.username} user={item} />;
+            })}
+          </div>
+          <button className="see-more-btn" onClick={getRandomSuggestion}>
+            See More
+          </button>
+        </div>
       </div>
     </>
   );

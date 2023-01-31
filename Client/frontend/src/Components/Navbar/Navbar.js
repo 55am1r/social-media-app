@@ -20,7 +20,7 @@ function Navbar() {
   const searchLabelRef = useRef();
   const searchSectionRef = useRef();
   const ulRef = useRef();
-  const profileData = useSelector((state) => state.user.profile);
+  const profileData = useSelector((state) => state.profileReducer.profile);
 
   function dispatchReset() {
     dispatch(resetInitialStateAppConfig());

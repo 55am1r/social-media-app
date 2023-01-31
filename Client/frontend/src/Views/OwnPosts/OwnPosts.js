@@ -5,20 +5,20 @@ import { getOwnPosts } from "../../Redux/Slices/serverSlice";
 import "./OwnPosts.scss";
 function OwnPosts() {
   const dispatch = useDispatch();
-  const userPosts = useSelector((state) => state.user.userPosts);
+  const currUserPosts = useSelector((state) => state.user.currUserPosts);
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getOwnPosts());
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
-  }, [userPosts]);
+  }, [currUserPosts]);
   return (
     <div className="posts">
       {isLoading ? (
         <InfiniteSpinLoader />
-      ) : typeof userPosts === "string" ? (
-        <p>{userPosts}</p>
+      ) : typeof currUserPosts === "string" ? (
+        <p>{currUserPosts}</p>
       ) : (
         "array"
       )}

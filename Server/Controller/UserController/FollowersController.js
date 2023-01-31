@@ -21,18 +21,19 @@ module.exports = async (req, res) => {
       await userToFollow.save();
       currUser.following.push(followUserId);
       await currUser.save();
-      return res.send(success(200, `Following User: ${userToFollow.email}`));
-    } else {
-      const follower_Id_InFollowers =
-        userToFollow.followers.indexOf(currUserId);
-      userToFollow.followers.splice(follower_Id_InFollowers, 1);
-      await userToFollow.save();
-      const following_Id_InFollowings =
-        currUser.following.indexOf(userToFollow);
-      currUser.following.splice(following_Id_InFollowings, 1);
-      await currUser.save();
-      return res.send(success(200, `Unfollowed user: ${userToFollow.email}`));
-    }
+      return res.send(success(200, `Following ${userToFollow.username}`));
+    } 
+    // else {
+    //   const follower_Id_InFollowers =
+    //     userToFollow.followers.indexOf(currUserId);
+    //   userToFollow.followers.splice(follower_Id_InFollowers, 1);
+    //   await userToFollow.save();
+    //   const following_Id_InFollowings =
+    //     currUser.following.indexOf(userToFollow);
+    //   currUser.following.splice(following_Id_InFollowings, 1);
+    //   await currUser.save();
+    //   return res.send(success(200, `Unfollowed user: ${userToFollow.email}`));
+    // }
   } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));

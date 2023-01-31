@@ -35,7 +35,7 @@ body {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #64e9ff;
+  background-color: var(--dark-color);
 }
 
 .submit-ent {

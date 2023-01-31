@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import ProfileDetailTab from "../../Components/ProfileDetailTab/ProfileDetailTab";
 import UserImage from "../../Components/UserImage/UserImage";
+import { getUserInfo } from "../../Redux/Slices/serverSlice";
 import {
   ACTIVE_BTN,
   getAccessKey,
@@ -15,9 +16,10 @@ function MyProfile() {
   const followingLabelRef = useRef();
   const likedPostLabelRef = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.user.isLoading);
-  const profileData = useSelector((state) => state.user.profile);
+  const profileData = useSelector((state) => state.profileReducer.profile);
 
   function handleOnClickLabel(label) {
     [
@@ -38,6 +40,7 @@ function MyProfile() {
   useEffect(() => {}, [profileData, isLoading]);
 
   useEffect(() => {
+    dispatch(getUserInfo());
     if (getAccessKey(ACTIVE_BTN)) {
       const activeButton = document.getElementById(getAccessKey(ACTIVE_BTN));
       activeButton.classList.add("button-active");
@@ -68,7 +71,7 @@ function MyProfile() {
             />
             <ProfileDetailTab
               name="Followers"
-              value={profileData.following?.length}
+              value={profileData.followers?.length}
             />
           </div>
         </div>

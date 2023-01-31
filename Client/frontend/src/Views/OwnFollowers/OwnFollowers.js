@@ -5,7 +5,7 @@ import { getUserFollowers } from "../../Redux/Slices/serverSlice";
 import "./OwnFollowers.scss";
 function OwnFollowers() {
   const dispatch = useDispatch();
-  const userFollowers = useSelector((state) => state.user.userFollowers);
+  const userFollowers = useSelector((state) => state.user.currUserFollowers);
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     dispatch(getUserFollowers());

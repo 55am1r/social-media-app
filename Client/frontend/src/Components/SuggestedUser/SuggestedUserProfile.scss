@@ -1,0 +1,65 @@
+.suggested-user-profile {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    // border-bottom: 1px solid lightgray;
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+    .user-details {
+        text-align: left;
+        display: flex;
+        flex-flow: row wrap;
+        gap: 20px;
+
+        img {
+            --img-size: 50px;
+            height: var(--img-size);
+            width: var(--img-size);
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid white;
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        }
+
+        .more-details {
+            span {
+                font-size: small;
+            }
+
+            .username {
+                font-size: large;
+                font-weight: 350;
+            }
+
+            .follower-count {
+                font-size: medium;
+                font-weight: 250;
+            }
+        }
+
+    }
+
+    .follow-btn {
+        background-color: white;
+        color: var(--dark-color);
+        border: none;
+        font-size: 1.6rem;
+        font-weight: 500;
+        padding: 5px 10px 7px 10px;
+        border-radius: 5px;
+        transition: .2s ease-in-out;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    }
+
+    .follow-btn:active {
+        background-color: var(--dark-color);
+        color: white;
+        transform: translateY(-1.5px);
+    }
+}
+
+.suggested-user-profile:hover {
+    background-color: var(--thin-light-color);
+}

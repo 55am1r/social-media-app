@@ -6,11 +6,9 @@ module.exports = async (req, res) => {
     const { _id } = req.body;
     const currUser = await User.findOne({ _id });
     const followers = await User.find({ _id: { $in: currUser.followers } });
-    return res.send(
-      success(
-        200,
-        followers.length > 0 ? followers : "No Followers Found - Add Friends"
-      )
+    return res.send(success(200,
+      followers.length > 0
+        ?  followers: "No Followers Found - Add Friends")
     );
   } catch (e) {
     console.log(e.message);

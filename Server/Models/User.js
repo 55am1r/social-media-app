@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema(
     },
     dob: {
       type: Date,
+      select: false,
     },
     gender: {
       type: String,
@@ -64,6 +65,7 @@ const userSchema = mongoose.Schema(
     },
     currentlogin: {
       type: Date,
+      select: false,
     },
   },
   {

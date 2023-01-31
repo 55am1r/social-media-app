@@ -5,7 +5,7 @@ import { getUserFollowings } from "../../Redux/Slices/serverSlice";
 import "./OwnFollowing.scss";
 function OwnFollowing() {
   const dispatch = useDispatch();
-  const userFollowings = useSelector((state) => state.user.userFollowings);
+  const userFollowings = useSelector((state) => state.user.currUserFollowings);
   const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
@@ -16,10 +16,14 @@ function OwnFollowing() {
     <div className="followings">
       {isLoading ? (
         <InfiniteSpinLoader />
-      ) : typeof userFollowings === "string" ? (
-        <p>{userFollowings}</p>
       ) : (
-        "array"
+        <>
+          {typeof userFollowings === "string" ? (
+            <p>{userFollowings}</p>
+          ) : (
+            "array"
+          )}
+        </>
       )}
     </div>
   );
