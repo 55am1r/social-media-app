@@ -5,7 +5,6 @@ import {
   getUserFollowings,
   getLikedPosts,
   getUserFollowingUserPosts,
-  getSuggestedUser,
 } from "./serverSlice";
 
 const initialState = {
@@ -16,10 +15,9 @@ const initialState = {
   currUserLikedPosts: [],
   requireUserPage: {
     error: "",
-    success: {},
+    success: "",
   },
   userPosts: [],
-  suggestedUser: [],
   isLoading: false,
 };
 
@@ -144,23 +142,6 @@ const userSlice = createSlice({
         }
       })
       .addCase(getUserFollowingUserPosts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.requireUserPage.error = action.payload;
-        console.log(action.payload);
-      });
-    builder
-      .addCase(getSuggestedUser.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(getSuggestedUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        if (action.payload.errordetails) {
-          state.requireUserPage.error = action.payload.errordetails;
-        } else {
-          state.suggestedUser = action.payload.result;
-        }
-      })
-      .addCase(getSuggestedUser.rejected, (state, action) => {
         state.isLoading = false;
         state.requireUserPage.error = action.payload;
         console.log(action.payload);

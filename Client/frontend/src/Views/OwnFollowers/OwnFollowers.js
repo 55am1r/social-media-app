@@ -15,10 +15,14 @@ function OwnFollowers() {
     <div className="followers">
       {isLoading ? (
         <InfiniteSpinLoader />
-      ) : typeof userFollowers === "string" ? (
-        <p>{userFollowers}</p>
       ) : (
-        userFollowers
+        <>
+          {typeof userFollowers === "string" ? (
+            <p>{userFollowers}</p>
+          ) : (
+            'array'
+          )}
+        </>
       )}
     </div>
   );

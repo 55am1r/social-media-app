@@ -24,10 +24,14 @@ function HomePage() {
   const [caption, setCaption] = useState("");
   const [imageString, setImageString] = useState("");
 
-  const isLoading = useSelector((state) => state.user.isLoading);
+  const isLoadingUser = useSelector((state) => state.user.isLoading);
+  const isLoadingSuggUser = useSelector(
+    (state) => state.suggestedUsersReducer.isLoading
+  );
   const userPosts = useSelector((state) => state.user.userPosts);
-  const suggestedUser = useSelector((state) => state.user.suggestedUser);
-
+  const suggestedUser = useSelector(
+    (state) => state.suggestedUsersReducer.suggestedUser
+  );
   function handleOnChangeImgInput(e) {
     textAreaRef.current.focus();
     dispatch(setLoadingUser(true));
@@ -64,7 +68,7 @@ function HomePage() {
   useEffect(() => {}, [
     caption,
     imageString,
-    isLoading,
+    isLoadingUser,
     userPosts,
     suggestedUser,
   ]);
@@ -111,7 +115,7 @@ function HomePage() {
               <label htmlFor="image" ref={imgLblRef}>
                 {imageString ? (
                   <div className="img-class">
-                    {isLoading ? <InfiniteSpinLoader /> : ""}
+                    {isLoadingUser ? <InfiniteSpinLoader /> : ""}
                     <img src={imageString} alt="upload.img" />
                     <i
                       className="fa-light fa-xmark-to-slot"
@@ -142,7 +146,7 @@ function HomePage() {
             </form>
           </div>
           <div className="home-left-body">
-            {isLoading ? (
+            {isLoadingUser ? (
               <InfiniteSpinLoader />
             ) : typeof userPosts === "string" ? (
               userPosts
@@ -152,15 +156,25 @@ function HomePage() {
           </div>
         </div>
         <div className="home-right-section">
-          <h1>Suggested For You</h1>
-          <div className="profiles">
-            {suggestedUser.map((item) => {
-              return <SuggestedUserProfile key={item.username} user={item} />;
-            })}
+          <div className="suggested-users">
+            <h1>Suggested For You</h1>
+            <div className="profiles">
+              {isLoadingSuggUser ? (
+                <InfiniteSpinLoader />
+              ) : (
+                <>
+                  {suggestedUser.map((item) => {
+                    return (
+                      <SuggestedUserProfile key={item.username} user={item} />
+                    );
+                  })}
+                </>
+              )}
+            </div>
+            <button className="see-more-btn" onClick={getRandomSuggestion}>
+              See More
+            </button>
           </div>
-          <button className="see-more-btn" onClick={getRandomSuggestion}>
-            See More
-          </button>
         </div>
       </div>
     </>

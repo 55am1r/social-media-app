@@ -86,11 +86,10 @@
                 }
 
                 button:active {
-                    transform: translateY(-3px);
+                    transform: translateY(-1.5px);
                 }
 
                 button:hover {
-                    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
                     background-color: rgba(218, 216, 216, 0.267);
                 }
             }
@@ -169,4 +168,57 @@
         }
     }
 
+}
+
+.error-message,
+.success-message {
+    padding: 4px 20px 6px 20px;
+    border-radius: 25px;
+    font-weight: 550;
+    width:fit-content;
+    font-size: large;
+    margin-inline: auto;
+    transition: 2s ease-in-out;
+}
+
+.error-message {
+    position: fixed;
+    top: -50px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    box-shadow: inset 5px 5px 30px rgba(243, 95, 95, 0.842),
+        inset -10px -10px 30px rgba(255, 0, 0, 0.68),
+        rgba(237, 114, 114, 0.48) 6px 2px 16px 0px,
+        rgba(237, 114, 114, 0.8) -6px -2px 16px 0px;
+    color: var(--light-color);
+    text-shadow: 10px 10px 25px rgb(234, 107, 107),
+        -10px 10px 25px rgb(234, 107, 107),
+        -10px -10px 25px rgb(234, 107, 107),
+        10px -10px 25px rgb(234, 107, 107);
+}
+
+.error-message-change {
+    top: 30px;
+}
+
+.success-message {
+    position: fixed;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    box-shadow: inset 5px 5px 30px rgba(95, 243, 117, 0.842),
+        inset -10px -10px 30px rgba(0, 255, 30, 0.68),
+        rgba(114, 237, 139, 0.48) 6px 2px 16px 0px,
+        rgba(114, 237, 139, 0.8) -6px -2px 16px 0px;
+    color: var(--light-color);
+    text-shadow: 10px 10px 25px rgb(107, 234, 118),
+        -10px 10px 25px rgb(107, 234, 118),
+        -10px -10px 25px rgb(107, 234, 118),
+        10px -10px 25px rgb(107, 234, 118);
+}
+
+.success-message-change {
+    bottom: 50px;
 }

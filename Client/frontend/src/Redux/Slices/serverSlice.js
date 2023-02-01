@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosClient } from "../../Utilities/AxiosClient";
-import { setRequirePageError } from "./userSlice";
+import { setRequirePageError, setRequirePageSuccess } from "./userSlice";
+import { updateSuggestedUsers } from "./UserSlices/GetRandomUsers";
 
 export const signUpApi = createAsyncThunk("auth/sign-up", async (body) => {
   const result = await AxiosClient.post("/auth/sign-up", body);
@@ -64,14 +65,35 @@ export const getUserFollowingUserPosts = createAsyncThunk(
 export const getSuggestedUser = createAsyncThunk(
   "getSuggestedUserList",
   async (body, thunkAPI) => {
-    const result = await AxiosClient.get("user/get-suggested-users");
-    return result;
+    try {
+      const result = await AxiosClient.get("user/get-suggested-users");
+      if (result.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return {};
+      }
+      thunkAPI.dispatch(setRequirePageSuccess("Got New Suggestions"));
+      return result;
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      console.log(e);
+    }
   }
 );
-export const addFriend = createAsyncThunk(
+export const addToFollowing = createAsyncThunk(
   "addFriend",
   async (body, thunkAPI) => {
-    const result = await AxiosClient.post("user/follow-user", body);
-    return result;
+    try {
+      const result = await AxiosClient.post("user/follow-user", body);
+      if (result.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return "";
+      }
+      thunkAPI.dispatch(updateSuggestedUsers(body.followUserId));
+      thunkAPI.dispatch(setRequirePageSuccess(result.result));
+      return result;
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      console.log(e);
+    }
   }
 );

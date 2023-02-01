@@ -5,7 +5,8 @@
     width: 55%;
     margin-inline: auto;
     display: grid;
-    grid-template-columns: 65% 32%;
+    grid-template-columns: 70% 30%;
+    gap: 20px;
     justify-content: space-between;
     position: relative;
     z-index: 1;
@@ -155,55 +156,59 @@
     }
 
     .home-right-section {
-        background-color: rgb(255, 255, 255);
-        position: sticky;
-        top: 100px;
-        right: 20px;
-        z-index: 3;
-        content: "Hai";
-        position: sticky;
-        height: max-content;
-        display: flex;
-        flex-flow: column wrap;
-        gap: 10px;
-        padding: 25px 0px;
-        border-radius: 10px;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
-        .profiles {
+        .suggested-users {
+            background-color: rgb(255, 255, 255);
+            position: sticky;
+            top: 100px;
+            right: 20px;
+            z-index: 3;
+            position: sticky;
+            height: max-content;
             display: flex;
             flex-flow: column wrap;
-            gap: 5px;
+            gap: 15px;
+            padding: 15px 0px;
+            border-radius: 10px;
+            transition: 1s ease-in-out;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+            .profiles {
+                display: flex;
+                flex-flow: column wrap;
+                gap: 5px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                background-color: var(--dark-color);
+                color: var(--thin-light-color);
+                padding: 15px;
+                box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+            }
+
+            .see-more-btn {
+                font-size: medium;
+                font-weight: 450;
+                background-color: white;
+                color: var(--dark-color);
+                font-weight: 550;
+                padding: 6px 0 8px 0;
+                border: 3px solid var(--dark-color);
+                width: 35%;
+                margin-inline: auto;
+                border-radius: 25px;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+                transition: .2s ease-in-out;
+                outline: none;
+            }
+
+            .see-more-btn:active {
+                background-color: var(--dark-color);
+                border: 3px solid white;
+                color: white;
+                box-shadow: none;
+            }
         }
 
-        h1 {
-            font-size: 2rem;
-            background-color: var(--dark-color);
-            color: var(--thin-light-color);
-            padding: 15px;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-        }
-
-        .see-more-btn {
-            font-size: medium;
-            font-weight: 450;
-            background-color: white;
-            color: var(--dark-color);
-            font-weight: 550;
-            padding: 6px 0 8px 0;
-            border: 3px solid var(--dark-color);
-            width: 35%;
-            margin-inline: auto;
-            border-radius: 25px;
-            box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-            transition: .2s ease-in-out;
-        }
-
-        .see-more-btn:active {
-            background-color: var(--dark-color);
-            border: 3px solid white;
-            color: white;
-            box-shadow: none;
-        }
     }
 }
