@@ -6,13 +6,15 @@ module.exports = async (req, res) => {
   try {
     const { _id } = req.body;
     const currUser = await User.findOne({ _id });
-    const posts = await Posts.find({ owner: { $in: currUser.following } });
+    const posts = await Posts.find({
+      owner: { $in: currUser.following },
+    }).populate({ path: "owner", select: "_id username email avatar" });
     return res.send(
       success(
         200,
         posts.length > 0
           ? posts
-          : "You are Not Following Anyone / Your Friends Didn't Posted Anything"
+          : "You Are Not Following Anyone / Your Friends Didn't Posted Anything 😕"
       )
     );
   } catch (e) {

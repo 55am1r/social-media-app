@@ -58,8 +58,17 @@ export const getLikedPosts = createAsyncThunk(
 export const getUserFollowingUserPosts = createAsyncThunk(
   "getUserFollowingPosts",
   async (body, thunkAPI) => {
-    const result = await AxiosClient.get("posts/get-following-user-posts");
-    return result;
+    try {
+      const result = await AxiosClient.get("posts/get-following-user-posts");
+      if (result.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return {};
+      }
+      return result;
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      console.log(e);
+    }
   }
 );
 export const getSuggestedUser = createAsyncThunk(
@@ -69,13 +78,14 @@ export const getSuggestedUser = createAsyncThunk(
       const result = await AxiosClient.get("user/get-suggested-users");
       if (result.statusCode !== 200) {
         thunkAPI.dispatch(setRequirePageError(result.errordetails));
-        return {};
+        return Promise.reject(result.errordetails);
       }
-      thunkAPI.dispatch(setRequirePageSuccess("Got New Suggestions"));
+      thunkAPI.dispatch(setRequirePageSuccess("Got New Suggestions 😃"));
       return result;
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));
       console.log(e);
+      return Promise.reject(e.message);
     }
   }
 );

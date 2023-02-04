@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -13,6 +13,7 @@ function RequireAccess() {
   );
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.profileReducer.profile);
+  const location = useLocation();
   useEffect(() => {
     if (loginstatus) {
       dispatch(setRequirePageError(""));
@@ -21,7 +22,17 @@ function RequireAccess() {
     }
     // eslint-disable-next-line
   }, [loginstatus]);
+
   useEffect(() => {}, [userProfile]);
+  useEffect(() => {
+    if (
+      ["/", "signup"].some((item) => {
+        return item !== location.pathname;
+      })
+    ) {
+      document.body.style.backgroundColor = "#F1F8FF";
+    }
+  }, [location]);
   return (
     <>
       <Navbar />

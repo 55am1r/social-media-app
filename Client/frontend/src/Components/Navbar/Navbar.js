@@ -15,6 +15,7 @@ import {
   setRequirePageError,
   setRequirePageSuccess,
 } from "../../Redux/Slices/userSlice";
+import { resetSuggestedUsers } from "../../Redux/Slices/UserSlices/GetRandomUsers";
 function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function Navbar() {
   function dispatchReset() {
     dispatch(resetInitialStateAppConfig());
     dispatch(resetInitialStateUser());
+    dispatch(resetSuggestedUsers());
   }
   function deleteLocalStorageKeys() {
     deleteAccessKey(ACCESS_KEY);
@@ -46,15 +48,19 @@ function Navbar() {
       errorMsgRef.current.classList.add("error-message-change");
       setTimeout(() => {
         errorMsgRef.current.classList.remove("error-message-change");
+      }, 4000);
+      setTimeout(() => {
         dispatch(setRequirePageError(""));
-      }, 5000);
+      }, 7000);
     }
     if (successMessage) {
       successMsgRef.current.classList.add("success-message-change");
       setTimeout(() => {
         successMsgRef.current.classList.remove("success-message-change");
+      }, 4000);
+      setTimeout(() => {
         dispatch(setRequirePageSuccess(""));
-      }, 5000);
+      }, 7000);
     }
     // eslint-disable-next-line
   }, [errorMessage, successMessage]);
@@ -83,7 +89,6 @@ function Navbar() {
             <SLHeader />
           </div>
         </div>
-
         <div className="right-section">
           <div className="search-section" ref={searchSectionRef}>
             <i

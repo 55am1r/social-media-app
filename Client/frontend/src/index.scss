@@ -26,6 +26,10 @@
 
 body {
   background-color: var(--thin-light-color);
+
+  button {
+    cursor: pointer;
+  }
 }
 
 *::-webkit-scrollbar {

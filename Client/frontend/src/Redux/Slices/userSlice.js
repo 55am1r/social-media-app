@@ -4,7 +4,6 @@ import {
   getUserFollowers,
   getUserFollowings,
   getLikedPosts,
-  getUserFollowingUserPosts,
 } from "./serverSlice";
 
 const initialState = {
@@ -17,7 +16,6 @@ const initialState = {
     error: "",
     success: "",
   },
-  userPosts: [],
   isLoading: false,
 };
 
@@ -129,23 +127,7 @@ const userSlice = createSlice({
         state.requireUserPage.error = action.payload;
         console.log(action.payload);
       });
-    builder
-      .addCase(getUserFollowingUserPosts.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(getUserFollowingUserPosts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        if (action.payload.errordetails) {
-          state.requireUserPage.error = action.payload.errordetails;
-        } else {
-          state.userPosts = action.payload.result;
-        }
-      })
-      .addCase(getUserFollowingUserPosts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.requireUserPage.error = action.payload;
-        console.log(action.payload);
-      });
+   
   },
 });
 export default userSlice.reducer;

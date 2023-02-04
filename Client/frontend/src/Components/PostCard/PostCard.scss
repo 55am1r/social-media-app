@@ -1,0 +1,7 @@
+.post-card {
+    img {
+        --card-img-size: 20px;
+        width: var(--card-img-size);
+        height: var(--card-img-size);
+    }
+}

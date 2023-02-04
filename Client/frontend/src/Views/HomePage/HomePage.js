@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteSpinLoader from "../../Components/InfiniteSpinLoader/InfiniteSpinLoader";
+import PostCard from "../../Components/PostCard/PostCard";
 import SuggestedUserProfile from "../../Components/SuggestedUser/SuggestedUserProfile";
-import UserImage from "../../Components/UserImage/UserImage";
 import {
   getSuggestedUser,
   getUserFollowingUserPosts,
@@ -28,10 +28,14 @@ function HomePage() {
   const isLoadingSuggUser = useSelector(
     (state) => state.suggestedUsersReducer.isLoading
   );
-  const userPosts = useSelector((state) => state.user.userPosts);
   const suggestedUser = useSelector(
     (state) => state.suggestedUsersReducer.suggestedUser
   );
+  const userPosts = useSelector((state) => state.userPostsReduer.userPosts);
+  const erroLogFromSuggUser = useSelector(
+    (state) => state.suggestedUsersReducer.errorLog
+  );
+
   function handleOnChangeImgInput(e) {
     textAreaRef.current.focus();
     dispatch(setLoadingUser(true));
@@ -62,15 +66,18 @@ function HomePage() {
     textAreaRef.current.classList.remove("margin-bottom");
     imgLblRef.current.classList.remove("text-int-focus-label");
   }
+
   function getRandomSuggestion() {
     dispatch(getSuggestedUser());
   }
+
   useEffect(() => {}, [
     caption,
     imageString,
     isLoadingUser,
     userPosts,
     suggestedUser,
+    erroLogFromSuggUser,
   ]);
 
   useEffect(() => {
@@ -84,8 +91,16 @@ function HomePage() {
       <div className="home" ref={homeHeaderRef}>
         <div className="home-left-section">
           <div className="home-left-header">
-            <UserImage />
-            <form action="" ref={formRef}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log({ caption, imageString });
+                setCaption("");
+                setImageString("");
+                handleEmptySpace(e);
+              }}
+              ref={formRef}
+            >
               <textarea
                 ref={textAreaRef}
                 className="text-int"
@@ -100,13 +115,14 @@ function HomePage() {
                   e.target.classList.add("int-active");
                   btnRef.current.style.display = "block";
                   imgLblRef.current.classList.add("text-int-focus-label");
+                  formRef.current.classList.add("form-active");
                   // homeHeaderRef.current.style.height = `${homeHeaderRef.current.scrollHeight}px`;
                 }}
                 onBlur={(e) => {
+                  formRef.current.classList.remove("form-active");
                   // homeHeaderRef.current.style.height = `${homeHeaderRef.current.scrollHeight}px`;
-                  (RegExp(/(^\s{1,5})/g).test(e.target.value) ||
-                    e.target.value === "") &&
-                  !imageString
+                  RegExp(/(^\s{1,5})/g).test(e.target.value) ||
+                  (e.target.value === "" && !imageString)
                     ? handleEmptySpace(e)
                     : e.target.classList.add("int-active");
                 }}
@@ -138,7 +154,7 @@ function HomePage() {
                 onChange={handleOnChangeImgInput}
               />
               <input
-                type="button"
+                type="submit"
                 value="Post"
                 className="post-btn"
                 ref={btnRef}
@@ -147,11 +163,19 @@ function HomePage() {
           </div>
           <div className="home-left-body">
             {isLoadingUser ? (
-              <InfiniteSpinLoader />
+              <InfiniteSpinLoader width={150} />
             ) : typeof userPosts === "string" ? (
-              userPosts
+              <p className="user-post-message">{userPosts}</p>
             ) : (
-              "array"
+              userPosts.map((item) => {
+                return (
+                  <PostCard
+                    key={item.owner.username}
+                    owner={item.owner}
+                    post={item}
+                  />
+                );
+              })
             )}
           </div>
         </div>
@@ -160,14 +184,18 @@ function HomePage() {
             <h1>Suggested For You</h1>
             <div className="profiles">
               {isLoadingSuggUser ? (
-                <InfiniteSpinLoader />
+                <InfiniteSpinLoader width={100} />
               ) : (
                 <>
-                  {suggestedUser.map((item) => {
-                    return (
-                      <SuggestedUserProfile key={item.username} user={item} />
-                    );
-                  })}
+                  {!erroLogFromSuggUser ? (
+                    suggestedUser.map((item) => {
+                      return (
+                        <SuggestedUserProfile key={item.username} user={item} />
+                      );
+                    })
+                  ) : (
+                    <p className="error-msg-sugg-user">{erroLogFromSuggUser}</p>
+                  )}
                 </>
               )}
             </div>

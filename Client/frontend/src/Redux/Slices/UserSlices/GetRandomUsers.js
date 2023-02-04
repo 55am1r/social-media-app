@@ -4,6 +4,7 @@ import { getSuggestedUser } from "../serverSlice";
 const initialState = {
   suggestedUser: [],
   isLoading: false,
+  errorLog: "",
 };
 
 const getRandomUsers = createSlice({
@@ -33,7 +34,12 @@ const getRandomUsers = createSlice({
       })
       .addCase(getSuggestedUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.errorLog = "";
         state.suggestedUser = action.payload.result;
+      })
+      .addCase(getSuggestedUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorLog = action.error.message;
       }),
   ],
 });

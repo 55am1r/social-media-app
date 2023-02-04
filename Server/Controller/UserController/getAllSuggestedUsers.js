@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   try {
     const { _id } = req.body;
     const currUser = await User.findOne({ _id });
-    const suggestedUser = await User.find(
+    let suggestedUser = await User.find(
       {
         _id: { $nin: currUser.following, $ne: _id },
       },
@@ -19,8 +19,16 @@ module.exports = async (req, res) => {
         likedposts: 0,
       }
     );
-    const randomSuggestedUser = _.sampleSize(suggestedUser, 5);
-    return res.send(success(200, randomSuggestedUser));
+    if (suggestedUser.length > 0) {
+      const randomSuggestedUser = _.sampleSize(suggestedUser, 5);
+      return res.send(success(200, randomSuggestedUser));
+    }
+    return res.send(
+      error(
+        404,
+        "Couldn't Found Any Suggestions-May be your are 1st visitor on our site.😍"
+      )
+    );
   } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));
