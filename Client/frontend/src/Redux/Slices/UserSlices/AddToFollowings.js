@@ -4,6 +4,7 @@ import { addToFollowing } from "../serverSlice";
 const initialState = {
   isLoading: false,
   returnMessage: "",
+  errorLog: "",
 };
 
 const addToFollowings = createSlice({
@@ -17,6 +18,10 @@ const addToFollowings = createSlice({
       .addCase(addToFollowing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.returnMessage = action.payload;
+      })
+      .addCase(addToFollowing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorLog = action.error.message;
       });
   },
 });

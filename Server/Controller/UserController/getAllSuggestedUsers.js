@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     return res.send(
       error(
         404,
-        "Couldn't Found Any Suggestions-May be your are 1st visitor on our site.😍"
+        "Couldn't Found Any Suggestions - May be your are 1st visitor on our site.😍"
       )
     );
   } catch (e) {

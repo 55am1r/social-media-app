@@ -62,12 +62,13 @@ export const getUserFollowingUserPosts = createAsyncThunk(
       const result = await AxiosClient.get("posts/get-following-user-posts");
       if (result.statusCode !== 200) {
         thunkAPI.dispatch(setRequirePageError(result.errordetails));
-        return {};
+        return Promise.reject(result.errordetails);
       }
       return result;
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));
       console.log(e);
+      return Promise.reject(e.message);
     }
   }
 );
@@ -96,7 +97,7 @@ export const addToFollowing = createAsyncThunk(
       const result = await AxiosClient.post("user/follow-user", body);
       if (result.statusCode !== 200) {
         thunkAPI.dispatch(setRequirePageError(result.errordetails));
-        return "";
+        return Promise.reject(result.errordetails);
       }
       thunkAPI.dispatch(updateSuggestedUsers(body.followUserId));
       thunkAPI.dispatch(setRequirePageSuccess(result.result));
@@ -104,6 +105,25 @@ export const addToFollowing = createAsyncThunk(
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));
       console.log(e);
+      return Promise.reject(e.message);
+    }
+  }
+);
+export const postUserStatus = createAsyncThunk(
+  "postUserStatus",
+  async (body, thunkAPI) => {
+    try {
+      const result = await AxiosClient.post("posts/post-feed", body);
+      if (result.statusCode !== 201) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return Promise.reject(result.errordetails);
+      }
+      thunkAPI.dispatch(setRequirePageSuccess(result.result));
+      return result;
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      console.log(e);
+      return Promise.reject(e.message);
     }
   }
 );

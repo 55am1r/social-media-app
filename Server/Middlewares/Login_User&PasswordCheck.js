@@ -6,8 +6,12 @@ module.exports = async (req, res, next) => {
   try {
     const { userId, password } = req.body;
     const user = await User.findOne(
-      userId.includes("@") ? { email: userId } : { username: userId }
-    ).select("+password");
+      userId.includes("@") ? { email: userId } : { username: userId },
+      {
+        password: 1,
+        currentlogin: 1,
+      }
+    );
     if (user) {
       const passMatch = await bcrypt.compare(password, user.password);
       if (passMatch) {
@@ -33,12 +37,11 @@ module.exports = async (req, res, next) => {
           " " +
           time.getDate() +
           "-" +
-          (time.getMonth() === 0 ? time.getMonth() + 1 : time.getMonth()) +
+          (time.getMonth() + 1) +
           "-" +
           time.getFullYear();
         await user.save();
         req.body = user;
-
         next();
       } else {
         return res.send(error(401, "Password doesn't match"));

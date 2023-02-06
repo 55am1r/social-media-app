@@ -6,6 +6,7 @@ import SuggestedUserProfile from "../../Components/SuggestedUser/SuggestedUserPr
 import {
   getSuggestedUser,
   getUserFollowingUserPosts,
+  postUserStatus,
 } from "../../Redux/Slices/serverSlice";
 import {
   setLoadingUser,
@@ -32,8 +33,14 @@ function HomePage() {
     (state) => state.suggestedUsersReducer.suggestedUser
   );
   const userPosts = useSelector((state) => state.userPostsReduer.userPosts);
+  const errorLogFromUserPost = useSelector(
+    (state) => state.userPostsReduer.errorLog
+  );
   const erroLogFromSuggUser = useSelector(
     (state) => state.suggestedUsersReducer.errorLog
+  );
+  const postSubmitLoading = useSelector(
+    (state) => state.postUserStatusReducer.isLoading
   );
 
   function handleOnChangeImgInput(e) {
@@ -58,13 +65,27 @@ function HomePage() {
       dispatch(setLoadingUser(false));
     }
   }
-
-  function handleEmptySpace(e) {
-    e.target.value = "";
-    e.target.classList.remove("int-active");
+  function handleEmptySpace() {
+    setCaption("");
+    setImageString("");
     btnRef.current.style.display = "none";
-    textAreaRef.current.classList.remove("margin-bottom");
     imgLblRef.current.classList.remove("text-int-focus-label");
+    textAreaRef.current.classList.remove("int-active");
+    textAreaRef.current.classList.remove("margin-bottom");
+    textAreaRef.current.blur();
+  }
+  function handleOnBlurInt(e) {
+    formRef.current.classList.remove("form-active");
+    RegExp(/(^\s{1,5})/g).test(e.target.value) ||
+    (e.target.value === "" && !imageString)
+      ? handleEmptySpace(e)
+      : e.target.classList.add("int-active");
+  }
+  function handleFocusInt(e) {
+    e.target.classList.add("int-active");
+    btnRef.current.style.display = "block";
+    imgLblRef.current.classList.add("text-int-focus-label");
+    formRef.current.classList.add("form-active");
   }
 
   function getRandomSuggestion() {
@@ -78,8 +99,13 @@ function HomePage() {
     userPosts,
     suggestedUser,
     erroLogFromSuggUser,
+    errorLogFromUserPost,
   ]);
-
+  useEffect(() => {
+    if (!postSubmitLoading) {
+      handleEmptySpace();
+    }
+  }, [postSubmitLoading]);
   useEffect(() => {
     dispatch(getUserFollowingUserPosts());
     getRandomSuggestion();
@@ -94,13 +120,11 @@ function HomePage() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log({ caption, imageString });
-                setCaption("");
-                setImageString("");
-                handleEmptySpace(e);
+                dispatch(postUserStatus({ caption, imageString }));
               }}
               ref={formRef}
             >
+              {postSubmitLoading ? <InfiniteSpinLoader width={180} /> : ""}
               <textarea
                 ref={textAreaRef}
                 className="text-int"
@@ -108,33 +132,25 @@ function HomePage() {
                 id="caption"
                 rows={1}
                 cols={1}
+                value={caption}
                 onChange={(e) => {
                   setCaption(e.target.value);
                 }}
                 onFocus={(e) => {
-                  e.target.classList.add("int-active");
-                  btnRef.current.style.display = "block";
-                  imgLblRef.current.classList.add("text-int-focus-label");
-                  formRef.current.classList.add("form-active");
-                  // homeHeaderRef.current.style.height = `${homeHeaderRef.current.scrollHeight}px`;
+                  handleFocusInt(e);
                 }}
                 onBlur={(e) => {
-                  formRef.current.classList.remove("form-active");
-                  // homeHeaderRef.current.style.height = `${homeHeaderRef.current.scrollHeight}px`;
-                  RegExp(/(^\s{1,5})/g).test(e.target.value) ||
-                  (e.target.value === "" && !imageString)
-                    ? handleEmptySpace(e)
-                    : e.target.classList.add("int-active");
+                  handleOnBlurInt(e);
                 }}
                 placeholder="Let Your Thoughts Hear Others..."
               />
               <label htmlFor="image" ref={imgLblRef}>
                 {imageString ? (
                   <div className="img-class">
-                    {isLoadingUser ? <InfiniteSpinLoader /> : ""}
+                    {isLoadingUser ? <InfiniteSpinLoader width={100} /> : ""}
                     <img src={imageString} alt="upload.img" />
                     <i
-                      className="fa-light fa-xmark-to-slot"
+                      className="fa-light fa-trash-can-undo"
                       onClick={() => {
                         setImageString("");
                         textAreaRef.current.classList.remove("margin-bottom");
@@ -164,18 +180,24 @@ function HomePage() {
           <div className="home-left-body">
             {isLoadingUser ? (
               <InfiniteSpinLoader width={150} />
-            ) : typeof userPosts === "string" ? (
-              <p className="user-post-message">{userPosts}</p>
             ) : (
-              userPosts.map((item) => {
-                return (
-                  <PostCard
-                    key={item.owner.username}
-                    owner={item.owner}
-                    post={item}
-                  />
-                );
-              })
+              <>
+                {typeof errorLogFromUserPost === "string" ? (
+                  <p className="user-post-message">{errorLogFromUserPost}</p>
+                ) : (
+                  <div className="following-user-posts">
+                    {userPosts.map((item) => {
+                      return (
+                        <PostCard
+                          key={item._id}
+                          owner={item.owner}
+                          post={item}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

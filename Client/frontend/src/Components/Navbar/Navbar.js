@@ -53,6 +53,9 @@ function Navbar() {
         dispatch(setRequirePageError(""));
       }, 7000);
     }
+    // eslint-disable-next-line
+  }, [errorMessage]);
+  useEffect(() => {
     if (successMessage) {
       successMsgRef.current.classList.add("success-message-change");
       setTimeout(() => {
@@ -63,7 +66,7 @@ function Navbar() {
       }, 7000);
     }
     // eslint-disable-next-line
-  }, [errorMessage, successMessage]);
+  }, [successMessage]);
   useEffect(() => {}, [profileData]);
   useEffect(() => {
     if (location.pathname === "/home") {

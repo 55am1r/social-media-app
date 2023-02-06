@@ -5,7 +5,7 @@ import profileReducer from "./Slices/UserSlices/GetUserInfo";
 import suggestedUsersReducer from "./Slices/UserSlices/GetRandomUsers";
 import addToFriendReducer from "./Slices/UserSlices/AddToFollowings";
 import userPostsReduer from "./Slices/PostSlices/GetFollowingUserPosts";
-
+import postUserStatusReducer from "./Slices/PostSlices/PostUserStatus";
 export default configureStore({
   reducer: {
     appConfigReducer,
@@ -14,5 +14,6 @@ export default configureStore({
     suggestedUsersReducer,
     addToFriendReducer,
     userPostsReduer,
+    postUserStatusReducer,
   },
 });

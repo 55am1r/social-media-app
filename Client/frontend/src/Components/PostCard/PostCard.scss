@@ -1,7 +1,74 @@
 .post-card {
-    img {
-        --card-img-size: 20px;
-        width: var(--card-img-size);
-        height: var(--card-img-size);
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 10px 0;
+
+    .post-owner-details {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 10px;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 20px;
+
+        img {
+            --card-img-size: 35px;
+            object-fit: cover;
+            width: var(--card-img-size);
+            height: var(--card-img-size);
+            border-radius: 50%;
+        }
+
+        .owner-name {
+            font-size: 1.5rem;
+            font-weight: 550;
+
+            .postedon {
+                font-size: 1.05rem;
+                font-weight: 350;
+                color: rgb(149, 149, 149);
+            }
+        }
     }
+
+    .post-cap-img {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: flex-start;
+        border-bottom: 1px solid lightgray;
+
+        p {
+            font-size: 2rem;
+            font-weight: 450;
+            padding: 15px 40px;
+        }
+
+        img {
+            width: 100%;
+            --card-img-size: 100px;
+            object-fit: contain;
+            height: 480px;
+        }
+
+    }
+
+    .post-info {
+        padding: 10px 0 0 0;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        p {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        p,
+        i {
+            font-size: 1.6rem;
+        }
+    }
+
 }

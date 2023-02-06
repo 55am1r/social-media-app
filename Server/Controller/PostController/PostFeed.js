@@ -1,21 +1,22 @@
 const Posts = require("../../Models/Posts");
 const User = require("../../Models/User");
+const cloudinary = require("cloudinary").v2;
 const { success, error } = require("../../Utilities/StatusMessages");
 
 module.exports = async (req, res) => {
   try {
-    const { caption, image } = req.body;
-    if (!caption && !image) {
+    let { caption, imageString } = req.body;
+    if (!caption && !imageString) {
       return res.send(error(404, "Required Caption"));
     }
     const owner = req.body._id;
     const user = await User.findById(owner);
-    if (image) {
+    if (imageString) {
       try {
-        const cloudImg = await cloudinary.uploader.upload(image, {
+        const cloudImg = await cloudinary.uploader.upload(imageString, {
           folder: "social-media-app/userposts",
         });
-        image = {
+        imageString = {
           publicId: cloudImg.public_id,
           url: cloudImg.secure_url,
         };
@@ -28,13 +29,11 @@ module.exports = async (req, res) => {
     const post = await Posts.create({
       owner,
       caption,
+      image: imageString,
     });
     user.posts.push(post._id);
     await user.save();
-    post.createdAt = undefined;
-    post.likes = undefined;
-    post.updatedAt = undefined;
-    return res.send(success(201, { posts: user.posts, post }));
+    return res.send(success(201, "🥳Hey, Your Status Got Posted Successfully 🎊"));
   } catch (e) {
     console.log(e.message);
     res.send(error(500, e.message));
