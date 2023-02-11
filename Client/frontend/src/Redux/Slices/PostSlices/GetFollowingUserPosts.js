@@ -13,6 +13,14 @@ const getFollowingUserPosts = createSlice({
     resetUserPosts: (state, action) => {
       state.userPosts = [];
     },
+    likeAndDislikePost: (state, action) => {
+      const postIndex = state.userPosts.findIndex(
+        (item) => action.payload._id === item._id
+      );
+      if (postIndex !== undefined || postIndex !== -1) {
+        state.userPosts[postIndex].likes = action.payload.likes;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -33,4 +41,5 @@ const getFollowingUserPosts = createSlice({
 });
 export default getFollowingUserPosts.reducer;
 
-export const { resetUserPosts } = getFollowingUserPosts.actions;
+export const { resetUserPosts, likeAndDislikePost } =
+  getFollowingUserPosts.actions;

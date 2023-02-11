@@ -18,13 +18,12 @@ const getRandomUsers = createSlice({
       state.isLoading = action.payload;
     },
     updateSuggestedUsers: (state, action) => {
-      let indexofIdTR = -1;
-      state.suggestedUser.forEach((item) => {
-        if (item._id === action.payload) {
-          indexofIdTR = state.suggestedUser.indexOf(item);
-        }
-      });
-      state.suggestedUser.splice(indexofIdTR, 1);
+      const indexofIdTR = state.suggestedUser.indexOf(
+        (item) => action.payload === item._id
+      );
+      if (indexofIdTR !== undefined || indexofIdTR !== -1) {
+        state.suggestedUser.splice(indexofIdTR, 1);
+      }
     },
   },
   extraReducers: (builder) => [

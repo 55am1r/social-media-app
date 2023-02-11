@@ -173,9 +173,9 @@
 .error-message,
 .success-message {
     padding: 4px 20px 6px 20px;
-    border-radius: 25px;
+    border-radius: 10px;
     font-weight: 550;
-    width:fit-content;
+    width: fit-content;
     font-size: large;
     margin-inline: auto;
     transition: 2s ease-in-out;
@@ -187,6 +187,7 @@
     left: 0;
     right: 0;
     z-index: 2;
+    background-color: rgba(243, 95, 95, 0.842);
     box-shadow: inset 5px 5px 30px rgba(243, 95, 95, 0.842),
         inset -10px -10px 30px rgba(255, 0, 0, 0.68),
         rgba(237, 114, 114, 0.48) 6px 2px 16px 0px,
@@ -208,6 +209,7 @@
     left: 0;
     right: 0;
     z-index: 2;
+    background-color: rgba(95, 243, 117, 0.842);
     box-shadow: inset 5px 5px 30px rgba(95, 243, 117, 0.842),
         inset -10px -10px 30px rgba(0, 255, 30, 0.68),
         rgba(114, 237, 139, 0.48) 6px 2px 16px 0px,

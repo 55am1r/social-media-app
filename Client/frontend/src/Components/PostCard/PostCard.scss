@@ -63,11 +63,25 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            padding: 0px 20px;
         }
 
         p,
         i {
             font-size: 1.6rem;
+        }
+
+        i {
+            transition: .4s ease-in-out;
+            transform-origin: top;
+        }
+
+        .highlight {
+            font-size: 2.5rem;
+        }
+
+        .color-red {
+            color: red;
         }
     }
 

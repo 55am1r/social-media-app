@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { postControlLike } from "../../Redux/Slices/serverSlice";
 import "./PostCard.scss";
 function PostCard(props) {
+  const thinRef = useRef();
+  const solidRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const [liked, setLike] = useState(false);
+
+  const likedPosts = useSelector(
+    (state) => state.postLikeControlReducer.likedPosts
+  );
+
+  useEffect(() => {
+    likedPosts.includes(props.post._id) ? setLike(true) : setLike(false);
+    // eslint-disable-next-line
+  }, [likedPosts]);
+
+  useEffect(() => {
+    if (liked) {
+      solidRef.current.classList.add("highlight");
+      setTimeout(() => {
+        solidRef.current.classList.remove("highlight");
+      }, 150);
+    } else {
+      thinRef.current.classList.add("highlight");
+      setTimeout(() => {
+        thinRef.current.classList.remove("highlight");
+      }, 150);
+    }
+    // eslint-disable-next-line
+  }, [liked]);
+
   return (
     <div className="post-card">
       <div className="post-owner-details">
@@ -19,8 +52,18 @@ function PostCard(props) {
         )}
       </div>
       <div className="post-info">
-        <p className="likes">
-          <i className="fa-thin fa-heart"></i> Like . {props.post.likes.length}
+        <p
+          className="likes"
+          onClick={() => {
+            dispatch(postControlLike({ postId: props.post._id }));
+          }}
+        >
+          {liked ? (
+            <i className="fa-solid fa-heart color-red" ref={solidRef}></i>
+          ) : (
+            <i className="fa-thin fa-heart" ref={thinRef}></i>
+          )}
+          Like . {props.post.likes.length}
         </p>
         <hr
           style={{

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosClient } from "../../Utilities/AxiosClient";
+import { likeAndDislikePost } from "./PostSlices/GetFollowingUserPosts";
+import { setLikedTrue } from "./PostSlices/PostLikeControl";
 import { setRequirePageError, setRequirePageSuccess } from "./userSlice";
 import { updateSuggestedUsers } from "./UserSlices/GetRandomUsers";
 
@@ -20,6 +22,7 @@ export const getUserInfo = createAsyncThunk(
         thunkAPI.dispatch(setRequirePageError(response.errordetails));
         return {};
       }
+      thunkAPI.dispatch(setLikedTrue(response.result.likedposts));
       return response;
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));
@@ -120,6 +123,24 @@ export const postUserStatus = createAsyncThunk(
       }
       thunkAPI.dispatch(setRequirePageSuccess(result.result));
       return result;
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      console.log(e);
+      return Promise.reject(e.message);
+    }
+  }
+);
+export const postControlLike = createAsyncThunk(
+  "postControlLike",
+  async (body, thunkAPI) => {
+    try {
+      const result = await AxiosClient.post("posts/like-feed", body);
+      if (result.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return Promise.reject(result.errordetails);
+      }
+      thunkAPI.dispatch(likeAndDislikePost(result.result.post));
+      return result.result;
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));
       console.log(e);

@@ -18,10 +18,13 @@ function HomePage() {
   const isLoadingSuggUser = useSelector(
     (state) => state.suggestedUsersReducer.isLoading
   );
+  const isLoadingUserPosts = useSelector(
+    (state) => state.userPostsReduer.isLoading
+  );
   const suggestedUser = useSelector(
     (state) => state.suggestedUsersReducer.suggestedUser
   );
-  const userPosts = useSelector((state) => state.userPostsReduer.userPosts);
+  const followingUserPosts = useSelector((state) => state.userPostsReduer.userPosts);
   const errorLogFromUserPost = useSelector(
     (state) => state.userPostsReduer.errorLog
   );
@@ -35,7 +38,7 @@ function HomePage() {
 
   useEffect(() => {}, [
     isLoadingUser,
-    userPosts,
+    followingUserPosts,
     suggestedUser,
     erroLogFromSuggUser,
     errorLogFromUserPost,
@@ -55,7 +58,7 @@ function HomePage() {
             <FormForPost />
           </div>
           <div className="home-left-body">
-            {isLoadingUser ? (
+            {isLoadingUserPosts ? (
               <InfiniteSpinLoader width={150} />
             ) : (
               <>
@@ -63,7 +66,7 @@ function HomePage() {
                   <p className="user-post-message">{errorLogFromUserPost}</p>
                 ) : (
                   <div className="following-user-posts">
-                    {userPosts.map((item) => {
+                    {followingUserPosts.map((item) => {
                       return (
                         <PostCard
                           key={item._id}
