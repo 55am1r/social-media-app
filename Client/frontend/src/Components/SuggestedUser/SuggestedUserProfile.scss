@@ -1,7 +1,7 @@
 .suggested-user-profile {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     transition: .2s ease-in-out;
     // border-bottom: 1px solid lightgray;
@@ -92,6 +92,18 @@
 }
 
 .suggested-user-profile:hover {
+    transform: scale(1.05, 1.05);
     background-color: var(--thin-light-color);
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border-radius: 5px;
+
+    .user-details {
+        .more-details {
+            .username-div {
+                .username {
+                    font-size: medium;
+                }
+            }
+        }
+    }
 }

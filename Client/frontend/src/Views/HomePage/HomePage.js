@@ -24,7 +24,9 @@ function HomePage() {
   const suggestedUser = useSelector(
     (state) => state.suggestedUsersReducer.suggestedUser
   );
-  const followingUserPosts = useSelector((state) => state.userPostsReduer.userPosts);
+  const followingUserPosts = useSelector(
+    (state) => state.userPostsReduer.userPosts
+  );
   const errorLogFromUserPost = useSelector(
     (state) => state.userPostsReduer.errorLog
   );
@@ -59,10 +61,14 @@ function HomePage() {
           </div>
           <div className="home-left-body">
             {isLoadingUserPosts ? (
-              <InfiniteSpinLoader width={150} />
+              <InfiniteSpinLoader
+                width={150}
+                message={"Getting Upadtes..."}
+                setToCenter={"5%"}
+              />
             ) : (
               <>
-                {typeof errorLogFromUserPost === "string" ? (
+                {errorLogFromUserPost !== "" ? (
                   <p className="user-post-message">{errorLogFromUserPost}</p>
                 ) : (
                   <div className="following-user-posts">
@@ -86,7 +92,11 @@ function HomePage() {
             <h1>Suggested For You</h1>
             <div className="profiles">
               {isLoadingSuggUser ? (
-                <InfiniteSpinLoader width={100} />
+                <InfiniteSpinLoader
+                  width={100}
+                  message={"Getting New Suggestions"}
+                  setToCenter={"12%"}
+                />
               ) : (
                 <>
                   {!erroLogFromSuggUser ? (

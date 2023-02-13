@@ -48,10 +48,10 @@ function Navbar() {
       errorMsgRef.current.classList.add("error-message-change");
       setTimeout(() => {
         errorMsgRef.current.classList.remove("error-message-change");
-      }, 4000);
+      }, 6000);
       setTimeout(() => {
         dispatch(setRequirePageError(""));
-      }, 7000);
+      }, 7500);
     }
     // eslint-disable-next-line
   }, [errorMessage]);
@@ -60,10 +60,10 @@ function Navbar() {
       successMsgRef.current.classList.add("success-message-change");
       setTimeout(() => {
         successMsgRef.current.classList.remove("success-message-change");
-      }, 4000);
+      }, 6000);
       setTimeout(() => {
         dispatch(setRequirePageSuccess(""));
-      }, 7000);
+      }, 7500);
     }
     // eslint-disable-next-line
   }, [successMessage]);

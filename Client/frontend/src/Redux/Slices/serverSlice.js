@@ -104,6 +104,7 @@ export const addToFollowing = createAsyncThunk(
       }
       thunkAPI.dispatch(updateSuggestedUsers(body.followUserId));
       thunkAPI.dispatch(setRequirePageSuccess(result.result));
+      thunkAPI.dispatch(getUserFollowingUserPosts());
       return result;
     } catch (e) {
       thunkAPI.dispatch(setRequirePageError(e.message));

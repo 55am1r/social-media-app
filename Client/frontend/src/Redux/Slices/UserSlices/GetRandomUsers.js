@@ -18,8 +18,8 @@ const getRandomUsers = createSlice({
       state.isLoading = action.payload;
     },
     updateSuggestedUsers: (state, action) => {
-      const indexofIdTR = state.suggestedUser.indexOf(
-        (item) => action.payload === item._id
+      const indexofIdTR = state.suggestedUser.findIndex(
+        (item) => item._id === action.payload
       );
       if (indexofIdTR !== undefined || indexofIdTR !== -1) {
         state.suggestedUser.splice(indexofIdTR, 1);

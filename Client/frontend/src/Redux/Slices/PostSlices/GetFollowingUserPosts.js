@@ -4,7 +4,7 @@ import { getUserFollowingUserPosts } from "../serverSlice";
 const initialState = {
   isLoading: false,
   userPosts: [],
-  errorLog: [],
+  errorLog: "",
 };
 const getFollowingUserPosts = createSlice({
   name: "getUserPosts",
@@ -30,8 +30,12 @@ const getFollowingUserPosts = createSlice({
       })
       .addCase(getUserFollowingUserPosts.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.errorLog = [];
-        state.userPosts = action.payload.result;
+        if (typeof action.payload.result === "string") {
+          state.errorLog = action.payload.result;
+        } else {
+          state.errorLog = "";
+          state.userPosts = action.payload.result;
+        }
       })
       .addCase(getUserFollowingUserPosts.rejected, (state, action) => {
         state.isLoading = false;

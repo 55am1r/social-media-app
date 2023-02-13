@@ -1,6 +1,8 @@
 .post-card {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    padding: 10px 0;
+    padding: 15px 0;
+    background-color: white;
+    border-radius: 20px;
 
     .post-owner-details {
         display: flex;
@@ -44,9 +46,8 @@
 
         img {
             width: 100%;
-            --card-img-size: 100px;
             object-fit: contain;
-            height: 480px;
+            height: 350px;
         }
 
     }

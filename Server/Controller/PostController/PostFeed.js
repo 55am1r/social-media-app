@@ -12,19 +12,14 @@ module.exports = async (req, res) => {
     const owner = req.body._id;
     const user = await User.findById(owner);
     if (imageString) {
-      try {
-        const cloudImg = await cloudinary.uploader.upload(imageString, {
-          folder: "social-media-app/userposts",
-        });
-        imageString = {
-          publicId: cloudImg.public_id,
-          url: cloudImg.secure_url,
-        };
-        console.log("IMAGE UPLOADED");
-      } catch (e) {
-        console.log(e.message);
-        res.send(error(500, e.message));
-      }
+      const cloudImg = await cloudinary.uploader.upload(imageString, {
+        folder: "social-media-app/userposts",
+      });
+      imageString = {
+        publicId: cloudImg.public_id,
+        url: cloudImg.secure_url,
+      };
+      console.log("IMAGE UPLOADED");
     }
     const post = await Posts.create({
       owner,
@@ -33,9 +28,11 @@ module.exports = async (req, res) => {
     });
     user.posts.push(post._id);
     await user.save();
-    return res.send(success(201, "🥳Hey, Your Status Got Posted Successfully 🎊"));
+    return res.send(
+      success(201, "🥳Hey, Your Status Got Posted Successfully 🎊")
+    );
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     res.send(error(500, e.message));
   }
 };

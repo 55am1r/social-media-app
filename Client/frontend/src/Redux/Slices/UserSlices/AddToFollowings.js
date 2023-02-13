@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   returnMessage: "",
   errorLog: "",
+  userIdToFollow: "",
 };
 
 const addToFollowings = createSlice({
@@ -13,6 +14,7 @@ const addToFollowings = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addToFollowing.pending, (state, action) => {
+        state.userIdToFollow = action.meta.arg.followUserId;
         state.isLoading = true;
       })
       .addCase(addToFollowing.fulfilled, (state, action) => {

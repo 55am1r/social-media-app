@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToFollowing } from "../../Redux/Slices/serverSlice";
 import "./SuggestedUserProfile.scss";
@@ -8,10 +8,20 @@ function SuggestedUserProfile(props) {
 
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   const isLoadingAddFriend = useSelector(
     (state) => state.addToFriendReducer.isLoading
   );
-  useEffect(() => {}, [isLoadingAddFriend]);
+  const userIdToFollow = useSelector(
+    (state) => state.addToFriendReducer.userIdToFollow
+  );
+  useEffect(() => {
+    if (props.user._id === userIdToFollow) {
+      isLoadingAddFriend ? setLoading(true) : setLoading(false);
+    }
+    // eslint-disable-next-line
+  }, [userIdToFollow, isLoadingAddFriend]);
   return (
     <div className="suggested-user-profile" ref={userProfileRef}>
       <div className="user-details">
@@ -40,11 +50,7 @@ function SuggestedUserProfile(props) {
           dispatch(addToFollowing({ followUserId: props.user._id }));
         }}
       >
-        {isLoadingAddFriend ? (
-          <FallingLines color="#7D80C7" width="30" />
-        ) : (
-          "  Follow +"
-        )}
+        {loading ? <FallingLines color="#7D80C7" width="30" /> : "  Follow +"}
       </button>
     </div>
   );

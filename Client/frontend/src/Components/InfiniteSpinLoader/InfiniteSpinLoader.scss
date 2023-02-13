@@ -2,7 +2,15 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-right: 20px;
     align-items: center;
+    flex-flow: column;
+    gap: 5x;
+    padding: 10px;
     background-color: rgba(229, 228, 228, 0.489);
+
+    .loader-message {
+        width: 100%;
+        font-size: small;
+        font-weight: 550;
+    }
 }

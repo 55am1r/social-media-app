@@ -11,7 +11,9 @@ module.exports = async (req, res) => {
 
     let posts = await Posts.find({
       owner: { $in: currUser.following },
-    }).populate({ path: "owner", select: "_id username email avatar" });
+    })
+      .populate({ path: "owner", select: "_id username email avatar" })
+      .sort({ createdAt: -1 });
 
     if (posts.length > 0) {
       posts = posts.map((item) => {
@@ -27,17 +29,16 @@ module.exports = async (req, res) => {
         return item;
       });
     }
-    if (posts.length > 0) {
-      return res.send(success(200, posts));
-    }
     return res.send(
-      error(
-        404,
-        "You Are Not Following Anyone / Your Friends Didn't Posted Anything 😕"
+      success(
+        200,
+        posts.length > 0
+          ? posts
+          : "You Are Not Following Anyone / Your Friends Didn't Posted Anything 😕"
       )
     );
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     res.send(error(500, e.message));
   }
 };

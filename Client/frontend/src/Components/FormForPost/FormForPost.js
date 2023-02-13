@@ -13,15 +13,35 @@ function FormForPost() {
   const formRef = useRef();
   const textAreaRef = useRef();
   const imgLblRef = useRef();
+  const uploadImgRef = useRef();
 
   const [caption, setCaption] = useState("");
   const [imageString, setImageString] = useState("");
+  const [imgSize, setImgSize] = useState(0);
 
   const isLoadingUser = useSelector((state) => state.user.isLoading);
   const postSubmitLoading = useSelector(
     (state) => state.postUserStatusReducer.isLoading
   );
 
+  function handleLabelImageChange() {
+    if (imgSize >= 0 && imgSize < 5) {
+      uploadImgRef.current.classList.add("img-success-shadow");
+      setTimeout(() => {
+        uploadImgRef.current.classList.remove("img-success-shadow");
+      }, 4000);
+    } else if (imgSize > 5) {
+      dispatch(
+        setRequirePageError(
+          `Image Should be less than 5MB. Posted with ${imgSize}MB`
+        )
+      );
+      uploadImgRef.current.classList.add("img-error-shadow");
+      setTimeout(() => {
+        uploadImgRef.current.classList.remove("img-error-shadow");
+      }, 4000);
+    }
+  }
   function handleOnChangeImgInput(e) {
     textAreaRef.current.focus();
     dispatch(setLoadingUser(true));
@@ -36,6 +56,7 @@ function FormForPost() {
             setImageString(fileReader.result);
           }
         };
+        setImgSize((file.size / 1048576).toFixed(0));
       }
     } catch (e) {
       dispatch(setRequirePageError(e.message));
@@ -66,7 +87,23 @@ function FormForPost() {
     imgLblRef.current.classList.add("text-int-focus-label");
     formRef.current.classList.add("form-active");
   }
-  useEffect(() => {}, [caption, imageString]);
+  function handleOnSubmit(e) {
+    e.preventDefault();
+    if (imgSize >= 0 && imgSize < 5) {
+      dispatch(postUserStatus({ caption, imageString }));
+    } else {
+      dispatch(
+        setRequirePageError(
+          `Image Should be less than 5MB. Posted with ${imgSize}MB`
+        )
+      );
+      uploadImgRef.current.classList.add("img-error-shadow");
+      setTimeout(() => {
+        uploadImgRef.current.classList.remove("img-error-shadow");
+      }, 4000);
+    }
+  }
+  useEffect(() => {}, [caption, imageString, imgSize]);
   useEffect(() => {
     if (!postSubmitLoading) {
       handleEmptySpace();
@@ -76,7 +113,7 @@ function FormForPost() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        dispatch(postUserStatus({ caption, imageString }));
+        handleOnSubmit(e);
       }}
       ref={formRef}
     >
@@ -104,9 +141,15 @@ function FormForPost() {
         {imageString ? (
           <div className="img-class">
             {isLoadingUser ? <InfiniteSpinLoader width={100} /> : ""}
-            <img src={imageString} alt="upload.img" />
+            <img
+              src={imageString}
+              alt="upload.img"
+              ref={uploadImgRef}
+              onLoad={handleLabelImageChange}
+              onChange={handleLabelImageChange}
+            />
             <i
-              className="fa-light fa-trash-can-undo"
+              className="fa-solid fa-sync fa-spin"
               onClick={() => {
                 setImageString("");
                 textAreaRef.current.classList.remove("margin-bottom");
