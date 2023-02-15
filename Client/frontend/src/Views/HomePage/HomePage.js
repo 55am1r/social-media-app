@@ -55,6 +55,7 @@ function HomePage() {
   return (
     <>
       <div className="home" ref={homeHeaderRef}>
+        <div className="story-section"></div>
         <div className="home-left-section">
           <div className="home-left-header">
             <FormForPost />

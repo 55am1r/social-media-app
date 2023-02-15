@@ -16,14 +16,16 @@ import {
   setRequirePageSuccess,
 } from "../../Redux/Slices/userSlice";
 import { resetSuggestedUsers } from "../../Redux/Slices/UserSlices/GetRandomUsers";
+import { resetSearchUsers } from "../../Redux/Slices/UserSlices/SearchUser";
+import SearchUser from "../SearchUser/SearchUser";
 function Navbar() {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const lastLoginRef = useRef();
+
   const location = useLocation();
-  const searchInputRef = useRef();
-  const searchLabelRef = useRef();
-  const searchSectionRef = useRef();
+
+  const lastLoginRef = useRef();
   const ulRef = useRef();
   const errorMsgRef = useRef();
   const successMsgRef = useRef();
@@ -38,6 +40,7 @@ function Navbar() {
     dispatch(resetInitialStateAppConfig());
     dispatch(resetInitialStateUser());
     dispatch(resetSuggestedUsers());
+    dispatch(resetSearchUsers());
   }
   function deleteLocalStorageKeys() {
     deleteAccessKey(ACCESS_KEY);
@@ -71,11 +74,9 @@ function Navbar() {
   useEffect(() => {
     if (location.pathname === "/home") {
       lastLoginRef.current.style.display = "block";
-      searchSectionRef.current.style.display = "block";
       ulRef.current.style.bottom = "-210%";
     } else {
       lastLoginRef.current.style.display = "none";
-      searchSectionRef.current.style.display = "none";
       ulRef.current.style.bottom = "-270%";
     }
   }, [location]);
@@ -91,28 +92,9 @@ function Navbar() {
           >
             <SLHeader />
           </div>
+          <SearchUser />
         </div>
         <div className="right-section">
-          <div className="search-section" ref={searchSectionRef}>
-            <i
-              className="fa-solid fa-magnifying-glass"
-              onClick={() => {
-                searchInputRef.current.focus();
-              }}
-              ref={searchLabelRef}
-            ></i>
-            <input
-              type="text"
-              ref={searchInputRef}
-              onFocus={() => {
-                searchLabelRef.current.classList.add("i-width");
-              }}
-              onBlur={(e) => {
-                e.target.value = "";
-                searchLabelRef.current.classList.remove("i-width");
-              }}
-            />
-          </div>
           <UserImage />
           <ul className="ul-list" ref={ulRef}>
             {location.pathname !== "/home" ? (

@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
       )
     );
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
     res.send(error(500, e.message));
   }
 };

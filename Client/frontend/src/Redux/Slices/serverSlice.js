@@ -149,3 +149,23 @@ export const postControlLike = createAsyncThunk(
     }
   }
 );
+export const searchUser = createAsyncThunk(
+  "searchUser",
+  async (body, thunkAPI) => {
+    try {
+      const result = await AxiosClient.post("user/search-user", body);
+      if (result.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(result.errordetails));
+        return Promise.reject(result.errordetails);
+      }
+      if (typeof result.result === "string") {
+        return Promise.reject(result.result);
+      } else {
+        return result.result;
+      }
+    } catch (e) {
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      return Promise.reject(e.message);
+    }
+  }
+);

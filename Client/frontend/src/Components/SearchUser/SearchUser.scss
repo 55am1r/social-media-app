@@ -1,0 +1,100 @@
+.search-section {
+    position: absolute;
+    height: 40px;
+    width: fit-content;
+    top: 0;
+    left: 110%;
+    z-index: 2;
+
+    .fa-magnifying-glass {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(80%, -50%);
+        font-size: 1.6rem;
+        transition: .8s ease-in-out;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    input {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 20px;
+        border: none;
+        transition: .5s ease-in-out;
+        transform-origin: left;
+        outline: none;
+        padding: 5px 5px 5px 40px;
+        font-size: 1.6rem;
+        border-radius: 50%;
+        font-weight: 400;
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+    }
+
+    .input-focus {
+        width: 280px;
+        border-radius: 30px;
+        padding-right: 40px;
+        box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    }
+
+    input:focus~.fa-magnifying-glass {
+        border-right: 1px solid black;
+    }
+
+    .fa-vacuum {
+        position: absolute;
+        font-size: 1.6rem;
+        font-weight: 400;
+        right: 0;
+        top: 50%;
+        color: rgba(104, 104, 104, 0.79);
+        transform: translate(-80%, -50%);
+        transition: .8s ease-in-out;
+        cursor: pointer;
+        z-index: 2;
+        display: none;
+    }
+
+    .search-users {
+        position: absolute;
+        left: 0;
+        top: 110%;
+        display: none;
+        flex-flow: column wrap;
+        width: 100%;
+        gap: 10px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+        transition: .5s ease-in-out;
+        overflow-y: auto;
+        height: fit-content;
+
+        .found-users {
+            width: 100%;
+            display: flex;
+            flex-flow: column wrap;
+            padding: 10px 0;
+
+            .found-user-name {
+                width: 100%;
+                font-size: 1.6rem;
+                cursor: pointer;
+                text-align: left;
+                padding: 8px 15px;
+                font-weight: 550;
+            }
+
+            .found-user-name:hover {
+                background-color: var(--light-color);
+            }
+            .err-in-found-user{
+                font-size: 1.8rem;
+                font-weight: 550;
+            }
+        }
+    }
+}

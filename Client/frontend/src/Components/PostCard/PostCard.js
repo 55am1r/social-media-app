@@ -10,25 +10,22 @@ function PostCard(props) {
 
   const [liked, setLike] = useState(false);
 
-  const likedPosts = useSelector(
-    (state) => state.postLikeControlReducer.likedPosts
-  );
-
+  const currUser = useSelector((state) => state.profileReducer.profile);
   useEffect(() => {
-    likedPosts.includes(props.post._id) ? setLike(true) : setLike(false);
+    props.post.likes.includes(currUser._id) ? setLike(true) : setLike(false);
     // eslint-disable-next-line
-  }, [likedPosts]);
+  }, [props.post]);
 
   useEffect(() => {
     if (liked) {
-      solidRef.current.classList.add("highlight");
+      solidRef.current?.classList.add("highlight");
       setTimeout(() => {
-        solidRef.current.classList.remove("highlight");
+        solidRef.current?.classList.remove("highlight");
       }, 150);
     } else {
-      thinRef.current.classList.add("highlight");
+      thinRef.current?.classList.add("highlight");
       setTimeout(() => {
-        thinRef.current.classList.remove("highlight");
+        thinRef.current?.classList.remove("highlight");
       }, 150);
     }
     // eslint-disable-next-line
@@ -46,7 +43,7 @@ function PostCard(props) {
       <div className="post-cap-img">
         <p>{props.post.caption}</p>
         {props.post.image ? (
-          <img src={props.post.image.url} alt={props.post} />
+          <img src={props.post.image.url} alt={props.post} loading={"lazy"} />
         ) : (
           <></>
         )}

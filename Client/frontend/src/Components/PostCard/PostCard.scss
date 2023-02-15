@@ -1,8 +1,8 @@
 .post-card {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    padding: 15px 0;
+    padding: 20px 0 10px 0;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
 
     .post-owner-details {
         display: flex;
@@ -39,15 +39,15 @@
         border-bottom: 1px solid lightgray;
 
         p {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 450;
-            padding: 15px 40px;
+            padding: 10px 40px;
         }
 
         img {
             width: 100%;
             object-fit: contain;
-            height: 350px;
+            // height: 350px;
         }
 
     }
