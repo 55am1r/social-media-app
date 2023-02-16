@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { searchUser } from "../../Redux/Slices/serverSlice";
 import { resetSearchUsers } from "../../Redux/Slices/UserSlices/SearchUser";
 import { ProgressBar } from "react-loader-spinner";
@@ -9,13 +9,14 @@ function SearchUser() {
   const dispatch = useDispatch();
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const searchInputRef = useRef();
   const searchLabelRef = useRef();
   const clearTextRef = useRef();
   const searchSectionRef = useRef();
   const foundUserBlock = useRef();
-  const [searchUserInt, setSearchUser] = useState("NA");
+  const [searchUserInt, setSearchUser] = useState("");
 
   const usersFound = useSelector((state) => state.searchUserReducer.foundUsers);
   const isLoadingSearchUser = useSelector(
@@ -27,8 +28,13 @@ function SearchUser() {
 
   useEffect(() => {}, [usersFound, isLoadingSearchUser, errorLogSearchUser]);
   useEffect(() => {
-    if (searchUserInt !== "NA") {
+    if (searchUserInt) {
+      clearTextRef.current.style.display = "block";
+      foundUserBlock.current.style.display = "flex";
       dispatch(searchUser({ userId: searchUserInt }));
+    } else {
+      clearTextRef.current.style.display = "none";
+      foundUserBlock.current.style.display = "none";
     }
     // eslint-disable-next-line
   }, [searchUserInt]);
@@ -52,27 +58,19 @@ function SearchUser() {
       <input
         type="text"
         ref={searchInputRef}
+        value={searchUserInt}
         onFocus={() => {
           searchInputRef.current.classList.add("input-focus");
         }}
         onChange={(e) => {
           RegExp(/(^\s{1,5})/g).test(e.target.value) || e.target.value === ""
-            ? setTimeout(() => {
-                clearTextRef.current.style.display = "none";
-                foundUserBlock.current.style.display = "none";
-              }, 0)
-            : setTimeout(() => {
-                clearTextRef.current.style.display = "block";
-                foundUserBlock.current.style.display = "flex";
-              }, 0);
-          setSearchUser(e.target.value);
+            ? setSearchUser("")
+            : setSearchUser(e.target.value);
         }}
         onBlur={(e) => {
           RegExp(/(^\s{1,5})/g).test(e.target.value) ||
           e.target.value === "" ? (
-            setTimeout(() => {
-              searchInputRef.current.classList.remove("input-focus");
-            }, 0)
+            searchInputRef.current.classList.remove("input-focus")
           ) : (
             <></>
           );
@@ -82,10 +80,9 @@ function SearchUser() {
         className="fa-regular fa-vacuum"
         ref={clearTextRef}
         onClick={(e) => {
-          searchInputRef.current.value = "";
+          setSearchUser("");
           searchInputRef.current.focus();
           dispatch(resetSearchUsers());
-          e.currentTarget.style.display = "none";
         }}
       ></i>
       <div className="search-users" ref={foundUserBlock}>
@@ -109,14 +106,25 @@ function SearchUser() {
                 : (foundUserBlock.current.style.height = "fit-content"),
               usersFound.map((item) => {
                 return (
-                  <span className="found-user-name" key={item.username}>
+                  <span
+                    className="found-user-name"
+                    key={item.username}
+                    onClick={() => {
+                      setSearchUser("");
+                      searchInputRef.current.classList.remove("input-focus");
+                      dispatch(resetSearchUsers());
+                      navigate(`/profile/${item._id}`);
+                    }}
+                  >
                     {item.username}
                   </span>
                 );
               }))
             ) : errorLogSearchUser !== "" ? (
               ((foundUserBlock.current.style.height = "fit-content"),
-              (<span className="err-in-found-user"> {errorLogSearchUser}</span>))
+              (
+                <span className="err-in-found-user"> {errorLogSearchUser}</span>
+              ))
             ) : (
               <></>
             )}

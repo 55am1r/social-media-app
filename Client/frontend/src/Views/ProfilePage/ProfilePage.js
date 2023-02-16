@@ -48,7 +48,6 @@ function MyProfile() {
   useEffect(() => {
     dispatch(getCurrUserInfo());
     if (params.user_id) {
-      console.log("working");
       dispatch(getUserInfo({ user_id: params.user_id }));
     } else {
       dispatch(resetUserProfile());
