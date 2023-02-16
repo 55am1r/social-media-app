@@ -18,6 +18,10 @@ import {
 import { resetSuggestedUsers } from "../../Redux/Slices/UserSlices/GetRandomUsers";
 import { resetSearchUsers } from "../../Redux/Slices/UserSlices/SearchUser";
 import SearchUser from "../SearchUser/SearchUser";
+import { resetPostLikeControl } from "../../Redux/Slices/PostSlices/PostLikeControl";
+import { resetCurrUserProfile } from "../../Redux/Slices/UserSlices/GetCurrUserProfile";
+import { resetUserProfile } from "../../Redux/Slices/UserSlices/GetUserProfile";
+import { resetUserPosts } from "../../Redux/Slices/PostSlices/GetFollowingUserPosts";
 function Navbar() {
   const navigate = useNavigate();
 
@@ -41,6 +45,10 @@ function Navbar() {
     dispatch(resetInitialStateUser());
     dispatch(resetSuggestedUsers());
     dispatch(resetSearchUsers());
+    dispatch(resetPostLikeControl());
+    dispatch(resetCurrUserProfile());
+    dispatch(resetUserProfile());
+    dispatch(resetUserPosts());
   }
   function deleteLocalStorageKeys() {
     deleteAccessKey(ACCESS_KEY);
@@ -74,7 +82,7 @@ function Navbar() {
   useEffect(() => {
     if (location.pathname === "/home") {
       lastLoginRef.current.style.display = "block";
-      ulRef.current.style.bottom = "-210%";
+      ulRef.current.style.bottom = "-220%";
     } else {
       lastLoginRef.current.style.display = "none";
       ulRef.current.style.bottom = "-270%";
@@ -114,7 +122,7 @@ function Navbar() {
               <button
                 className="btn-btm-padding"
                 onClick={() => {
-                  navigate(`myprofile`);
+                  navigate(`profile`);
                 }}
               >
                 My Account

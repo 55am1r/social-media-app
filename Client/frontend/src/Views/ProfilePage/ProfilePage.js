@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import ProfileDetailTab from "../../Components/ProfileDetailTab/ProfileDetailTab";
 import UserImage from "../../Components/UserImage/UserImage";
-import { getUserInfo } from "../../Redux/Slices/serverSlice";
+import { getCurrUserInfo, getUserInfo } from "../../Redux/Slices/serverSlice";
+import { resetUserProfile } from "../../Redux/Slices/UserSlices/GetUserProfile";
 import {
   ACTIVE_BTN,
   getAccessKey,
@@ -15,12 +16,20 @@ function MyProfile() {
   const followersLabelRef = useRef();
   const followingLabelRef = useRef();
   const likedPostLabelRef = useRef();
+
+  const [userData, setUserData] = useState({});
+
   const navigate = useNavigate();
+  const params = useParams();
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.user.isLoading);
-  const profileData = useSelector((state) => state.profileReducer.profile);
-
+  const isLoading = useSelector((state) => state.profileReducer.isLoading);
+  const currUserProfileData = useSelector(
+    (state) => state.profileReducer.profile
+  );
+  const userProfileData = useSelector(
+    (state) => state.userProfileReducer.userprofile
+  );
   function handleOnClickLabel(label) {
     [
       postLabelRef,
@@ -36,11 +45,14 @@ function MyProfile() {
       }
     });
   }
-
-  useEffect(() => {}, [profileData, isLoading]);
-
   useEffect(() => {
-    dispatch(getUserInfo());
+    dispatch(getCurrUserInfo());
+    if (params.user_id) {
+      console.log("working");
+      dispatch(getUserInfo({ user_id: params.user_id }));
+    } else {
+      dispatch(resetUserProfile());
+    }
     if (getAccessKey(ACTIVE_BTN)) {
       const activeButton = document.getElementById(getAccessKey(ACTIVE_BTN));
       activeButton.classList.add("button-active");
@@ -52,6 +64,15 @@ function MyProfile() {
     }
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    userProfileData._id
+      ? setUserData(userProfileData)
+      : setUserData(currUserProfileData);
+  }, [currUserProfileData, isLoading, userProfileData]);
+
+  useEffect(() => {}, [userData]);
+
   return (
     <div className="profile-page">
       <div className="upper-div">
@@ -59,19 +80,19 @@ function MyProfile() {
         <div className="details">
           <div className="name">
             <p className="username">
-              You(<span>{profileData?.username}</span>)
+              You(<span>{userData?.username}</span>)
             </p>
-            <p className="email">{profileData?.email}</p>
+            <p className="email">{userData?.email}</p>
           </div>
           <div className="profile-details">
-            <ProfileDetailTab name="Post" value={profileData.posts?.length} />
+            <ProfileDetailTab name="Post" value={userData.posts?.length} />
             <ProfileDetailTab
               name="Following"
-              value={profileData.following?.length}
+              value={userData.following?.length}
             />
             <ProfileDetailTab
               name="Followers"
-              value={profileData.followers?.length}
+              value={userData.followers?.length}
             />
           </div>
         </div>

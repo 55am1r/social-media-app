@@ -19,7 +19,7 @@ router.get("/get-user-followers", checkJWTKey, GetUserFollowers);
 router.get("/get-user-followings", checkJWTKey, GetUserFollowings);
 router.post("/follow-user", checkJWTKey, FollowersController);
 router.delete("/delete-profile", checkJWTKey, DeleteProfile, LogOUtController);
-router.get("/get-my-profile", checkJWTKey, getMyProfile);
+router.post("/get-profile", checkJWTKey, getMyProfile);
 router.get("/get-suggested-users", checkJWTKey, getAllSuggestedUsers);
 router.post("/search-user", checkJWTKey, GetAllUserName);
 module.exports = router;

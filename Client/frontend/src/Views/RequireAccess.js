@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUserInfo } from "../Redux/Slices/serverSlice";
+import { getCurrUserInfo } from "../Redux/Slices/serverSlice";
 import {
   setRequirePageError,
   setRequirePageSuccess,
@@ -18,7 +18,7 @@ function RequireAccess() {
     if (loginstatus) {
       dispatch(setRequirePageError(""));
       dispatch(setRequirePageSuccess(""));
-      dispatch(getUserInfo());
+      dispatch(getCurrUserInfo());
     }
     // eslint-disable-next-line
   }, [loginstatus]);

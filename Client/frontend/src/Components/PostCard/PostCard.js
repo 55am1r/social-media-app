@@ -73,6 +73,16 @@ function PostCard(props) {
           <i className="fa-duotone fa-comments"></i> Comment .{" "}
           {props.post.comments.length}
         </p>
+        <hr
+          style={{
+            borderTop: "1px solid #000",
+            width: "1px",
+            height: " 20px",
+          }}
+        />
+        <p>
+          <i className="fa-light fa-bookmark"></i> Save
+        </p>
       </div>
     </div>
   );

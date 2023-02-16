@@ -13,20 +13,44 @@ export const loginApi = createAsyncThunk("loginCall", async (body) => {
   const result = await AxiosClient.post("auth/log-in", body);
   return result;
 });
-export const getUserInfo = createAsyncThunk(
-  "getUserData",
+export const getCurrUserInfo = createAsyncThunk(
+  "getCurrUserInfo",
   async (body, thunkAPI) => {
     try {
-      const response = await AxiosClient.get("user/get-my-profile");
+      const response = await AxiosClient.post("user/get-profile");
       if (response.statusCode !== 200) {
         thunkAPI.dispatch(setRequirePageError(response.errordetails));
-        return {};
+        return Promise.reject(response.errordetails);
       }
       thunkAPI.dispatch(setLikedTrue(response.result.likedposts));
       return response;
     } catch (e) {
-      thunkAPI.dispatch(setRequirePageError(e.message));
       console.log(e);
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      return Promise.reject(e.message);
+    }
+  }
+);
+export const getUserInfo = createAsyncThunk(
+  "getUserInfo",
+  async (body, thunkAPI) => {
+    try {
+      const response = await AxiosClient.post("user/get-profile", body);
+      if (response.statusCode !== 200) {
+        thunkAPI.dispatch(setRequirePageError(response.errordetails));
+        return Promise.reject(response.errordetails);
+      }
+      if (
+        thunkAPI.getState().profileReducer.profile_id !== response.result._id
+      ) {
+        return response;
+      } else {
+        return Promise.reject("Current User");
+      }
+    } catch (e) {
+      console.log(e);
+      thunkAPI.dispatch(setRequirePageError(e.message));
+      return Promise.reject(e.message);
     }
   }
 );
@@ -164,6 +188,7 @@ export const searchUser = createAsyncThunk(
         return result.result;
       }
     } catch (e) {
+      console.log(e);
       thunkAPI.dispatch(setRequirePageError(e.message));
       return Promise.reject(e.message);
     }

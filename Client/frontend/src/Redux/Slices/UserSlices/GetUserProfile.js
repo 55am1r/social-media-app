@@ -3,15 +3,16 @@ import { getUserInfo } from "../serverSlice";
 
 const initialState = {
   isLoading: false,
-  profile: {},
+  userprofile: {},
+  errorlog: "",
 };
 
 const getUserProfile = createSlice({
   name: "getUserProfile",
   initialState,
   reducers: {
-    resetProfile: (state, action) => {
-      state.profile = {};
+    resetUserProfile: (state, action) => {
+      state.userprofile = {};
     },
   },
   extraReducers: (builder) => {
@@ -21,12 +22,13 @@ const getUserProfile = createSlice({
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (!action.payload.errordetails) {
-          state.profile = action.payload.result;
-        }
+        state.userprofile = action.payload.result;
       })
+      .addCase(getUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorlog = action.error.message;
+      });
   },
 });
 export default getUserProfile.reducer;
-
-export const { resetProfile } = getUserProfile.actions;
+export const { resetUserProfile } = getUserProfile.actions;

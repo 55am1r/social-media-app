@@ -8,6 +8,7 @@ import {
   getSuggestedUser,
   getUserFollowingUserPosts,
 } from "../../Redux/Slices/serverSlice";
+import { resetUserProfile } from "../../Redux/Slices/UserSlices/GetUserProfile";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -48,6 +49,7 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(getUserFollowingUserPosts());
+    dispatch(resetUserProfile());
     getRandomSuggestion();
     // eslint-disable-next-line
   }, []);

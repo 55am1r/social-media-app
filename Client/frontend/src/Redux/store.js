@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appConfigReducer from "./Slices/appConfigSlice";
 import userReducer from "./Slices/userSlice";
-import profileReducer from "./Slices/UserSlices/GetUserInfo";
+import profileReducer from "./Slices/UserSlices/GetCurrUserProfile";
+import userProfileReducer from "./Slices/UserSlices/GetUserProfile";
 import suggestedUsersReducer from "./Slices/UserSlices/GetRandomUsers";
 import addToFriendReducer from "./Slices/UserSlices/AddToFollowings";
 import userPostsReduer from "./Slices/PostSlices/GetFollowingUserPosts";
@@ -18,6 +19,7 @@ export default configureStore({
     userPostsReduer,
     postUserStatusReducer,
     postLikeControlReducer,
-    searchUserReducer
+    searchUserReducer,
+    userProfileReducer
   },
 });
